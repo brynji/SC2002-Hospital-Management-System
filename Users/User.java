@@ -7,7 +7,8 @@ public abstract class User{
     private String password;
     private String name;
     private String email;
-    private String contactNumber; 
+    private String contactNumber;
+    //Is it necessary?
     private boolean firstLogin;
     
     /* note that we initialise the contact number as a string to store symbols (e.g. "+65") 
@@ -52,44 +53,16 @@ public abstract class User{
 
     // TODO: Improve change password function to check password history
 
-    public void changePassword() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter your new password:");
-        String newPassword = sc.nextLine();
+    public void changePassword(String newPassword) {
         this.password = newPassword;
-        System.out.println("Password has been changed.");
-        sc.close();
     }
 
-    public boolean login (String inputUserID, String inputPassword) {
-        
-        boolean authenticated = false;
-        
-        if (this.userID == inputUserID && this.password == inputPassword) {
-            authenticated = true;
-        }
-
-        if (authenticated && firstLogin) {
-            System.out.println("This is your first login. Please change your password.");
-            changePassword();
-            firstLogin = false;
-        }
-
-        return authenticated;
-
+    public boolean validateCredentials (String inputUserID, String inputPassword) {
+        return this.userID == inputUserID && this.password == inputPassword;
     }
 
     public void updateContactInfo (String newEmail, String newContactNumber) {
-
         setEmail(newEmail);
         setContactNumber(newContactNumber);
-        System.out.println("Contact information has been updated.");
     }
-
-
-    
-
 }
-
-
