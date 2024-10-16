@@ -9,6 +9,7 @@ public class Patient extends User {
 
     private String patientID;
     private MedicalRecord medicalRecord;
+    //List<int> for consistency?
     private List<Appointment> appointments;
 
     public Patient(String userID, String name, String email, String contactNumber, 
@@ -34,15 +35,6 @@ public class Patient extends User {
 
     public List<Appointment> getAppointment() {
         return appointments;
-    }
-
-    // Setters for email and contact number only 
-    public void setEmail(String newEmail) {
-        medicalRecord.setEmail(newEmail); 
-    }
-
-    public void setContactNumber(String contactNumber) {
-        medicalRecord.setContactNumber(contactNumber);
     }
 
     public void scheduleAppointment(){

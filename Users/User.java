@@ -1,14 +1,13 @@
 package Project.Users;
 import java.util.Scanner;
 
-public abstract class User{
+public abstract class User implements Serializable{
 
     private String userID;
     private String password;
     private String name;
     private String email;
     private String contactNumber;
-    //Is it necessary?
     private boolean firstLogin;
     
     /* note that we initialise the contact number as a string to store symbols (e.g. "+65") 
@@ -42,7 +41,11 @@ public abstract class User{
         return contactNumber;
     }
 
+    public boolean getFirstLogin(){ return firstLogin; }
+
     // Setters
+    public void setName(String name){ this.name = name; }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -51,11 +54,7 @@ public abstract class User{
         this.contactNumber = contactNumber;
     }
 
-    // TODO: Improve change password function to check password history
-
-    public void changePassword(String newPassword) {
-        this.password = newPassword;
-    }
+    public void setPassword(String newPassword) { this.password = newPassword; }
 
     public boolean validateCredentials (String inputUserID, String inputPassword) {
         return this.userID == inputUserID && this.password == inputPassword;
