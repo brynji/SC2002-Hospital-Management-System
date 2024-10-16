@@ -10,7 +10,6 @@ public class Patient extends User {
 
     private String patientID;
     private MedicalRecord medicalRecord;
-    //List<int> for consistency?
     private List<Appointment> appointments;
 
     public Patient(String userID, String name, String email, String contactNumber, 
@@ -68,7 +67,15 @@ public class Patient extends User {
     }
 
 
-    
+    @Override
+    public String toString() {
+        return "Patient{" +
+                super.toString()+
+                "patientID='" + patientID + '\'' +
+                ", medicalRecord=" + medicalRecord +
+                ", appointments=" + appointments +
+                '}';
+    }
 }
 
 

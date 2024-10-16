@@ -63,4 +63,16 @@ public abstract class User implements Serializable {
         setEmail(newEmail);
         setContactNumber(newContactNumber);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID='" + userID + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", firstLogin=" + firstLogin +
+                '}';
+    }
 }
