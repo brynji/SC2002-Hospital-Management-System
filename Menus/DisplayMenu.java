@@ -1,4 +1,4 @@
-package Project.Menus;
+package Menus;
 import java.util.Scanner;
 
 public abstract class DisplayMenu {
