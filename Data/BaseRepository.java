@@ -1,20 +1,19 @@
 package Data;
 
 import Misc.Role;
-import Misc.RoleType;
 import Users.Doctor;
 import Users.Patient;
 import Users.User;
 
 import java.util.ArrayList;
 
-public class BaseRepository {
-    static final String rolesFile = "SavedData/Roles.txt";
-    static final String patientFile = "SavedData/Patients.txt";
-    static final String doctorsFile = "SavedData/Doctors.txt";
-    static final String pharmacistFile = "SavedData/Pharmacists.txt";
-    static final String adminFile = "SavedData/Admins.txt";
-    static final String[] filenameByRoleType = {"",rolesFile,patientFile,doctorsFile,pharmacistFile,adminFile};
+public abstract class BaseRepository<T extends User> {
+    public static final String rolesFile = "SavedData/Roles.txt";
+    public static final String patientFile = "SavedData/Patients.txt";
+    public static final String doctorsFile = "SavedData/Doctors.txt";
+    public static final String pharmacistFile = "SavedData/Pharmacists.txt";
+    public static final String adminFile = "SavedData/Admins.txt";
+
 
     ArrayList<Role> roles;
     ArrayList<Patient> patients;
@@ -41,34 +40,6 @@ public class BaseRepository {
         }
     }
 
-    public static RoleType GetRole(String userId){
-        try {
-            ArrayList<Role> roles = Database.readFromFile(rolesFile);
-            for (Role role : roles) {
-                if (role.getUserId().equals(userId)) {
-                    return role.getRole();
-                }
-            }
-        } catch (Exception e){
+    public abstract T FindById(String userId);
 
-        }
-        return RoleType.None;
-    }
-
-    public static RoleType CheckCredentials(String userId, String password) {
-        try{
-            RoleType role = GetRole(userId);
-            if(role == RoleType.None){ return RoleType.None; }
-            ArrayList<User> users = Database.readFromFile(filenameByRoleType[role.ordinal()]);
-            for(User user : users){
-                if(user.validateCredentials(userId, password)){
-                    return role;
-                }
-            }
-
-        } catch (Exception e){
-
-        }
-        return RoleType.None;
-    }
 }

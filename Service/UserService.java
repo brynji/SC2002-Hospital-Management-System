@@ -1,7 +1,22 @@
 package Service;
 
-public abstract class UserService {
+import Data.BaseRepository;
+import Users.User;
+
+public abstract class UserService<T extends User, U extends BaseRepository> {
     public abstract void SetCurrentUser(String userId);
-    public abstract void ChangePassword(String newPassword);
-    public abstract void UpdatePersonalInfo(String name, String email, String contactNumber);
+
+    public void ChangePassword(String newPassword){
+        getCurrentUser().setPassword(newPassword);
+        getRepository().Save();
+    }
+
+    public void UpdatePersonalInfo(String name, String email, String contactNumber){
+        getCurrentUser().setName(name);
+        getCurrentUser().updateContactInfo(email, contactNumber);
+        getRepository().Save();
+    }
+
+    public abstract T getCurrentUser();
+    public abstract U getRepository();
 }

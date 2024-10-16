@@ -3,7 +3,7 @@ package Service;
 import Data.PatientRepository;
 import Users.Patient;
 
-public class PatientService extends UserService {
+public class PatientService extends UserService<Patient,PatientRepository> {
     PatientRepository patientRepository;
     Patient currentPatient;
 
@@ -13,12 +13,16 @@ public class PatientService extends UserService {
 
     @Override
     public void SetCurrentUser(String userId) {
-        currentPatient = patientRepository.FindPatientById(userId);
+        currentPatient = patientRepository.FindById(userId);
     }
 
     @Override
-    public void ChangePassword(String newPassword){
-        currentPatient.setPassword(newPassword);
-        patientRepository.Save();
+    public Patient getCurrentUser() {
+        return currentPatient;
+    }
+
+    @Override
+    public PatientRepository getRepository() {
+        return patientRepository;
     }
 }
