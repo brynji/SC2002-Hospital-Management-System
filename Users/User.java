@@ -1,7 +1,7 @@
-package Project.Users;
-import java.util.Scanner;
+package Users;
+import java.io.Serializable;
 
-public abstract class User implements Serializable{
+public abstract class User implements Serializable {
 
     private String userID;
     private String password;
@@ -15,7 +15,6 @@ public abstract class User implements Serializable{
     
     // Constructor 
     public User(String userID, String name, String email, String contactNumber) {
-       
         this.userID = userID;
         this.password = "password"; // Standard password for all first time logins
         this.name = name;
@@ -57,7 +56,7 @@ public abstract class User implements Serializable{
     public void setPassword(String newPassword) { this.password = newPassword; }
 
     public boolean validateCredentials (String inputUserID, String inputPassword) {
-        return this.userID == inputUserID && this.password == inputPassword;
+        return this.userID.equals(inputUserID) && this.password.equals(inputPassword);
     }
 
     public void updateContactInfo (String newEmail, String newContactNumber) {

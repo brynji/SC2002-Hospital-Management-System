@@ -1,4 +1,4 @@
-package Project.Misc;
+package Misc;
 
 public class Prescription {
 

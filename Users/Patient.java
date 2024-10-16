@@ -1,9 +1,10 @@
-package Project.Users;
+package Users;
+
 import java.util.ArrayList; // Note that we use ArrayList as it helps to create dynamic arrays that are much faster than typical List arrays
 import java.util.List;
 
-import Project.Misc.Appointment;
-import Project.Misc.MedicalRecord;
+import Misc.Appointment;
+import Misc.MedicalRecord;
 
 public class Patient extends User {
 

@@ -1,9 +1,9 @@
-package Project.Calendars;
+package Calendars;
 
 import java.util.List;
 
-import Project.Misc.Appointment;
-import Project.Users.Patient;
+import Misc.Appointment;
+import Users.Patient;
 
 import java.util.ArrayList;
 

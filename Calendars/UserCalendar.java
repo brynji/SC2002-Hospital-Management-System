@@ -1,7 +1,7 @@
-package Project.Calendars;
+package Calendars;
 import java.util.List;
 
-import Project.Misc.Appointment;
+import Misc.Appointment;
 
 public abstract class UserCalendar {
 

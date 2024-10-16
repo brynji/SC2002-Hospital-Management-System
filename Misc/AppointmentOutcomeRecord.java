@@ -1,4 +1,4 @@
-package Project.Misc;
+package Misc;
 
 import java.util.List;
 

@@ -1,4 +1,5 @@
-package Project.Misc;
+package Misc;
+
 import java.util.List;
 
 public class MedicalRecord {

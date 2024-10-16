@@ -1,9 +1,9 @@
-package Project.Misc;
+package Misc;
 
 import java.util.Random;
 
-import Project.Users.Doctor;
-import Project.Users.Patient;
+import Users.Doctor;
+import Users.Patient;
 
 public class Appointment {
     
