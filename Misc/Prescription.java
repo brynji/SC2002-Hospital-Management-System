@@ -1,6 +1,8 @@
 package Misc;
 
-public class Prescription {
+import java.io.Serializable;
+
+public class Prescription implements Serializable {
 
     private String prescriptionID;
     private String medicationName;

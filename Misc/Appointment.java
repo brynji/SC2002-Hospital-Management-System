@@ -1,11 +1,12 @@
 package Misc;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import Users.Doctor;
 import Users.Patient;
 
-public class Appointment {
+public class Appointment implements Serializable {
     
     private String appointmentID;
     private Patient patient;

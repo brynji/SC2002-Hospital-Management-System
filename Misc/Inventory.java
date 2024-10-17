@@ -1,6 +1,8 @@
 package Misc;
 
-public class Inventory {
+import java.io.Serializable;
+
+public class Inventory implements Serializable {
     
     private String medicationName;
     private int stockLevel;

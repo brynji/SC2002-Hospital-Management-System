@@ -37,12 +37,8 @@ public class Patient extends User {
         return appointments;
     }
 
-    public void scheduleAppointment(){
-        
-        /*  if date && time are clear in doctor's schedule {
-                book appt 
-            }
-        */
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
     }
 
     public void rescheduleAppointment(){

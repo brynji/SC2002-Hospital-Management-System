@@ -1,28 +1,47 @@
 package Menus;
 
+import Data.Database;
 import Data.LoginRepository;
-import Misc.RoleType;
+import Misc.*;
+import Users.Doctor;
+import Users.Patient;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class MainMenu {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        /*
+        ArrayList<Role> oles = new ArrayList<>();
+        oles.add(new Role("1",RoleType.Patient));
+        oles.add(new Role("2",RoleType.Doctor));
+        Database.writeToFile("SavedData/Roles.txt",oles);
+        */
+
         Scanner sc = new Scanner(System.in);
-        System.out.println("LOGIN");
-        System.out.println("Type userID");
-        String userId = sc.nextLine();
-        System.out.println("Type password");
-        String password = sc.nextLine();
-        RoleType roles = LoginRepository.CheckCredentials(userId, password);
-        switch (roles) {
-            case None:
-                System.out.println("invalid userId");
-                return;
-            case Patient:
-                PatientMenu patientMenu = new PatientMenu();
-                patientMenu.BaseMenu(userId);
-            case Doctor:
+        while (true) {
+            System.out.println("HOSPITAL SYSTEM");
+            System.out.println("1 LOGIN");
+            System.out.println("2 QUIT");
+            int choice = sc.nextInt();
+            if(choice == 2) { return;}
+            System.out.println("Type userID");
+            String userId = sc.next();
+            System.out.println("Type password");
+            String password = sc.next();
+            RoleType roles = LoginRepository.CheckCredentials(userId, password);
+            switch (roles) {
+                case None:
+                    System.out.println("invalid credentials");
+                    continue;
+                case Patient:
+                    PatientMenu patientMenu = new PatientMenu(userId);
+                    patientMenu.BaseMenu();
+                case Doctor:
+            }
         }
     }
 }

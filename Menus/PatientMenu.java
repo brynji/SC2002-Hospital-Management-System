@@ -6,12 +6,26 @@ import java.util.Scanner;
 
 public class PatientMenu extends BaseMenu<PatientService>{
 
-    PatientService patientService = new PatientService();
+    PatientService patientService;
 
-    public void BaseMenu(String userId){
-        System.out.println("Patient menu \n --------------");
+    public PatientMenu(String currentUserId) {
+        patientService = new PatientService(currentUserId);
+    }
 
+    public void BaseMenu(){
+        while(true){
+            System.out.println("Patient menu \n --------------");
+            System.out.println("1 Change passwd");
+            System.out.println("2 Logout");
 
+            switch (sc.nextInt()){
+                case 1:
+                    ChangePassword();
+                    break;
+                case 2:
+                    return;
+            }
+        }
     }
 
 

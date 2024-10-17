@@ -1,6 +1,8 @@
 package Misc;
 
-public class Role {
+import java.io.Serializable;
+
+public class Role implements Serializable {
     String userId;
     RoleType role;
 

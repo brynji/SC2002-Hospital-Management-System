@@ -9,7 +9,7 @@ public abstract class BaseMenu<T extends UserService> {
 
     public void ChangePassword(){
         System.out.println("Type new passwd");
-        String passwd = sc.nextLine();
+        String passwd = sc.next();
         getUserService().ChangePassword(passwd);
         System.out.println("new passwd: " + passwd);
     }

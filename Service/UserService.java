@@ -4,7 +4,8 @@ import Data.BaseRepository;
 import Users.User;
 
 public abstract class UserService<T extends User, U extends BaseRepository> {
-    public abstract void SetCurrentUser(String userId);
+
+    public abstract void setCurrentUser(String userId);
 
     public void ChangePassword(String newPassword){
         getCurrentUser().setPassword(newPassword);

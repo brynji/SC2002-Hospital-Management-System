@@ -13,5 +13,9 @@ public class Doctor extends User{
         appointments = new ArrayList<Appointment>();
     }
 
+    public void addAppointment(Appointment appointment){
+        appointments.add(appointment);
+    }
+
 
 }

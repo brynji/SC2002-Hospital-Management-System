@@ -7,12 +7,13 @@ public class PatientService extends UserService<Patient,PatientRepository> {
     PatientRepository patientRepository;
     Patient currentPatient;
 
-    public PatientService() {
+    public PatientService(String userId) {
         patientRepository = new PatientRepository();
+        setCurrentUser(userId);
     }
 
     @Override
-    public void SetCurrentUser(String userId) {
+    public void setCurrentUser(String userId) {
         currentPatient = patientRepository.FindById(userId);
     }
 
