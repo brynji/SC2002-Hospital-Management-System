@@ -39,7 +39,7 @@ public class MainMenu {
                     continue;
                 case Patient:
                     PatientMenu patientMenu = new PatientMenu(userId);
-                    patientMenu.BaseMenu();
+                    patientMenu.baseMenu();
                 case Doctor:
             }
         }

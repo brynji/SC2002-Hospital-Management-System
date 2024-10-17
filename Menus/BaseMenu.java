@@ -7,6 +7,9 @@ import java.util.Scanner;
 public abstract class BaseMenu<T extends UserService> {
     Scanner sc = new Scanner(System.in);
 
+    public abstract void baseMenu();
+    public abstract T getUserService();
+
     public void ChangePassword(){
         System.out.println("Type new passwd");
         String passwd = sc.next();
@@ -15,8 +18,11 @@ public abstract class BaseMenu<T extends UserService> {
     }
 
     public void UpdatePersonalInfo(){
+        String name = "name";
+        String email = "mail";
+        String contactNumber = "1";
+        // get info
 
+        getUserService().UpdatePersonalInfo(name,email,contactNumber);
     }
-
-    public abstract T getUserService();
 }
