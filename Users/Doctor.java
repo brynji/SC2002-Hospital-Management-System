@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Doctor extends User{
-    private List<Misc.Appointment> appointments;
+    private List<Appointment> appointments;
 
     public Doctor(String userID, String name, String email, String contactNumber){
         super(userID,name,email,contactNumber);

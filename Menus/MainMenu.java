@@ -14,13 +14,6 @@ import java.util.Scanner;
 public class MainMenu {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        /*
-        ArrayList<Role> oles = new ArrayList<>();
-        oles.add(new Role("1",RoleType.Patient));
-        oles.add(new Role("2",RoleType.Doctor));
-        Database.writeToFile("SavedData/Roles.txt",oles);
-        */
-
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("HOSPITAL SYSTEM");
