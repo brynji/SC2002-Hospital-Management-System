@@ -1,13 +1,9 @@
 package Menus;
 
-import Data.Database;
 import Data.LoginRepository;
 import Misc.*;
-import Users.Doctor;
-import Users.Patient;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -29,11 +25,23 @@ public class MainMenu {
             switch (roles) {
                 case None:
                     System.out.println("invalid credentials");
-                    continue;
+                    break;
                 case Patient:
                     PatientMenu patientMenu = new PatientMenu(userId);
                     patientMenu.baseMenu();
+                    break;
                 case Doctor:
+                    DoctorMenu doctorMenu = new DoctorMenu(userId);
+                    doctorMenu.baseMenu();
+                    break;
+                case Pharmacist:
+                    PharmacistMenu pharmacistMenu = new PharmacistMenu(userId);
+                    pharmacistMenu.baseMenu();
+                    break;
+                case Administrator:
+                    AdministratorMenu adminMenu = new AdministratorMenu(userId);
+                    adminMenu.baseMenu();
+                    break;
             }
         }
     }
