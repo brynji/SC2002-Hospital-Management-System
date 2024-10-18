@@ -5,5 +5,5 @@ public enum RoleType{
     Patient,
     Doctor,
     Pharmacist,
-    Admin
+    Administrator
 }

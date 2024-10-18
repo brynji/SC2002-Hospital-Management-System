@@ -13,7 +13,7 @@ public class LoginRepository {
             RoleType.Patient,BaseRepository.patientFile,
             RoleType.Doctor,BaseRepository.doctorsFile,
             RoleType.Pharmacist,BaseRepository.pharmacistFile,
-            RoleType.Admin,BaseRepository.adminFile
+            RoleType.Administrator,BaseRepository.adminFile
     );
 
     public static RoleType GetRole(String userId) throws IOException, ClassNotFoundException {
