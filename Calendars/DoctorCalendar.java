@@ -1,10 +1,10 @@
-package Project.Calendars;
+package Calendars;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Project.Misc.Appointment;
-import Project.Users.Doctor; 
+import Misc.Appointment;
+import Users.Doctor;
 
 public class DoctorCalendar extends UserCalendar {
     private Doctor doctor;

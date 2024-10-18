@@ -1,13 +1,13 @@
-package Project.Users;
-import java.util.Scanner;
+package Users;
+import java.io.Serializable;
 
-public abstract class User{
+public abstract class User implements Serializable {
 
     private String userID;
     private String password;
     private String name;
     private String email;
-    private String contactNumber; 
+    private String contactNumber;
     private boolean firstLogin;
     
     /* note that we initialise the contact number as a string to store symbols (e.g. "+65") 
@@ -15,7 +15,6 @@ public abstract class User{
     
     // Constructor 
     public User(String userID, String name, String email, String contactNumber) {
-       
         this.userID = userID;
         this.password = "password"; // Standard password for all first time logins
         this.name = name;
@@ -41,7 +40,11 @@ public abstract class User{
         return contactNumber;
     }
 
+    public boolean getFirstLogin(){ return firstLogin; }
+
     // Setters
+    public void setName(String name){ this.name = name; }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -50,46 +53,26 @@ public abstract class User{
         this.contactNumber = contactNumber;
     }
 
-    // TODO: Improve change password function to check password history
+    public void setPassword(String newPassword) { this.password = newPassword; }
 
-    public void changePassword() {
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Please enter your new password:");
-        String newPassword = sc.nextLine();
-        this.password = newPassword;
-        System.out.println("Password has been changed.");
-        sc.close();
-    }
-
-    public boolean login (String inputUserID, String inputPassword) {
-        
-        boolean authenticated = false;
-        
-        if (this.userID == inputUserID && this.password == inputPassword) {
-            authenticated = true;
-        }
-
-        if (authenticated && firstLogin) {
-            System.out.println("This is your first login. Please change your password.");
-            changePassword();
-            firstLogin = false;
-        }
-
-        return authenticated;
-
+    public boolean validateCredentials (String inputUserID, String inputPassword) {
+        return this.userID.equals(inputUserID) && this.password.equals(inputPassword);
     }
 
     public void updateContactInfo (String newEmail, String newContactNumber) {
-
         setEmail(newEmail);
         setContactNumber(newContactNumber);
-        System.out.println("Contact information has been updated.");
     }
 
-
-    
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID='" + userID + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", firstLogin=" + firstLogin +
+                '}';
+    }
 }
-
-

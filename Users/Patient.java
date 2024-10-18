@@ -1,9 +1,10 @@
-package Project.Users;
+package Users;
+
 import java.util.ArrayList; // Note that we use ArrayList as it helps to create dynamic arrays that are much faster than typical List arrays
 import java.util.List;
 
-import Project.Misc.Appointment;
-import Project.Misc.MedicalRecord;
+import Misc.Appointment;
+import Misc.MedicalRecord;
 
 public class Patient extends User {
 
@@ -36,21 +37,8 @@ public class Patient extends User {
         return appointments;
     }
 
-    // Setters for email and contact number only 
-    public void setEmail(String newEmail) {
-        medicalRecord.setEmail(newEmail); 
-    }
-
-    public void setContactNumber(String contactNumber) {
-        medicalRecord.setContactNumber(contactNumber);
-    }
-
-    public void scheduleAppointment(){
-        
-        /*  if date && time are clear in doctor's schedule {
-                book appt 
-            }
-        */
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
     }
 
     public void rescheduleAppointment(){
@@ -75,7 +63,15 @@ public class Patient extends User {
     }
 
 
-    
+    @Override
+    public String toString() {
+        return "Patient{" +
+                super.toString()+
+                "patientID='" + patientID + '\'' +
+                ", medicalRecord=" + medicalRecord +
+                ", appointments=" + appointments +
+                '}';
+    }
 }
 
 

@@ -1,10 +1,11 @@
-package Project.Misc;
+package Misc;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AppointmentOutcomeRecord {
+public class AppointmentOutcomeRecord implements Serializable {
 
-    private String recordID;
+    private final String recordID;
     private String appointmentDate;
     private String serviceType;
     private List<Prescription> medications;
