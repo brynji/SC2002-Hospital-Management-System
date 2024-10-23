@@ -1,7 +1,6 @@
 package Data;
 
 import Misc.Inventory;
-import Users.Pharmacist;
 
 public class PharmacistRepository extends BaseRepository{
 

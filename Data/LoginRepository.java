@@ -5,11 +5,10 @@ import Misc.RoleType;
 import Users.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class LoginRepository {
-    public static RoleType GetRole(String userId) throws IOException, ClassNotFoundException {
+    public static RoleType GetRole(String userId) throws ClassNotFoundException {
         Map<String,Role> roles = Database.readFromFile(BaseRepository.rolesFile);
         if(roles.containsKey(userId)){
             return roles.get(userId).getRole();
