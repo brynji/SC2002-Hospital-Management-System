@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 public abstract class User implements Serializable {
 
-    private String userID;
+    private final String userID;
     private String password;
     private String name;
     private String email;
@@ -54,6 +54,8 @@ public abstract class User implements Serializable {
     }
 
     public void setPassword(String newPassword) { this.password = newPassword; }
+
+    public void setFirstLogin(boolean firstLogin) { this.firstLogin = firstLogin; }
 
     public boolean validateCredentials (String inputUserID, String inputPassword) {
         return this.userID.equals(inputUserID) && this.password.equals(inputPassword);

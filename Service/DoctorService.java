@@ -1,6 +1,7 @@
 package Service;
 
 import Data.DoctorRepository;
+import Misc.RoleType;
 import Users.Doctor;
 
 public class DoctorService extends UserService<Doctor, DoctorRepository> {
@@ -14,7 +15,7 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
 
     @Override
     public void setCurrentUser(String userId) {
-        currentUser = repository.FindById(userId);
+        currentUser = repository.findUserById(userId, RoleType.Doctor);
     }
 
     @Override

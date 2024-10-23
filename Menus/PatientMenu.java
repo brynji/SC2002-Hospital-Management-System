@@ -1,8 +1,6 @@
 package Menus;
 
 import Service.PatientService;
-import java.util.Scanner;
-
 
 public class PatientMenu extends BaseMenu<PatientService>{
 
@@ -21,7 +19,7 @@ public class PatientMenu extends BaseMenu<PatientService>{
 
             switch (sc.nextInt()){
                 case 1:
-                    ChangePassword();
+                    changePassword();
                     break;
                 case 2:
                     return;

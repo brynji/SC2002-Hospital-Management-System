@@ -3,10 +3,9 @@ package Users;
 import Misc.Appointment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Doctor extends User{
-    private List<Appointment> appointments;
+    private ArrayList<Appointment> appointments;
 
     public Doctor(String userID, String name, String email, String contactNumber){
         super(userID,name,email,contactNumber);
@@ -17,5 +16,7 @@ public class Doctor extends User{
         appointments.add(appointment);
     }
 
-
+    public ArrayList<Appointment> getAppointments(){
+        return appointments;
+    }
 }

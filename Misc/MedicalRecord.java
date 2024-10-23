@@ -22,7 +22,15 @@ public class MedicalRecord implements Serializable {
         this.pastRecords = pastRecords;
     }
 
-     // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
+    public MedicalRecord(String patientID, String name, String DOB, String gender, String bloodType) {
+        this.patientID = patientID;
+        this.name = name;
+        this.DOB = DOB;
+        this.gender = gender;
+        this.bloodType = bloodType;
+    }
+
+    // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
      public String getPatientID() {
         return patientID;
     }
@@ -37,6 +45,10 @@ public class MedicalRecord implements Serializable {
 
     public String getBloodType() {
         return bloodType;
+    }
+
+    public List <AppointmentOutcomeRecord> getPastRecords() {
+        return pastRecords;
     }
 
     public void setName(String name){ this.name = name; }

@@ -10,19 +10,19 @@ public abstract class BaseMenu<T extends UserService> {
     public abstract void baseMenu();
     public abstract T getUserService();
 
-    public void ChangePassword(){
+    public void changePassword(){
         System.out.println("Type new passwd");
         String passwd = sc.next();
-        getUserService().ChangePassword(passwd);
+        getUserService().changePassword(passwd);
         System.out.println("new passwd: " + passwd);
     }
 
-    public void UpdatePersonalInfo(){
+    public void updatePersonalInfo(){
         String name = "name";
         String email = "mail";
         String contactNumber = "1";
         // get info
 
-        getUserService().UpdatePersonalInfo(name,email,contactNumber);
+        getUserService().updatePersonalInfo(name,email,contactNumber);
     }
 }

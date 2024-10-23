@@ -1,16 +1,15 @@
 package Users;
 
 import java.util.ArrayList; // Note that we use ArrayList as it helps to create dynamic arrays that are much faster than typical List arrays
-import java.util.List;
 
 import Misc.Appointment;
 import Misc.MedicalRecord;
 
 public class Patient extends User {
 
-    private String patientID;
+    private final String patientID;
     private MedicalRecord medicalRecord;
-    private List<Appointment> appointments;
+    private ArrayList<Appointment> appointments;
 
     public Patient(String userID, String name, String email, String contactNumber, 
                    String patientID, MedicalRecord medicalRecord) {
@@ -20,7 +19,7 @@ public class Patient extends User {
         this.appointments = new ArrayList<>(); // Initialize the appointments list
     }
 
-    // Getters, note that there are no setters as the patient's medical info is immutable 
+    // Getters, note that there are no setters as the patient's medical info is immutable
     public String getPatientID() {
         return patientID;
     }
@@ -33,7 +32,7 @@ public class Patient extends User {
         System.out.println(medicalRecord.getDetails()); // Get detailed view from MedicalRecord
     }
 
-    public List<Appointment> getAppointment() {
+    public ArrayList<Appointment> getAppointment() {
         return appointments;
     }
 

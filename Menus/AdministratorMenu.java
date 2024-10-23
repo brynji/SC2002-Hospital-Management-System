@@ -12,6 +12,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     @Override
     public void baseMenu() {
         System.out.println("Administrator Menu\n---------------");
+        administratorService.getRepository().save();
     }
 
     @Override
