@@ -1,5 +1,6 @@
 package Data;
 
+import Misc.Appointment;
 import Misc.Inventory;
 import Misc.Role;
 import Misc.RoleType;
@@ -9,6 +10,7 @@ import java.util.*;
 
 public abstract class BaseRepository{
     public static final String inventoryFile = "SavedData/Inventory.txt";
+    public static final String appointmentsFile = "SavedData/Appointments.txt";
     public static final String rolesFile = "SavedData/Roles.txt";
     public static final String[] usersFilenames =
             Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
@@ -16,6 +18,7 @@ public abstract class BaseRepository{
 
     Map<String,Role> roles;
     ArrayList<Map<String,User>> users;
+    Map<String, Appointment> appointments;
     Map<String,Inventory> inventory;
 
     public BaseRepository() {
@@ -30,6 +33,7 @@ public abstract class BaseRepository{
                     Database.writeToFile(usersFilenames[role.ordinal()],users.get(role.ordinal()));
             }
             Database.writeToFile(inventoryFile,inventory);
+            Database.writeToFile(appointmentsFile,appointments);
         } catch(Exception e){
             System.out.println("Error in saving files: " + e.getMessage());
         }
@@ -44,6 +48,7 @@ public abstract class BaseRepository{
                     users.add(Database.readFromFile(usersFilenames[role.ordinal()]));
             }
             inventory = Database.readFromFile(inventoryFile);
+            appointments = Database.readFromFile(appointmentsFile);
         } catch(Exception e){
             System.out.println("Error in reading files: " + e.getMessage());
         }
@@ -54,7 +59,7 @@ public abstract class BaseRepository{
         return (T) users.get(role.ordinal()).get(userId);
     }
 
-    public Collection<User> getAllUsers(RoleType role){
+    public Collection<User> getAllUsersWithRole(RoleType role){
         return users.get(role.ordinal()).values();
     }
 

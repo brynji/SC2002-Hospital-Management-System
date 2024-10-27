@@ -1,5 +1,6 @@
 package Service;
 
+import Misc.AppointmentOutcomeRecord;
 import Data.PharmacistRepository;
 import Misc.*;
 import Users.Patient;
@@ -55,6 +56,7 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
         } catch (InsufficientResourcesException e){
             throw new InsufficientResourcesException("Not enough medication in stock");
         }
+        repository.save();
     }
 
     public Collection<Medication> getAllMedication(){
@@ -63,5 +65,11 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
 
     public Collection<Medication> getAllMedicationWithLowAlert(){
         return repository.getInventory().getAllMedications().stream().filter(Medication::isStockLow).toList();
+    }
+
+    public void submitReplenishmentRequest(String medicationName, int amount){
+        repository.getInventory().addReplenishmentRequest(new
+                ReplenishmentRequest(medicationName, currentUser.getUserID(), amount));
+        repository.save();
     }
 }

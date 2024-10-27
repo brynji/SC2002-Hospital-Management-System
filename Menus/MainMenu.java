@@ -1,7 +1,9 @@
 package Menus;
 
+import Data.AdministratorRepository;
 import Data.LoginRepository;
 import Misc.*;
+import Users.Administrator;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,6 +12,10 @@ import java.util.Scanner;
 public class MainMenu {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        //AdministratorRepository admin = new AdministratorRepository();
+        //admin.addNew(new Administrator("admin","firstAdmin","jedi","12/5/5232","asd@d.cz","1"));
+        //admin.save();
+
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("HOSPITAL SYSTEM");

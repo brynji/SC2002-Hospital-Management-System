@@ -11,6 +11,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
 
     @Override
     public void baseMenu() {
+        super.baseMenu();
         System.out.println("Pharmacist Menu\n--------------");
     }
 

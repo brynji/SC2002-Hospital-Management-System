@@ -41,7 +41,7 @@ public class Inventory implements Serializable {
     }
 
     public void addReplenishmentRequest(ReplenishmentRequest replenishmentRequest) {
-        if(medications.containsKey(replenishmentRequest.getMedicationName()))
+        if(!medications.containsKey(replenishmentRequest.getMedicationName()))
             throw new InvalidParameterException("Invalid medication name");
         replenishmentRequests.put(replenishmentRequest.getMedicationName(),replenishmentRequest);
     }

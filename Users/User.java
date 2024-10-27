@@ -1,11 +1,17 @@
 package Users;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
 
 public abstract class User implements Serializable {
 
     private final String userID;
     private String password;
     private String name;
+    private String gender;
+    private String dateOfBirth;
     private String email;
     private String contactNumber;
     private boolean firstLogin;
@@ -14,13 +20,17 @@ public abstract class User implements Serializable {
     and to store longer international numbers. Java int can only hold up to 10 digits. */
     
     // Constructor 
-    public User(String userID, String name, String email, String contactNumber) {
+
+
+    public User(String userID, String name, String gender, String dateOfBirth, String email, String contactNumber) {
         this.userID = userID;
-        this.password = "password"; // Standard password for all first time logins
+        this.password = "password";
         this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.contactNumber = contactNumber;
-        this.firstLogin = true;
+        firstLogin = true;
     }
 
     // Getters
@@ -30,6 +40,17 @@ public abstract class User implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getGender() {return gender;}
+
+    public String getDateOfBirth() {return dateOfBirth;}
+
+    public int getAge(){
+        //TODO Throws error, cannot parse
+        LocalDate now = LocalDate.now();
+        LocalDate birthDate = LocalDate.parse(dateOfBirth);
+        return Period.between(birthDate,now).getYears();
     }
 
     public String getEmail() {
@@ -44,6 +65,10 @@ public abstract class User implements Serializable {
 
     // Setters
     public void setName(String name){ this.name = name; }
+
+    public void setGender(String gender){ this.gender = gender; }
+
+    public void setDateOfBirth(String dateOfBirth){ this.dateOfBirth = dateOfBirth; }
 
     public void setEmail(String email) {
         this.email = email;
@@ -68,13 +93,12 @@ public abstract class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userID='" + userID + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
-                ", firstLogin=" + firstLogin +
-                '}';
+        return  "userID: '" + userID + '\'' +
+                ", password: '" + password + '\'' +
+                ", name: '" + name + '\'' +
+                ", gender: " + gender + '\'' +
+                ", dateOfBirth: '" + dateOfBirth + '\'' +
+                ", email: '" + email + '\'' +
+                ", contactNumber: '" + contactNumber + '\'';
     }
 }

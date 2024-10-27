@@ -3,7 +3,6 @@ package Data;
 import Misc.Inventory;
 
 public class PharmacistRepository extends BaseRepository{
-
     // --- ADD ---
 
     // --- GET ---

@@ -12,6 +12,7 @@ public class PatientMenu extends BaseMenu<PatientService>{
 
     @Override
     public void baseMenu(){
+        super.baseMenu();
         while(true){
             System.out.println("Patient menu \n --------------");
             System.out.println("1 Change passwd");

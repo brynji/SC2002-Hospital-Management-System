@@ -5,8 +5,9 @@ import Misc.RoleType;
 import Users.Doctor;
 
 public class DoctorService extends UserService<Doctor, DoctorRepository> {
-    DoctorRepository repository;
-    Doctor currentUser;
+    private DoctorRepository repository;
+    private Doctor currentUser;
+    //List<Patient> patients; ???
 
     public DoctorService(String userId) {
         repository = new DoctorRepository();

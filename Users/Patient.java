@@ -2,21 +2,20 @@ package Users;
 
 import java.util.ArrayList; // Note that we use ArrayList as it helps to create dynamic arrays that are much faster than typical List arrays
 
-import Misc.Appointment;
 import Misc.MedicalRecord;
 
 public class Patient extends User {
 
     private final String patientID;
     private MedicalRecord medicalRecord;
-    private ArrayList<Appointment> appointments;
+    private ArrayList<String> appointmentsIds;
 
     public Patient(String userID, String name, String email, String contactNumber, 
                    String patientID, MedicalRecord medicalRecord) {
-        super(userID, name, email, contactNumber);
+        super(userID, name, medicalRecord.getGender(), medicalRecord.DOB(), email, contactNumber);
         this.patientID = patientID;
         this.medicalRecord = medicalRecord;
-        this.appointments = new ArrayList<>(); // Initialize the appointments list
+        this.appointmentsIds = new ArrayList<>(); // Initialize the appointments list
     }
 
     // Getters, note that there are no setters as the patient's medical info is immutable
@@ -32,12 +31,12 @@ public class Patient extends User {
         System.out.println(medicalRecord.getDetails()); // Get detailed view from MedicalRecord
     }
 
-    public ArrayList<Appointment> getAppointment() {
-        return appointments;
+    public ArrayList<String> getAppointment() {
+        return appointmentsIds;
     }
 
-    public void addAppointment(Appointment appointment) {
-        appointments.add(appointment);
+    public void addAppointment(String appointment) {
+        appointmentsIds.add(appointment);
     }
 
     public void rescheduleAppointment(){
@@ -48,11 +47,8 @@ public class Patient extends User {
         */
     }
 
-    public void cancelAppointment() {
-        /*  if date && time are booked in doctor's schedule {
-                delete appt 
-            }
-        */        
+    public void cancelAppointment(String appointmentId) {
+        appointmentsIds.remove(appointmentId);
     }
 
     public void viewScheduledAppointments(){
@@ -64,12 +60,7 @@ public class Patient extends User {
 
     @Override
     public String toString() {
-        return "Patient{" +
-                super.toString()+
-                "patientID='" + patientID + '\'' +
-                ", medicalRecord=" + medicalRecord +
-                ", appointments=" + appointments +
-                '}';
+        return "Patient - " + super.toString();
     }
 }
 
