@@ -1,9 +1,7 @@
 package Users;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 public abstract class User implements Serializable {
 
@@ -47,7 +45,6 @@ public abstract class User implements Serializable {
     public String getDateOfBirth() {return dateOfBirth;}
 
     public int getAge(){
-        //TODO Throws error, cannot parse
         LocalDate now = LocalDate.now();
         LocalDate birthDate = LocalDate.parse(dateOfBirth);
         return Period.between(birthDate,now).getYears();

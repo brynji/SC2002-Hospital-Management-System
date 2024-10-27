@@ -14,8 +14,10 @@ public class PatientRepository extends BaseRepository {
 
 
     // --- GET ---
-    public Collection<Appointment> getAllPatientsAppointments(Collection<String> appointmentIds) {
-        return appointmentIds.stream().map(appId->appointments.get(appId)).toList();
+
+    public Collection<Appointment> getAllAppointmentsFromIds(Collection<String> appointmentIds) {
+        var ap = appointmentIds.stream().map(appId->appointments.get(appId)).toList();
+        return ap;
     }
 
     public Appointment getAppointment(String appointmentId){

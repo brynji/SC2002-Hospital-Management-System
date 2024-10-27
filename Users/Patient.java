@@ -31,7 +31,7 @@ public class Patient extends User {
         System.out.println(medicalRecord.getDetails()); // Get detailed view from MedicalRecord
     }
 
-    public ArrayList<String> getAppointment() {
+    public ArrayList<String> getAppointments() {
         return appointmentsIds;
     }
 

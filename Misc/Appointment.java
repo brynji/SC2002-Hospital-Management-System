@@ -1,27 +1,33 @@
 package Misc;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Random;
-import java.util.Date;
 
-public class Appointment implements Serializable {
+public class Appointment implements Serializable, Comparable<Appointment> {
 
     private String appointmentID;
     private String patientId;
     private String doctorId;
-    private Date date;
+    private LocalDate date;
     private Timeslot time;
     private Status status;
     private AppointmentOutcomeRecord AOR;
 
     public Appointment(String patientId, String doctorId,
-                       Date appointmentDate, Timeslot appointmentTime) {
+                       LocalDate appointmentDate, Timeslot appointmentTime) {
         this.appointmentID = generateAppointmentID(); // Generates random appt ID for each appt
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.date = appointmentDate;
         this.time = appointmentTime;
         this.status = Status.PENDING; // Default status set to "pending"
+    }
+
+    public boolean isOverlapping(LocalDate date, Timeslot timeslot) {
+        if(status==Status.REJECTED || status==Status.CANCELLED)
+            return false;
+        return this.date.equals(date) && this.time.equals(timeslot);
     }
 
     // Getters
@@ -37,11 +43,11 @@ public class Appointment implements Serializable {
         return doctorId;
     }
 
-    public Date getAppointmentDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public Timeslot getAppointmentTime() {
+    public Timeslot getTime() {
         return time;
     }
 
@@ -82,7 +88,7 @@ public class Appointment implements Serializable {
         this.doctorId = doctorId;
     }
 
-    public void setAppointmentDate(Date date) {
+    public void setAppointmentDate(LocalDate date) {
         this.date = date;
     }
 
@@ -138,7 +144,7 @@ public class Appointment implements Serializable {
     //     return info.toString();
     // }
 
-
+    //TODO one function to generate all ids (user,patient,app,...)
     private static String generateAppointmentID() {
         Random random = new Random();
         StringBuilder id = new StringBuilder();
@@ -173,4 +179,11 @@ public class Appointment implements Serializable {
         return id.toString();
     }
 
+    @Override
+    public int compareTo(Appointment o) {
+        int res = date.compareTo(o.getDate());
+        if(res == 0)
+            return time.ordinal() - o.time.ordinal();
+        return res;
+    }
 }

@@ -9,5 +9,5 @@ public enum Timeslot {
     SLOT_1400,
     SLOT_1500,
     SLOT_1600,
-    SLOT_1700;
+    SLOT_1700
 }

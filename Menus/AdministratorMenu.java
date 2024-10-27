@@ -1,5 +1,6 @@
 package Menus;
 
+import Misc.DateHelper;
 import Misc.RoleType;
 import Service.AdministratorService;
 import Users.Doctor;
@@ -64,8 +65,15 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         String name = sc.nextLine();
         System.out.println("Enter Gender:");
         String gender = sc.nextLine();
-        System.out.println("Enter Date of Birth:");
-        String dateOfBirth = sc.nextLine();
+        String dateOfBirth;
+        while(true){
+            System.out.println("Enter Date of Birth in format dd/MM/yyyy:");
+            dateOfBirth = sc.nextLine();
+            if(DateHelper.isValidDate(dateOfBirth)){
+                break;
+            }
+            System.out.println("Invalid date");
+        }
         System.out.println("Enter Email:");
         String email = sc.nextLine();
         System.out.println("Enter Contact Number:");
