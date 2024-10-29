@@ -42,7 +42,7 @@ public class AdministratorService extends UserService<Administrator, Administrat
         return true;
     }
 
-    public void addNewUser(User u){
+    public void addNewUser(User u) throws IllegalArgumentException{
         //TODO Can add new patient?
         if(!isIdAvailable(u.getUserID()))
             throw new IllegalArgumentException("User ID is not available.");
@@ -50,11 +50,11 @@ public class AdministratorService extends UserService<Administrator, Administrat
         repository.save();
     }
 
-    //TODO editUser
+    //TODO update staff
 
     //Cannot use his, data consistency. Also, does it make sense given the menu options?
 
-    public void removeUser(String userId){
+    public void removeUser(String userId) throws IllegalArgumentException{
         //TODO Can remove patient?
         if(isIdAvailable(userId))
             throw new IllegalArgumentException("User ID does not exist.");
@@ -114,14 +114,14 @@ public class AdministratorService extends UserService<Administrator, Administrat
         return repository.getInventory().getMedication(medicationID);
     }
 
-    public void addMedication(Medication m) {
+    public void addMedication(Medication m) throws IllegalArgumentException {
         if(repository.getInventory().getMedication(m.getMedicationName())==null)
             throw new IllegalArgumentException("Medication already exists.");
         repository.getInventory().addNewMedication(m);
         repository.save();
     }
 
-    public void updateMedicationStock(String medicationName, int newStock) {
+    public void updateMedicationStock(String medicationName, int newStock) throws IllegalArgumentException {
         Medication medication = repository.getInventory().getMedication(medicationName);
         if(medication==null)
             throw new IllegalArgumentException("Medication does not exist.");
@@ -129,7 +129,7 @@ public class AdministratorService extends UserService<Administrator, Administrat
         repository.save();
     }
 
-    public void updateMedicationAlertLevel(String medicationName, int newAlertLevel) {
+    public void updateMedicationAlertLevel(String medicationName, int newAlertLevel) throws IllegalArgumentException {
         Medication medication = repository.getInventory().getMedication(medicationName);
         if(medication==null)
             throw new IllegalArgumentException("Medication does not exist.");

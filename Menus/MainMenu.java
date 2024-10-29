@@ -24,12 +24,6 @@ public class MainMenu {
         //admin.save();
 
         Scanner sc = new Scanner(System.in);
-        while(true) {
-            String date = sc.nextLine();
-
-            if(date=="s") break;
-        }
-
         while (true) {
             System.out.println("HOSPITAL SYSTEM");
             System.out.println("1 LOGIN");

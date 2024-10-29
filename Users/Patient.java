@@ -27,8 +27,10 @@ public class Patient extends User {
         return medicalRecord;
     }
 
-    public void viewMedicalRecord() {
-        System.out.println(medicalRecord.getDetails()); // Get detailed view from MedicalRecord
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+        medicalRecord.setName(name);
     }
 
     public ArrayList<String> getAppointments() {
@@ -39,24 +41,9 @@ public class Patient extends User {
         appointmentsIds.add(appointment);
     }
 
-    public void rescheduleAppointment(){
-        /*  if new date && new time are clear in doctor's schedule {
-            cancel last appt    
-            book new appt 
-            }
-        */
-    }
-
     public void cancelAppointment(String appointmentId) {
         appointmentsIds.remove(appointmentId);
     }
-
-    public void viewScheduledAppointments(){
-        /* 
-        return all appts
-        */        
-    }
-
 
     @Override
     public String toString() {

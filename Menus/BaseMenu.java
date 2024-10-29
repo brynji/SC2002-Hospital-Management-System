@@ -2,6 +2,7 @@ package Menus;
 
 import Service.UserService;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class BaseMenu<T extends UserService> {
@@ -26,11 +27,18 @@ public abstract class BaseMenu<T extends UserService> {
     }
 
     public void updatePersonalInfo(){
-        String name = "name";
-        String email = "mail";
-        String contactNumber = "1";
-        // get info
-
-        getUserService().updatePersonalInfo(name,email,contactNumber);
+        String[] options = {"name","email","contact number"};
+        System.out.println("What do you want to update");
+        for(int i = 0; i < options.length; i++)
+            System.out.println(i+1 + " " +options[i]);
+        int choice = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Enter new " + options[choice] );
+        String newField = sc.nextLine();
+        switch(choice){
+            case 1 -> getUserService().updateName(newField);
+            case 2 -> getUserService().updateEmail(newField);
+            case 3 -> getUserService().updateContactNumber(newField);
+        }
     }
 }

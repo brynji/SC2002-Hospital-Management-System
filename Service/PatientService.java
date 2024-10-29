@@ -8,6 +8,7 @@ import Users.Patient;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public class PatientService extends UserService<Patient,PatientRepository> {
     PatientRepository repository;
@@ -33,7 +34,7 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         return repository;
     }
 
-    public void addNewAppointment(String doctorId, LocalDate date, Timeslot timeslot) {
+    public void addNewAppointment(String doctorId, LocalDate date, Timeslot timeslot) throws IllegalArgumentException {
         Doctor doctor = repository.findUserById(doctorId, RoleType.Doctor);
         Patient patient = repository.findUserById(currentUser.getUserID(), RoleType.Patient);
 
@@ -56,7 +57,7 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         repository.save();
     }
 
-    public void removeAppointment(String appointmentId){
+    public void removeAppointment(String appointmentId) throws IllegalArgumentException {
         Appointment appointment = repository.getAppointment(appointmentId);
 
         if(appointment==null) throw new IllegalArgumentException("Appointment not found");
@@ -65,6 +66,12 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         ((Patient) repository.findUserById(appointment.getPatientId(),RoleType.Patient)).cancelAppointment(appointmentId);
         repository.deleteAppointment(appointmentId);
         repository.save();
+    }
+
+    public void rescheduleAppointment(String appointmentId, LocalDate date, Timeslot timeslot){
+        String doctorId = repository.getAppointment(appointmentId).getDoctorId();
+        removeAppointment(appointmentId);
+        addNewAppointment(doctorId, date, timeslot);
     }
 
     public Collection<Doctor> getAllDoctors(){
@@ -88,5 +95,10 @@ public class PatientService extends UserService<Patient,PatientRepository> {
 
     public String getDoctorName(String doctorUserId){
         return repository.<Doctor>findUserById(doctorUserId,RoleType.Doctor).getName();
+    }
+
+    public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(){
+        List<String> aorIds =  currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
+        return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
     }
 }

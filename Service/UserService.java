@@ -12,16 +12,19 @@ public abstract class UserService<T extends User, U extends BaseRepository> {
         getRepository().save();
     }
 
-    public void updatePersonalInfo(String name, String email, String contactNumber){
-        getCurrentUser().setName(name);
-        getCurrentUser().updateContactInfo(email, contactNumber);
+    public void updateName(String newName){
+        getCurrentUser().setName(newName);
         getRepository().save();
     }
 
-    public void updateAllData(){
-        String currentUserId = getCurrentUser().getUserID();
-        getRepository().update();
-        setCurrentUser(currentUserId);
+    public void updateEmail(String newEmail){
+        getCurrentUser().setEmail(newEmail);
+        getRepository().save();
+    }
+
+    public void updateContactNumber(String newContactNumber){
+        getCurrentUser().setContactNumber(newContactNumber);
+        getRepository().save();
     }
 
     public abstract T getCurrentUser();

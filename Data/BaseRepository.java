@@ -63,7 +63,11 @@ public abstract class BaseRepository{
         return users.get(role.ordinal()).values();
     }
 
-    protected RoleType getRoleTypeFromUser(User user){
+    public Collection<Appointment> getAllAppointmentsFromIds(Collection<String> appointmentIds) {
+        return appointmentIds.stream().map(appId->appointments.get(appId)).toList();
+    }
+
+    protected RoleType getRoleTypeFromUser(User user) throws IllegalArgumentException{
         return switch (user) {
             case Patient _ -> RoleType.Patient;
             case Doctor _ -> RoleType.Doctor;

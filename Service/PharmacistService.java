@@ -33,15 +33,21 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
         return repository;
     }
 
-    public void dispenseMedication(String userId, String prescriptionId) throws InsufficientResourcesException {
+    public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(String userId){
+        return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(userId,RoleType.Patient).getAppointments())
+                .stream().map(Appointment::getAOR).toList();
+    }
+
+    public void dispenseMedication(String userId, String prescriptionId) throws IllegalArgumentException, InsufficientResourcesException {
         //Find data
         MedicalRecord medicalRecord = ((Patient)repository.findUserById(userId,RoleType.Patient)).getMedicalRecord();
         AppointmentOutcomeRecord appointmentOutcomeRecord = null;
         Prescription prescription = null;
-        for (var aor : medicalRecord.getPastRecords()){
-            for(var p : aor.getPrescriptions()){
+
+        for (var appointment : repository.getAllAppointmentsFromIds(medicalRecord.getPastAppointmentRecordsIds())){
+            for(var p : appointment.getAOR().getPrescriptions()){
                 if(p.getPrescriptionID().equals(prescriptionId)){
-                    appointmentOutcomeRecord = aor;
+                    appointmentOutcomeRecord = appointment.getAOR();
                     prescription = p;
                 }
             }
