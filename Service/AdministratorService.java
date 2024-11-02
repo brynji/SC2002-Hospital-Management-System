@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class AdministratorService extends UserService<Administrator, AdministratorRepository> {
-    AdministratorRepository repository;
-    Administrator currentUser;
+    private final AdministratorRepository repository;
+    private Administrator currentUser;
 
     public AdministratorService(String userId) {
         repository = new AdministratorRepository();

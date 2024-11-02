@@ -8,7 +8,7 @@ import Users.Pharmacist;
 import Users.User;
 
 public class AdministratorMenu extends BaseMenu<AdministratorService> {
-    AdministratorService administratorService;
+    private final AdministratorService administratorService;
 
     public AdministratorMenu(String userId) {
         administratorService = new AdministratorService(userId);

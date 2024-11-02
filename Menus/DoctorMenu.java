@@ -5,7 +5,7 @@ import Service.DoctorService;
 import java.util.Scanner;
 
 public class DoctorMenu extends BaseMenu<DoctorService> {
-    DoctorService doctorService;
+    private final DoctorService doctorService;
 
     public DoctorMenu(String userId) {
         doctorService = new DoctorService(userId);

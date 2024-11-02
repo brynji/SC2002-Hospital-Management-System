@@ -3,7 +3,7 @@ package Menus;
 import Service.PharmacistService;
 
 public class PharmacistMenu extends BaseMenu<PharmacistService> {
-    PharmacistService pharmacistService;
+    private final PharmacistService pharmacistService;
 
     public PharmacistMenu(String userId) {
         pharmacistService = new PharmacistService(userId);

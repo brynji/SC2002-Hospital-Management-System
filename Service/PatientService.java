@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class PatientService extends UserService<Patient,PatientRepository> {
-    PatientRepository repository;
-    Patient currentUser;
+    private final PatientRepository repository;
+    private Patient currentUser;
 
     public PatientService(String userId) {
         repository = new PatientRepository();

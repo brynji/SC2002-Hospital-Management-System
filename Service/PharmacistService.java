@@ -10,8 +10,8 @@ import javax.naming.InsufficientResourcesException;
 import java.util.Collection;
 
 public class PharmacistService extends UserService<Pharmacist, PharmacistRepository> {
-    PharmacistRepository repository;
-    Pharmacist currentUser;
+    private final PharmacistRepository repository;
+    private Pharmacist currentUser;
 
     public PharmacistService(String userId) {
         repository = new PharmacistRepository();

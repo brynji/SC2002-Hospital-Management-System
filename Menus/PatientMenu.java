@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class PatientMenu extends BaseMenu<PatientService>{
 
-    PatientService patientService;
+    private final PatientService patientService;
 
     public PatientMenu(String currentUserId) {
         patientService = new PatientService(currentUserId);
