@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Prescription implements Serializable {
 
-    private String prescriptionID;
+    private final String prescriptionID;
     private String medicationName;
     private String status;
     private int quantity;

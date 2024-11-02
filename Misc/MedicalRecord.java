@@ -10,19 +10,27 @@ public class MedicalRecord implements Serializable {
     private final String DOB;
     private final String gender;
     private final String bloodType;
-    private List <AppointmentOutcomeRecord> pastRecords;
+    private List <String> pastAppointmentRecordsIds;
 
     public MedicalRecord(String patientID, String name, String DOB, String gender,
-    String bloodType, List<AppointmentOutcomeRecord> pastRecords) {
+    String bloodType, List<String> pastAppointmentRecordsIds) {
         this.patientID = patientID;
         this.name = name;
         this.DOB = DOB;
         this.gender = gender;
         this.bloodType = bloodType;
-        this.pastRecords = pastRecords;
+        this.pastAppointmentRecordsIds = pastAppointmentRecordsIds;
     }
 
-     // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
+    public MedicalRecord(String patientID, String name, String DOB, String gender, String bloodType) {
+        this.patientID = patientID;
+        this.name = name;
+        this.DOB = DOB;
+        this.gender = gender;
+        this.bloodType = bloodType;
+    }
+
+    // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
      public String getPatientID() {
         return patientID;
     }
@@ -39,34 +47,14 @@ public class MedicalRecord implements Serializable {
         return bloodType;
     }
 
+    public List <String> getPastAppointmentRecordsIds() {
+        return pastAppointmentRecordsIds;
+    }
+
     public void setName(String name){ this.name = name; }
 
-    public void AddPastAppointment(AppointmentOutcomeRecord appointment){
-        pastRecords.add(appointment);
+    public void AddPastAppointment(String appointmentId){
+        pastAppointmentRecordsIds.add(appointmentId);
     }
-
-    public String getDetails() {
-        
-        StringBuilder info = new StringBuilder();
-
-        info.append("Medical Record of ").append(name).append("\n")
-            .append(", patient ID ").append(patientID).append("\n")
-            .append("Date of Birth: ").append(DOB).append("\n")
-            .append("Gender: ").append(gender).append("\n")
-            .append("Blood Type: ").append(bloodType).append("\n")
-            .append("Past Diagnoses and Treatments:\n");
-
-        for (AppointmentOutcomeRecord record: pastRecords) {
-            info.append(record).append(record.getDetails()).append("\n");
-        } 
-
-        return info.toString();
-            
-    }
-
-
-
-
-
 
 }

@@ -3,7 +3,7 @@ package Menus;
 import Service.PharmacistService;
 
 public class PharmacistMenu extends BaseMenu<PharmacistService> {
-    PharmacistService pharmacistService;
+    private final PharmacistService pharmacistService;
 
     public PharmacistMenu(String userId) {
         pharmacistService = new PharmacistService(userId);
@@ -11,6 +11,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
 
     @Override
     public void baseMenu() {
+        super.baseMenu();
         System.out.println("Pharmacist Menu\n--------------");
     }
 

@@ -7,15 +7,24 @@ public abstract class UserService<T extends User, U extends BaseRepository> {
 
     public abstract void setCurrentUser(String userId);
 
-    public void ChangePassword(String newPassword){
+    public void changePassword(String newPassword){
         getCurrentUser().setPassword(newPassword);
-        getRepository().Save();
+        getRepository().save();
     }
 
-    public void UpdatePersonalInfo(String name, String email, String contactNumber){
-        getCurrentUser().setName(name);
-        getCurrentUser().updateContactInfo(email, contactNumber);
-        getRepository().Save();
+    public void updateName(String newName){
+        getCurrentUser().setName(newName);
+        getRepository().save();
+    }
+
+    public void updateEmail(String newEmail){
+        getCurrentUser().setEmail(newEmail);
+        getRepository().save();
+    }
+
+    public void updateContactNumber(String newContactNumber){
+        getCurrentUser().setContactNumber(newContactNumber);
+        getRepository().save();
     }
 
     public abstract T getCurrentUser();

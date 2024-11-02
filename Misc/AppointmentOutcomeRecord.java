@@ -8,18 +8,18 @@ public class AppointmentOutcomeRecord implements Serializable {
     private final String recordID;
     private String appointmentDate;
     private String serviceType;
-    private List<Prescription> medications;
+    private List<Prescription> prescriptions;
     private String consultationNotes;
     private String status; // Pending or completed
 
-    public AppointmentOutcomeRecord(String recordID, 
-        String appointmentDate, String serviceType, 
-        List<Prescription> medications, String consultationNotes) {
+    public AppointmentOutcomeRecord(String recordID,
+                                    String appointmentDate, String serviceType,
+                                    List<Prescription> prescriptions, String consultationNotes) {
 
         this.recordID = recordID;
         this.appointmentDate = appointmentDate;
         this.serviceType = serviceType;
-        this.medications = medications;
+        this.prescriptions = prescriptions;
         this.consultationNotes = consultationNotes;
         this.status = "pending"; // Default status is set to "pending"
 
@@ -36,8 +36,8 @@ public class AppointmentOutcomeRecord implements Serializable {
     }
 
 
-    public void setMedications(List<Prescription> medications) {
-        this.medications = medications;
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 
     public void setConsultationNotes(String consultationNotes) {
@@ -66,8 +66,8 @@ public class AppointmentOutcomeRecord implements Serializable {
         return consultationNotes;
     }
 
-    public List<Prescription> getMedications() {
-        return medications;
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
     }
 
     public String getStatus() {
@@ -84,7 +84,7 @@ public class AppointmentOutcomeRecord implements Serializable {
         .append("Service Type: ").append(serviceType).append("\n")
         .append("Medications:\n");
 
-        for (Prescription prescription: medications) {
+        for (Prescription prescription: prescriptions) {
             info.append("  - ").append(prescription.getDetails()).append("\n"); 
         }
 

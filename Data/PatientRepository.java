@@ -1,16 +1,33 @@
 package Data;
 
-import Users.Patient;
+import Misc.Appointment;
 
-public class PatientRepository extends BaseRepository<Patient> {
+import java.util.Collection;
 
-    @Override
-    public Patient FindById(String userId) {
-        for(var patient : patients){
-            if(patient.getPatientID().equals(userId)){
-                return patient;
-            }
-        }
-        return null;
+public class PatientRepository extends BaseRepository {
+    //TODO Appointments
+
+    // --- ADD ---
+    public void addNewAppointment(Appointment appointment) {
+        appointments.put(appointment.getAppointmentID(), appointment);
+    }
+
+
+    // --- GET ---
+
+    public Collection<Appointment> getAllAppointmentsFromIds(Collection<String> appointmentIds) {
+        return appointmentIds.stream().map(appId->appointments.get(appId)).toList();
+    }
+
+    public Appointment getAppointment(String appointmentId){
+        return appointments.get(appointmentId);
+    }
+
+    // --- UPDATE ---
+
+    // --- DELETE ---
+
+    public void deleteAppointment(String appointmentId){
+        appointments.remove(appointmentId);
     }
 }

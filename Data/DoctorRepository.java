@@ -1,10 +1,21 @@
 package Data;
 
-import Users.Doctor;
+import Misc.Appointment;
 
-public class DoctorRepository extends BaseRepository<Doctor> {
-    @Override
-    public Doctor FindById(String userId) {
-        return null;
+import java.util.Collection;
+
+public class DoctorRepository extends BaseRepository {
+    //TODO Appointments
+
+    // --- ADD ---
+
+    // --- GET ---
+
+    public Appointment getAppointmentById(String appointmentId) {
+        return appointments.get(appointmentId);
     }
+
+    // --- UPDATE ---
+
+    // --- DELETE ---
 }

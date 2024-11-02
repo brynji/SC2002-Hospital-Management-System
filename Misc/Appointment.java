@@ -1,28 +1,33 @@
 package Misc;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Random;
 
-import Users.Doctor;
-import Users.Patient;
+public class Appointment implements Serializable, Comparable<Appointment> {
 
-public class Appointment implements Serializable {
-    
     private String appointmentID;
-    private Patient patient;
-    private Doctor doctor;
-    private String date;
-    private String time;
-    private String status;
+    private String patientId;
+    private String doctorId;
+    private LocalDate date;
+    private Timeslot time;
+    private Status status;
+    private AppointmentOutcomeRecord AOR;
 
-    public Appointment(Patient patient, Doctor doctor, 
-        String appointmentDate, String appointmentTime) {
+    public Appointment(String patientId, String doctorId,
+                       LocalDate appointmentDate, Timeslot appointmentTime) {
         this.appointmentID = generateAppointmentID(); // Generates random appt ID for each appt
-        this.patient = patient;
-        this.doctor = doctor;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
         this.date = appointmentDate;
         this.time = appointmentTime;
-        this.status = "pending"; // Default status set to "pending"
+        this.status = Status.PENDING; // Default status set to "pending"
+    }
+
+    public boolean isOverlapping(LocalDate date, Timeslot timeslot) {
+        if(status==Status.REJECTED || status==Status.CANCELLED)
+            return false;
+        return this.date.equals(date) && this.time.equals(timeslot);
     }
 
     // Getters
@@ -30,68 +35,123 @@ public class Appointment implements Serializable {
         return appointmentID;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getPatientId() {
+        return patientId;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public String getAppointmentDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public String getAppointmentTime() {
+    public Timeslot getTime() {
         return time;
     }
 
-    public String getStatus() {
-        return status;
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public AppointmentOutcomeRecord getAOR() {
+        return AOR;
+    }
+
+    // public String getServiceType() {
+    //     return serviceType;
+    // }
+
+    // public List<Prescription> getMedications() {
+    //     return medications;
+    // }
+
+    // public String getConsultationNotes() {
+    //     return consultationNotes;
+    // }
+
+    public void setAppointmentID(String appointmentID) {
+        this.appointmentID = appointmentID;
+    }
+
+    public void setAOR(AppointmentOutcomeRecord aOR) {
+        AOR = aOR;
     }
 
     // Setters
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public void setAppointmentDate(String date) {
+    public void setAppointmentDate(LocalDate date) {
         this.date = date;
     }
 
-    public void setAppointmentTime(String time) {
+    public void setAppointmentTime(Timeslot time) {
         this.time = time;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
+    // public void setMedications(List<Prescription> medications) {
+    //     this.medications = medications;
+    // }
+
+    // public void setConsultationNotes(String consultationNotes) {
+    //     this.consultationNotes = consultationNotes;
+    // }
+
+    // public void setServiceType(String serviceType) {
+    //     this.serviceType = serviceType;
+    // }
+
+    /*
     public String getDetails() {
 
         StringBuilder info = new StringBuilder();
 
         info.append("Appointment ID: ").append(appointmentID).append("\n")
-            .append("Patient: ").append(patient.getName()).append("\n")
-            .append("Doctor: ").append(doctor.getName()).append("\n")
-            .append("Date: ").append(date).append("\n")
-            .append("Time: ").append(time).append("\n")
-            .append("Status: ").append(status);
+                .append("Patient: ").append(patientId.getName()).append("\n")
+                .append("Doctor: ").append(doctorId.getName()).append("\n")
+                .append("Date: ").append(date).append("\n")
+                .append("Time: ").append(time).append("\n")
+                // .append("Service Rendered: ").append(serviceType).append("\n")
+                // .append("Medication Dispensed: ").append(medications).append("\n")
+                // .append("Consultation Notes: ").append(consultationNotes).append("\n")
+                .append("Status: ").append(status);
 
         return info.toString();
     }
+    */
 
-        private static String generateAppointmentID() {
+    // public String getAppointmentOutcomeRecord(Date date, Timeslot timeslot, String serviceType, List<Prescription> medications, String consultationNotes) {
+
+    //     StringBuilder info = new StringBuilder();
+
+    //     info.append("Date: ").append(date).append("\n")
+    //         .append("Time: ").append(time).append("\n")
+    //         .append("Service Rendered: ").append(serviceType).append("\n")
+    //         .append("Medication Dispensed: ").append(medications).append("\n")
+    //         .append("Consultation Notes: ").append(consultationNotes).append("\n");
+
+    //     return info.toString();
+    // }
+
+    //TODO one function to generate all ids (user,patient,app,...)
+    private static String generateAppointmentID() {
         Random random = new Random();
         StringBuilder id = new StringBuilder();
 
         // Generate first segment (4 random letters, mixed case)
         for (int i = 0; i < 4; i++) {
-            char letter = (char) (random.nextBoolean() ? 
+            char letter = (char) (random.nextBoolean() ?
                     ('A' + random.nextInt(26)) : // Uppercase
                     ('a' + random.nextInt(26))); // Lowercase
             id.append(letter);
@@ -100,8 +160,8 @@ public class Appointment implements Serializable {
 
         // Generate second segment (4 random letters, mixed case)
         for (int i = 0; i < 4; i++) {
-            char letter = (char) (random.nextBoolean() ? 
-                    ('A' + random.nextInt(26)) : 
+            char letter = (char) (random.nextBoolean() ?
+                    ('A' + random.nextInt(26)) :
                     ('a' + random.nextInt(26)));
             id.append(letter);
         }
@@ -119,4 +179,11 @@ public class Appointment implements Serializable {
         return id.toString();
     }
 
+    @Override
+    public int compareTo(Appointment o) {
+        int res = date.compareTo(o.getDate());
+        if(res == 0)
+            return time.ordinal() - o.time.ordinal();
+        return res;
+    }
 }

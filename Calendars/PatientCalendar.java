@@ -1,3 +1,4 @@
+/*
 package Calendars;
 
 import java.util.List;
@@ -32,7 +33,6 @@ public class PatientCalendar extends UserCalendar {
         return doctorCalendar.getAvailableSlots(date);
 
     }
-
     @Override
     public boolean addAppointment(Appointment appointment, boolean acceptedOrDenied) {
         
@@ -95,5 +95,5 @@ public class PatientCalendar extends UserCalendar {
         return myAppointments;
     }
 
-    
 }
+*/
