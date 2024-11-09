@@ -5,18 +5,19 @@ import Service.PatientService;
 import Users.Doctor;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class PatientMenu extends BaseMenu<PatientService>{
 
     private final PatientService patientService;
 
-    public PatientMenu(String currentUserId) {
-        patientService = new PatientService(currentUserId);
+    public PatientMenu(PatientService patientService) {
+        this.patientService = patientService;
     }
 
     @Override
-    public void baseMenu(){
-        super.baseMenu();
+    public void baseMenu(String currentUserId, Scanner sc){
+        super.baseMenu(currentUserId,sc);
         while(true){
             System.out.println("Patient menu \n --------------");
             System.out.println("1 Change passwd");

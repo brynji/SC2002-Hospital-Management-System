@@ -2,20 +2,13 @@ package Data;
 
 import Misc.Appointment;
 
-import java.util.Collection;
-
 public class DoctorRepository extends BaseRepository {
+    public DoctorRepository(DataSource dataSource) {
+        super(dataSource);
+    }
     //TODO Appointments
 
-    // --- ADD ---
-
-    // --- GET ---
-
     public Appointment getAppointmentById(String appointmentId) {
-        return appointments.get(appointmentId);
+        return dataSource.getAppointments().get(appointmentId);
     }
-
-    // --- UPDATE ---
-
-    // --- DELETE ---
 }

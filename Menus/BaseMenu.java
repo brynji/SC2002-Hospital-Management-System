@@ -1,14 +1,16 @@
 package Menus;
 
+import Service.IService;
 import Service.UserService;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public abstract class BaseMenu<T extends UserService> {
-    Scanner sc = new Scanner(System.in);
+public abstract class BaseMenu<T extends IService> implements IMenu<T> {
+    protected Scanner sc;
 
-    public void baseMenu(){
+    public void baseMenu(String currentUserId, Scanner sc) {
+        this.sc = sc;
+        getUserService().setCurrentUser(currentUserId);
         if(getUserService().getCurrentUser().getFirstLogin()){
             System.out.println("This is your first login, please change your password");
             changePassword();
@@ -16,8 +18,6 @@ public abstract class BaseMenu<T extends UserService> {
             getUserService().getRepository().save();
         }
     }
-
-    public abstract T getUserService();
 
     public void changePassword(){
         System.out.println("Enter new password");

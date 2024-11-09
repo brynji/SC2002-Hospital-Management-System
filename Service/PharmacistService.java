@@ -13,9 +13,8 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
     private final PharmacistRepository repository;
     private Pharmacist currentUser;
 
-    public PharmacistService(String userId) {
-        repository = new PharmacistRepository();
-        setCurrentUser(userId);
+    public PharmacistService(PharmacistRepository repository) {
+        this.repository = repository;
     }
 
     @Override

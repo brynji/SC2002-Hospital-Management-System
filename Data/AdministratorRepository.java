@@ -5,6 +5,7 @@ import Users.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /* The reason the methods for adding, deleting and updating the staff are in the repository
     is that a repo is meant to serve as the site for data manipulation.
@@ -16,38 +17,42 @@ import java.util.Collection;
  */
 
 public class AdministratorRepository extends BaseRepository {
+    public AdministratorRepository(DataSource dataSource) {
+        super(dataSource);
+    }
+
     //TODO Appointments
 
     // --- ADD ---
 
     public void addNew(User u){
         RoleType role = getRoleTypeFromUser(u);
-        users.get(role.ordinal()).put(u.getUserID(),u);
-        roles.put(u.getUserID(),new Role(u.getUserID(),role));
+        dataSource.getAllUsersWithRole(role).put(u.getUserID(),u);
+        dataSource.getRoles().put(u.getUserID(),new Role(u.getUserID(),role));
     }
 
     public void remove(String userId){
-        RoleType role = roles.get(userId).getRole();
-        users.get(role.ordinal()).remove(userId);
-        roles.remove(userId);
+        RoleType role = dataSource.getRoles().get(userId).getRole();
+        dataSource.getAllUsersWithRole(role).remove(userId);
+        dataSource.getRoles().remove(userId);
     }
 
     // --- GET ---
 
     public ArrayList<String> getAllAppointments(){
         ArrayList<String> appointments = new ArrayList<>();
-        for(User d : getAllUsersWithRole(RoleType.Doctor)){
-            appointments.addAll(((Doctor)d).getAppointments());
+        for(Doctor d : super.<Doctor>getAllUsersWithRole(RoleType.Doctor)){
+            appointments.addAll(d.getAppointments());
         }
         return appointments;
     }
 
-    public Collection<Role> getAllRoles(){
-        return roles.values();
+    public Map<String,Role> getAllRoles(){
+        return dataSource.getRoles();
     }
 
     public Inventory getInventory(){
-        return inventory.get("");
+        return dataSource.getInventory();
     }
 
     // --- UPDATE ---

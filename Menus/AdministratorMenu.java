@@ -7,46 +7,50 @@ import Users.Doctor;
 import Users.Pharmacist;
 import Users.User;
 
-public class AdministratorMenu extends BaseMenu<AdministratorService> {
-    private final AdministratorService administratorService;
+import java.util.Scanner;
 
-    public AdministratorMenu(String userId) {
-        administratorService = new AdministratorService(userId);
+public class AdministratorMenu extends BaseMenu<AdministratorService> {
+    private final AdministratorService service;
+
+    public AdministratorMenu(AdministratorService service) {
+        this.service = service;
     }
 
     @Override
-    public void baseMenu() {
-        super.baseMenu();
-        System.out.println("Administrator Menu\n---------------");
-        System.out.println("1. View and Manage Hospital Staff");
-        System.out.println("2. View Appointments Details");
-        System.out.println("3. View and Manage Medication Inventory");
-        System.out.println("4. Approve Replenishment Requests");
-        System.out.println("5. Log Out");
+    public void baseMenu(String currentUserId, Scanner sc) {
+        super.baseMenu(currentUserId,sc);
+        while(true){
+            System.out.println("Administrator Menu\n---------------");
+            System.out.println("1. View and Manage Hospital Staff");
+            System.out.println("2. View Appointments Details");
+            System.out.println("3. View and Manage Medication Inventory");
+            System.out.println("4. Approve Replenishment Requests");
+            System.out.println("5. Log Out");
 
-        int choice = sc.nextInt();
+            int choice = sc.nextInt();
 
-        if (choice == 5) {
-            System.out.println("You have successfully logged out");
-            return;
-        }
+            if (choice == 5) {
+                System.out.println("You have successfully logged out");
+                return;
+            }
 
-        switch (choice) {
-            case 1:
-                manageHospitalStaff();
-                break;
+            switch (choice) {
+                case 1:
+                    manageHospitalStaff();
+                    break;
 
-            // case 2:
+                // case 2:
 
-            // case 3:
+                // case 3:
 
-            // case 4:
+                // case 4:
 
-            // case 5:
+                // case 5:
 
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
 
     }
@@ -57,7 +61,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         while(true){
             System.out.println("Enter ID:");
             id = sc.nextLine();
-            if(administratorService.isIdAvailable(id))
+            if(service.isIdAvailable(id))
                 break;
             System.out.println("Id is already used, choose another one");
         }
@@ -79,8 +83,8 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println("Enter Contact Number:");
         String contact = sc.nextLine();
         switch(roleToAdd){
-            case Doctor -> administratorService.addNewUser(new Doctor(id,name,gender,dateOfBirth,email,contact));
-            case Pharmacist -> administratorService.addNewUser(new Pharmacist(id,name,gender,dateOfBirth,email,contact));
+            case Doctor -> service.addNewUser(new Doctor(id,name,gender,dateOfBirth,email,contact));
+            case Pharmacist -> service.addNewUser(new Pharmacist(id,name,gender,dateOfBirth,email,contact));
         }
         System.out.println(roleToAdd + " added successfully");
     }
@@ -148,14 +152,14 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
             case 5: // Delete Doctor
                 System.out.println("Enter Doctor ID to delete:");
                 String deleteDocId = sc.nextLine();
-                administratorService.removeUser(deleteDocId);
+                service.removeUser(deleteDocId);
                 System.out.println("Doctor deleted successfully.");
                 break;
 
             case 6: // Delete Pharmacist
                 System.out.println("Enter Pharmacist ID to delete:");
                 String deletePhId = sc.nextLine();
-                administratorService.removeUser(deletePhId);
+                service.removeUser(deletePhId);
                 System.out.println("Pharmacist deleted successfully.");
                 break;
 
@@ -172,27 +176,22 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 int maxAge = sc.nextInt();
                 sc.nextLine();  // Consume the leftover newline
 
-                for(User u : administratorService.getFilteredStaff(role, gender, minAge, maxAge, name)){
+                for(User u : service.getFilteredStaff(role, gender, minAge, maxAge, name)){
                     System.out.println(u.toString());
                 }
                 break;
 
             case 8: // Return to Main Menu
-                baseMenu();
                 return;
 
             default:
                 System.out.println("Invalid option, returning to Main Menu.");
-                baseMenu();
                 break;
         }
-
-        // After managing staff, return to main menu
-        baseMenu();
     }
 
     @Override
     public AdministratorService getUserService() {
-        return administratorService;
+        return service;
     }
 }

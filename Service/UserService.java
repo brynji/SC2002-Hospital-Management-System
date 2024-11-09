@@ -3,10 +3,7 @@ package Service;
 import Data.BaseRepository;
 import Users.User;
 
-public abstract class UserService<T extends User, U extends BaseRepository> {
-
-    public abstract void setCurrentUser(String userId);
-
+public abstract class UserService<T extends User, U extends BaseRepository> implements IService<T, U>{
     public void changePassword(String newPassword){
         getCurrentUser().setPassword(newPassword);
         getRepository().save();
@@ -26,7 +23,4 @@ public abstract class UserService<T extends User, U extends BaseRepository> {
         getCurrentUser().setContactNumber(newContactNumber);
         getRepository().save();
     }
-
-    public abstract T getCurrentUser();
-    public abstract U getRepository();
 }

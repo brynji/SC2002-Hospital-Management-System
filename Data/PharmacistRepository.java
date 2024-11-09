@@ -3,15 +3,11 @@ package Data;
 import Misc.Inventory;
 
 public class PharmacistRepository extends BaseRepository{
-    // --- ADD ---
-
-    // --- GET ---
-
-    public Inventory getInventory(){
-        return inventory.get("");
+    public PharmacistRepository(DataSource dataSource) {
+        super(dataSource);
     }
 
-    // --- UPDATE ---
-
-    // --- DELETE ---
+    public Inventory getInventory(){
+        return dataSource.getInventory();
+    }
 }

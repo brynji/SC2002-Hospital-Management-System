@@ -14,9 +14,8 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
     private final DoctorRepository repository;
     private Doctor currentUser;
 
-    public DoctorService(String userId) {
-        repository = new DoctorRepository();
-        setCurrentUser(userId);
+    public DoctorService(DoctorRepository repository) {
+        this.repository = repository;
     }
 
     public Collection<Patient> getAllPatientsInCare(){

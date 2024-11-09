@@ -14,9 +14,8 @@ public class PatientService extends UserService<Patient,PatientRepository> {
     private final PatientRepository repository;
     private Patient currentUser;
 
-    public PatientService(String userId) {
-        repository = new PatientRepository();
-        setCurrentUser(userId);
+    public PatientService(PatientRepository repository) {
+        this.repository = repository;
     }
 
     @Override

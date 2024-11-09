@@ -2,32 +2,21 @@ package Data;
 
 import Misc.Appointment;
 
-import java.util.Collection;
-
 public class PatientRepository extends BaseRepository {
+    public PatientRepository(DataSource dataSource) {
+        super(dataSource);
+    }
     //TODO Appointments
 
-    // --- ADD ---
     public void addNewAppointment(Appointment appointment) {
-        appointments.put(appointment.getAppointmentID(), appointment);
-    }
-
-
-    // --- GET ---
-
-    public Collection<Appointment> getAllAppointmentsFromIds(Collection<String> appointmentIds) {
-        return appointmentIds.stream().map(appId->appointments.get(appId)).toList();
+        dataSource.getAppointments().put(appointment.getAppointmentID(), appointment);
     }
 
     public Appointment getAppointment(String appointmentId){
-        return appointments.get(appointmentId);
+        return dataSource.getAppointments().get(appointmentId);
     }
 
-    // --- UPDATE ---
-
-    // --- DELETE ---
-
     public void deleteAppointment(String appointmentId){
-        appointments.remove(appointmentId);
+        dataSource.getAppointments().remove(appointmentId);
     }
 }

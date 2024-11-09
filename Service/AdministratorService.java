@@ -14,9 +14,8 @@ public class AdministratorService extends UserService<Administrator, Administrat
     private final AdministratorRepository repository;
     private Administrator currentUser;
 
-    public AdministratorService(String userId) {
-        repository = new AdministratorRepository();
-        setCurrentUser(userId);
+    public AdministratorService(AdministratorRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -35,11 +34,7 @@ public class AdministratorService extends UserService<Administrator, Administrat
     }
 
     public boolean isIdAvailable(String userId){
-        for(var r : repository.getAllRoles()){
-            if(r.getUserId().equals(userId))
-                return false;
-        }
-        return true;
+        return !repository.getAllRoles().containsKey(userId);
     }
 
     public void addNewUser(User u) throws IllegalArgumentException{

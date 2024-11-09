@@ -9,62 +9,31 @@ import Users.*;
 import java.util.*;
 
 public abstract class BaseRepository{
-    public static final String inventoryFile = "SavedData/Inventory.txt";
-    public static final String appointmentsFile = "SavedData/Appointments.txt";
-    public static final String rolesFile = "SavedData/Roles.txt";
-    public static final String[] usersFilenames =
-            Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
-            .map(role -> "SavedData/" + role.toString() + ".txt").toArray(String[]::new);
+    protected final DataSource dataSource;
 
-    Map<String,Role> roles;
-    ArrayList<Map<String,User>> users;
-    Map<String, Appointment> appointments;
-    Map<String,Inventory> inventory;
-
-    public BaseRepository() {
-        update();
+    public BaseRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void save(){
-        try{
-            Database.writeToFile(rolesFile,roles);
-            for (RoleType role : RoleType.values()) {
-                if(role != RoleType.None)
-                    Database.writeToFile(usersFilenames[role.ordinal()],users.get(role.ordinal()));
-            }
-            Database.writeToFile(inventoryFile,inventory);
-            Database.writeToFile(appointmentsFile,appointments);
-        } catch(Exception e){
-            System.out.println("Error in saving files: " + e.getMessage());
-        }
+        dataSource.save();
     }
 
     public void update(){
-        try{
-            roles = Database.readFromFile(rolesFile);
-            users = new ArrayList<>();
-            for (RoleType role : RoleType.values()) {
-                if(role != RoleType.None)
-                    users.add(Database.readFromFile(usersFilenames[role.ordinal()]));
-            }
-            inventory = Database.readFromFile(inventoryFile);
-            appointments = Database.readFromFile(appointmentsFile);
-        } catch(Exception e){
-            System.out.println("Error in reading files: " + e.getMessage());
-        }
+        dataSource.update();
     }
-
 
     public <T> T findUserById(String userId, RoleType role){
-        return (T) users.get(role.ordinal()).get(userId);
+        return (T) dataSource.getAllUsersWithRole(role).get(userId);
     }
 
-    public Collection<User> getAllUsersWithRole(RoleType role){
-        return users.get(role.ordinal()).values();
+    public <T> Collection<T> getAllUsersWithRole(RoleType role){
+        return dataSource.getAllUsersWithRole(role).values().stream().map(x->(T)x).toList();
     }
 
     public Collection<Appointment> getAllAppointmentsFromIds(Collection<String> appointmentIds) {
-        return appointmentIds.stream().map(appId->appointments.get(appId)).toList();
+        var apps = dataSource.getAppointments();
+        return appointmentIds.stream().map(apps::get).toList();
     }
 
     protected RoleType getRoleTypeFromUser(User user) throws IllegalArgumentException{
