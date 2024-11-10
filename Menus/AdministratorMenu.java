@@ -1,6 +1,14 @@
 package Menus;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import Misc.Appointment;
 import Misc.DateHelper;
+import Misc.MedicalRecord;
+import Misc.Medication;
+import Misc.ReplenishmentRequest;
 import Misc.RoleType;
 import Service.AdministratorService;
 import Users.Doctor;
@@ -39,20 +47,81 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     manageHospitalStaff();
                     break;
 
-                // case 2:
+                case 2:
+                    viewAppointmentDetails();
+                    break;
 
-                // case 3:
+                case 3:
+                    manageHospitalMedication();
+                    break;
 
-                // case 4:
+                case 4:
+                    approveReplenishmentRequests();
+                    break;
 
-                // case 5:
-
+                case 5:
+                    System.out.println("Logging out...");
+                    isRunning = false;
+                    break;
 
                 default:
                     break;
             }
         }
 
+    }
+
+    private void viewAppointmentDetails() {
+        ArrayList<String> appts = service.viewAllAppointments();
+
+        // Functionality for method, awaiting adminService viewAllAppts method to be completed
+
+        // for (Appointment appt: appts) {
+        //     System.out.println(appt.getDetails());
+        // }
+    }
+
+    public void manageHospitalMedication() {
+        Collection<Medication> meds = service.viewAllMedications();
+        for (Medication med: meds) {
+            System.out.println(med.getDetails());
+        }
+    }
+
+    public void approveReplenishmentRequests() {
+        System.out.println("Pending replenishment requests:\n");
+        Collection<ReplenishmentRequest> requests = administratorService.getReplenishmentRequests();
+
+        if (requests.isEmpty()) {
+            System.out.println("No pending replenishmet requests");
+            return;
+        }
+
+        List<ReplenishmentRequest> requestList = new ArrayList<>(requests);
+
+        int index = 1;
+        for (ReplenishmentRequest req : requestList) {
+            System.out.printf("%d. %s\n", index++, req.getDetails());
+        }
+
+        System.out.print("Enter the number of the request you want to approve (or 0 to cancel): ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character
+
+        // Validate the choice
+        if (choice == 0) {
+            System.out.println("Approval process canceled.");
+            return;
+        }
+
+        if (choice < 1 || choice > requestList.size()) {
+            System.out.println("Invalid selection. Please try again.");
+            return;
+        }
+
+        ReplenishmentRequest selectedReplenishmentRequest = requestList.get(choice-1);
+        service.approveReplenishmentRequest(selectedReplenishmentRequest.getMedicationName());
+        System.out.println("Replenishment request approved.");
     }
 
     private void addUser(RoleType roleToAdd){

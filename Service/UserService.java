@@ -23,4 +23,15 @@ public abstract class UserService<T extends User, U extends BaseRepository> impl
         getCurrentUser().setContactNumber(newContactNumber);
         getRepository().save();
     }
+
+    public String getEmail() {
+        return getCurrentUser().getEmail();
+    }
+
+    public String getContactNumber() {
+        return getCurrentUser().getContactNumber();
+    }
+
+    public abstract T getCurrentUser();
+    public abstract U getRepository();
 }

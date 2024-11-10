@@ -112,14 +112,14 @@ public class Appointment implements Serializable, Comparable<Appointment> {
     //     this.serviceType = serviceType;
     // }
 
-    /*
+    // TODO: Get docor and patient name from doctor and patient ID so that it is more readable (easier to remember a doctor's name than a random ID number)
     public String getDetails() {
 
         StringBuilder info = new StringBuilder();
 
         info.append("Appointment ID: ").append(appointmentID).append("\n")
-                .append("Patient: ").append(patientId.getName()).append("\n")
-                .append("Doctor: ").append(doctorId.getName()).append("\n")
+                .append("Patient ID : ").append(patientId).append("\n")
+                .append("Doctor ID: ").append(doctorId).append("\n")
                 .append("Date: ").append(date).append("\n")
                 .append("Time: ").append(time).append("\n")
                 // .append("Service Rendered: ").append(serviceType).append("\n")
@@ -129,7 +129,7 @@ public class Appointment implements Serializable, Comparable<Appointment> {
 
         return info.toString();
     }
-    */
+    
 
     // public String getAppointmentOutcomeRecord(Date date, Timeslot timeslot, String serviceType, List<Prescription> medications, String consultationNotes) {
 

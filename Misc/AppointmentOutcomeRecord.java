@@ -1,19 +1,20 @@
 package Misc;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 public class AppointmentOutcomeRecord implements Serializable {
 
-    private final String recordID;
-    private String appointmentDate;
+    private final String recordID; //RecordID = apptID for past appt
+    private LocalDate appointmentDate;
     private String serviceType;
     private List<Prescription> prescriptions;
     private String consultationNotes;
     private String status; // Pending or completed
 
     public AppointmentOutcomeRecord(String recordID,
-                                    String appointmentDate, String serviceType,
+                                    LocalDate appointmentDate, String serviceType,
                                     List<Prescription> prescriptions, String consultationNotes) {
 
         this.recordID = recordID;
@@ -26,7 +27,7 @@ public class AppointmentOutcomeRecord implements Serializable {
     }
 
     // Setters 
-    public void setAppointmentDate(String appointmentDate) {
+    public void setAppointmentDate(LocalDate appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
@@ -53,7 +54,7 @@ public class AppointmentOutcomeRecord implements Serializable {
         return recordID;
     }
 
-    public String getAppointmentDate() {
+    public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
 

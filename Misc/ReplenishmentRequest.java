@@ -33,4 +33,16 @@ public class ReplenishmentRequest implements Serializable {
     public void setRequestState(String requestState) {
         this.requestState = requestState;
     }
+
+    public String getDetails() {
+        StringBuilder info = new StringBuilder();
+        
+        info.append("Replenishment Request:\n")
+        .append("Medication Name").append(medicationName).append("\n")
+        .append("Pharmacist ID: ").append(pharmacistId).append("\n")
+        .append("Requested Amount: ").append(requestedAmount).append("\n")
+        .append("Status: ").append(requestState).append("\n");
+
+        return info.toString();
+    }
 }

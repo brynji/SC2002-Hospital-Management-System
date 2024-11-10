@@ -2,6 +2,7 @@ package Service;
 
 import Data.AdministratorRepository;
 import Misc.Medication;
+import Misc.ReplenishmentRequest;
 import Misc.RoleType;
 import Users.Administrator;
 import Users.User;
@@ -140,5 +141,9 @@ public class AdministratorService extends UserService<Administrator, Administrat
     public void approveReplenishmentRequest(String requestId){
         repository.getInventory().approveReplenishmentRequest(requestId);
         repository.save();
+    }
+    
+    public Collection<ReplenishmentRequest> getReplenishmentRequests() {
+        return repository.getInventory().getReplenishmentRequests();
     }
 }
