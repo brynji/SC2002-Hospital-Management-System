@@ -5,10 +5,12 @@ import Service.UserService;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import javax.naming.InsufficientResourcesException;
+
 public abstract class BaseMenu<T extends UserService> {
     Scanner sc = new Scanner(System.in);
 
-    public void baseMenu(){
+    public void baseMenu() {
         if(getUserService().getCurrentUser().getFirstLogin()){
             System.out.println("This is your first login, please change your password");
             changePassword();

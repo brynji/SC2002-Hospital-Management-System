@@ -8,7 +8,9 @@ import Misc.Status;
 import Users.Doctor;
 import Users.Patient;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class DoctorService extends UserService<Doctor, DoctorRepository> {
     private final DoctorRepository repository;
@@ -24,6 +26,15 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
         return appointments.stream().map(appointment->repository.<Patient>findUserById(appointment.getPatientId(),RoleType.Patient)).toList();
     }
 
+    public Collection<Patient> getPatientsInCareByName(String patientName) {
+        var appointments = repository.getAllAppointmentsFromIds(currentUser.getAppointments());
+        return appointments.stream()
+            .map(appointment -> repository.<Patient>findUserById(appointment.getPatientId(), RoleType.Patient))
+            .filter(patient -> patient != null && patient.getName().equalsIgnoreCase(patientName)) // Filter by name
+            .distinct() // Ensure each patient appears only once
+            .toList(); // Collect to a List, which is a Collection
+    }
+
     public Collection<Appointment> getUpcomingAppointments(boolean showPending){
         return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
                 .filter(appointment -> appointment.getStatus() == Status.CONFIRMED ||
@@ -33,6 +44,11 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
     public Collection<Appointment> getAllPendingAppointments(){
         return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
                 .filter(appointment -> appointment.getStatus() == Status.PENDING).sorted().toList();
+    }
+
+    public Collection<Appointment> getConfirmedAppointments(){
+        return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
+                .filter(appointment -> appointment.getStatus() == Status.CONFIRMED).sorted().toList();
     }
 
     public void acceptAppointment(String appointmentId){
@@ -61,7 +77,17 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
         Appointment appointment = repository.getAppointmentById(appointmentId);
         appointment.setAOR(aor);
         appointment.setStatus(Status.COMPLETED);
-        repository.save();
+    }
+
+    public List<AppointmentOutcomeRecord> getPatientAppointmentOutcomeRecord(String patientName) {
+        List<String> aorIds = new ArrayList<>();
+        Collection<Patient> patients = getPatientsInCareByName(patientName);
+        for (Patient patient: patients) {
+            List<String> id = patient.getMedicalRecord().getPastAppointmentRecordsIds();
+            aorIds.addAll(id);
+        }
+        List<AppointmentOutcomeRecord> aors = repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
+        return aors;
     }
 
     @Override

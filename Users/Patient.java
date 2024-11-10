@@ -49,6 +49,20 @@ public class Patient extends User {
     public String toString() {
         return "Patient - " + super.toString();
     }
+
+    public void setMedicalRecord(MedicalRecord medicalRecord) {
+        this.medicalRecord = medicalRecord;
+    }
+
+    public ArrayList<String> getAppointmentsIds() {
+        return appointmentsIds;
+    }
+
+    public void setAppointmentsIds(ArrayList<String> appointmentsIds) {
+        this.appointmentsIds = appointmentsIds;
+    }
+
+    
 }
 
 

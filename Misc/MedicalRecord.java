@@ -2,6 +2,7 @@ package Misc;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 public class MedicalRecord implements Serializable {
     
@@ -22,17 +23,13 @@ public class MedicalRecord implements Serializable {
         this.pastAppointmentRecordsIds = pastAppointmentRecordsIds;
     }
 
-    public MedicalRecord(String patientID, String name, String DOB, String gender, String bloodType) {
-        this.patientID = patientID;
-        this.name = name;
-        this.DOB = DOB;
-        this.gender = gender;
-        this.bloodType = bloodType;
+    // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
+    public String getPatientID() {
+        return patientID;
     }
 
-    // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
-     public String getPatientID() {
-        return patientID;
+    public String getName() {
+        return name;
     }
 
     public String DOB() {
@@ -53,8 +50,30 @@ public class MedicalRecord implements Serializable {
 
     public void setName(String name){ this.name = name; }
 
-    public void AddPastAppointment(String appointmentId){
-        pastAppointmentRecordsIds.add(appointmentId);
+    public void AddPastAppointment(String AOR){
+        pastAppointmentRecordsIds.add(AOR);
     }
+
+    public String getDetails() {
+
+        StringBuilder info = new StringBuilder();
+
+        info.append("Patient ID: ").append(patientID).append("\n")
+                .append("Patient: ").append(name).append("\n")
+                .append("DOB: ").append(DOB).append("\n")
+                .append("Gender: ").append(gender).append("\n")
+                .append("Blood Type: ").append(bloodType).append("\n");
+
+        return info.toString();
+    }
+
+    //REFERRENCE BC IDK HOW TO ACCESS THE REPOS LOL
+
+    // public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(){
+    //     List<String> aorIds =  currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
+    //     return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
+    // }
+    
+        
 
 }

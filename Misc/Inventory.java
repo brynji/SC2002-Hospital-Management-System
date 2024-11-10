@@ -46,7 +46,7 @@ public class Inventory implements Serializable {
         replenishmentRequests.put(replenishmentRequest.getMedicationName(),replenishmentRequest);
     }
 
-    public void approveReplenishmentRequest(String requestId) {
+    public void approveReplenishmentRequest(String requestId) { // Request ID is medicine name
         ReplenishmentRequest request = replenishmentRequests.get(requestId);
         if(request == null) throw new InvalidParameterException("Invalid request id");
         request.setRequestState("Approved");

@@ -1,11 +1,20 @@
 package Menus;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import Misc.Appointment;
 import Misc.DateHelper;
+import Misc.MedicalRecord;
+import Misc.Medication;
+import Misc.ReplenishmentRequest;
 import Misc.RoleType;
 import Service.AdministratorService;
 import Users.Doctor;
 import Users.Pharmacist;
 import Users.User;
+
 
 public class AdministratorMenu extends BaseMenu<AdministratorService> {
     private final AdministratorService administratorService;
@@ -17,38 +26,103 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     @Override
     public void baseMenu() {
         super.baseMenu();
-        System.out.println("Administrator Menu\n---------------");
-        System.out.println("1. View and Manage Hospital Staff");
-        System.out.println("2. View Appointments Details");
-        System.out.println("3. View and Manage Medication Inventory");
-        System.out.println("4. Approve Replenishment Requests");
-        System.out.println("5. Log Out");
+        boolean isRunning = true;
 
-        int choice = sc.nextInt();
+        while (isRunning) {
+            System.out.println("Administrator Menu\n---------------");
+            System.out.println("1. View and Manage Hospital Staff");
+            System.out.println("2. View Appointments Details");
+            System.out.println("3. View and Manage Medication Inventory");
+            System.out.println("4. Approve Replenishment Requests");
+            System.out.println("5. Logout");
 
-        if (choice == 5) {
-            System.out.println("You have successfully logged out");
+            int choice = sc.nextInt();
+
+            if (choice == 5) {
+                System.out.println("You have successfully logged out");
+                return;
+            }
+
+            switch (choice) {
+                case 1:
+                    manageHospitalStaff();
+                    break;
+
+                case 2:
+                    viewAppointmentDetails();
+                    break;
+
+                case 3:
+                    manageHospitalMedication();
+                    break;
+
+                case 4:
+                    approveReplenishmentRequests();
+                    break;
+
+                case 5:
+                    System.out.println("Logging out...");
+                    isRunning = false;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    private void viewAppointmentDetails() {
+        ArrayList<String> appts = administratorService.viewAllAppointments();
+
+        // Functionality for method, awaiting adminService viewAllAppts method to be completed
+
+        // for (Appointment appt: appts) {
+        //     System.out.println(appt.getDetails());
+        // }
+    }
+
+    public void manageHospitalMedication() {
+        Collection<Medication> meds = administratorService.viewAllMedications();
+        for (Medication med: meds) {
+            System.out.println(med.getDetails());
+        }
+    }
+
+    public void approveReplenishmentRequests() {
+        System.out.println("Pending replenishment requests:\n");
+        Collection<ReplenishmentRequest> requests = administratorService.getReplenishmentRequests();
+    
+        if (requests.isEmpty()) {
+            System.out.println("No pending replenishmet requests");
             return;
         }
 
-        switch (choice) {
-            case 1:
-                manageHospitalStaff();
-                break;
+        List<ReplenishmentRequest> requestList = new ArrayList<>(requests);
 
-            // case 2:
-
-            // case 3:
-
-            // case 4:
-
-            // case 5:
-
-
-            default:
-                break;
+        int index = 1;
+        for (ReplenishmentRequest req : requestList) {
+            System.out.printf("%d. %s\n", index++, req.getDetails());
         }
 
+        System.out.print("Enter the number of the request you want to approve (or 0 to cancel): ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character
+    
+        // Validate the choice
+        if (choice == 0) {
+            System.out.println("Approval process canceled.");
+            return;
+        }
+    
+        if (choice < 1 || choice > requestList.size()) {
+            System.out.println("Invalid selection. Please try again.");
+            return;
+        }
+
+        ReplenishmentRequest selectedReplenishmentRequest = requestList.get(choice-1);
+        administratorService.approveReplenishmentRequest(selectedReplenishmentRequest.getMedicationName());
+        System.out.println("Replenishment request approved.");
     }
 
     private void addUser(RoleType roleToAdd){
@@ -190,6 +264,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         // After managing staff, return to main menu
         baseMenu();
     }
+    
 
     @Override
     public AdministratorService getUserService() {
