@@ -4,6 +4,7 @@ import javax.naming.InsufficientResourcesException;
 import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Inventory implements Serializable {
@@ -15,7 +16,10 @@ public class Inventory implements Serializable {
         this.replenishmentRequests = replenishmentRequests;
     }
 
-    public Inventory(){}
+    public Inventory(){
+        medications = new HashMap<>();
+        replenishmentRequests = new HashMap<>();
+    }
 
     public Collection<Medication> getAllMedications() {
         return medications.values();

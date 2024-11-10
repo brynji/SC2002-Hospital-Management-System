@@ -43,6 +43,7 @@ public class Database implements DataSource {
                     users.add(readFromFile(usersFilenames[role.ordinal()]));
             }
             inventory = readFromFile(inventoryFile);
+            if(inventory.isEmpty()) inventory.put("",new Inventory());
             appointments = readFromFile(appointmentsFile);
         } catch(Exception e){
             System.out.println("Error in reading files: " + e.getMessage());

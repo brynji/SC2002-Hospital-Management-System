@@ -1,7 +1,12 @@
 package Menus;
 
+import Data.AdministratorRepository;
+import Service.AdministratorService;
 import Service.ILoginService;
 import Misc.*;
+import Users.Administrator;
+import Users.Doctor;
+import Users.Patient;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -17,7 +22,7 @@ public class HospitalManagementApp {
     }
 
     public void mainMenu() {
-        //AdministratorRepository admin = (AdministratorRepository) menus.get(RoleType.Administrator).getUserService().getRepository();
+        //AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
         //admin.addNew(new Administrator("admin","new admin","jedi","1212-12-10","mail","56"));
         //admin.addNew(new Doctor("doctor","doc","snail","1086-01-29","sa","468"));
         //admin.addNew(new Patient("patient","sdf","a@d.s","156","5",new MedicalRecord("5","sdf","20002-06-12","","")));

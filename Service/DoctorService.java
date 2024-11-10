@@ -76,6 +76,7 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
         Appointment appointment = repository.getAppointmentById(appointmentId);
         appointment.setAOR(aor);
         appointment.setStatus(Status.COMPLETED);
+        repository.save();
     }
 
     public List<AppointmentOutcomeRecord> getPatientAppointmentOutcomeRecord(String patientName) {

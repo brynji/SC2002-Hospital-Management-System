@@ -23,6 +23,16 @@ public class MedicalRecord implements Serializable {
         this.pastAppointmentRecordsIds = pastAppointmentRecordsIds;
     }
 
+    public MedicalRecord(String patientID, String name, String DOB, String gender,
+                         String bloodType) {
+        this.patientID = patientID;
+        this.name = name;
+        this.DOB = DOB;
+        this.gender = gender;
+        this.bloodType = bloodType;
+        this.pastAppointmentRecordsIds = new ArrayList<>();
+    }
+
     // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
     public String getPatientID() {
         return patientID;

@@ -27,7 +27,8 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     @Override
     public void baseMenu(String currentUserId, Scanner sc) {
         super.baseMenu(currentUserId,sc);
-        while(true){
+        boolean isRunning = true;
+        while (isRunning) {
             System.out.println("Administrator Menu\n---------------");
             System.out.println("1. View and Manage Hospital Staff");
             System.out.println("2. View Appointments Details");
@@ -36,11 +37,6 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
             System.out.println("5. Log Out");
 
             int choice = sc.nextInt();
-
-            if (choice == 5) {
-                System.out.println("You have successfully logged out");
-                return;
-            }
 
             switch (choice) {
                 case 1:
@@ -63,7 +59,6 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     System.out.println("Logging out...");
                     isRunning = false;
                     break;
-
                 default:
                     break;
             }
@@ -90,10 +85,10 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
 
     public void approveReplenishmentRequests() {
         System.out.println("Pending replenishment requests:\n");
-        Collection<ReplenishmentRequest> requests = administratorService.getReplenishmentRequests();
+        Collection<ReplenishmentRequest> requests = service.getReplenishmentRequests();
 
         if (requests.isEmpty()) {
-            System.out.println("No pending replenishmet requests");
+            System.out.println("No pending replenishment requests");
             return;
         }
 
