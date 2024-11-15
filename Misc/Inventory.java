@@ -62,6 +62,7 @@ public class Inventory implements Serializable {
 
     public void addNewMedication(Medication m){
         medications.put(m.getMedicationName(), m);
+        replenishmentRequests.put(m.getMedicationName(), new ArrayList<>());
     }
 }
 

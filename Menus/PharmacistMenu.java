@@ -11,6 +11,7 @@ import java.util.Collection;
 
 import javax.naming.InsufficientResourcesException;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PharmacistMenu extends BaseMenu<PharmacistService> {
@@ -25,6 +26,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         super.baseMenu(currentUserId,sc);
         boolean isRunning = true;
         while (isRunning) {
+            System.out.println();
             System.out.println("""
                 Pharmacist Menu
                 ---------------
@@ -63,20 +65,18 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
 
     private String chooseOrInputPatientId(){
         String patientId;
-        System.out.println("""
-            Do you want to choose your patient from list or input patient Id?
-            1 choose from list
-            2 input id""");
-        int choice = sc.nextInt();
-        while (choice != 1 && choice != 2) {
-            System.out.println("Invalid choice. Please try again.");
-            choice = sc.nextInt();
-        }
-        if (choice == 1) {
+        System.out.println("Do you want to choose your patient from list or input patient Id?");
+        int choice = printAllAndChooseOne(List.of("choose from list","input"));
+        if (choice == 0) {
             ArrayList<Patient> patients = new ArrayList<>(pharmacistService.getAllPatients());
+            if(patients.isEmpty()) {
+                System.out.println("No patients found.");
+                return null;
+            }
             int chosenPatient = printAllAndChooseOne(patients);
             patientId = patients.get(chosenPatient).getUserID();
         } else {
+            System.out.print("Enter patient ID: ");
             patientId = sc.nextLine();
             if(!pharmacistService.isValidPatientId(patientId)) {
                 System.out.println("Invalid patientId");
@@ -93,6 +93,10 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         }
 
         Collection<AppointmentOutcomeRecord> aors = pharmacistService.getAppointmentOutcomeRecords(patientId);
+        if(aors.isEmpty()) {
+            System.out.println("No appointment outcome records found");
+            return;
+        }
         for (AppointmentOutcomeRecord aor: aors) {
             System.out.println(aor.toString());
         }
@@ -103,9 +107,12 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         if(patientId == null) {
             return;
         }
-
-        System.out.println("Please choose the prescription you want to update:\n");
         ArrayList<Prescription> prescriptions = new ArrayList<>(pharmacistService.getAllPatientsPendingPrescriptions(patientId));
+        if(prescriptions.isEmpty()) {
+            System.out.println("No prescriptions for this patient");
+            return;
+        }
+        System.out.println("Please choose the prescription you want to update:");
         String presId = prescriptions.get(printAllAndChooseOne(prescriptions)).getPrescriptionID();
 
         try {
@@ -119,17 +126,26 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
 
     public void viewMedicationInventory() {
         Collection<Medication> meds = pharmacistService.getAllMedication();
+        if(meds.isEmpty()) {
+            System.out.println("No medications found");
+            return;
+        }
+        System.out.println("Medication list:");
         for (Medication med: meds) {
-            System.out.println(med.getDetails());
+            System.out.println(med.toString());
         }
     }
 
     public void submitReplenishmentRequest() {
-        System.out.println("What medication do you want to request?:\n");
+        System.out.println("What medication do you want to request?:");
         ArrayList<Medication> medicationsWithLowStock = new ArrayList<>(pharmacistService.getAllMedicationWithLowAlert());
+        if(medicationsWithLowStock.isEmpty()) {
+            System.out.println("No medications with low stock found, nothing to replenish");
+            return;
+        }
         String medName = medicationsWithLowStock.get(printAllAndChooseOne(medicationsWithLowStock)).getMedicationName();
 
-        System.out.println("Enter medication amount needed:\n");
+        System.out.print("Enter medication amount needed: ");
         int medAmount = sc.nextInt();
         while(medAmount<0){
             System.out.println("Invalid amount, try again");

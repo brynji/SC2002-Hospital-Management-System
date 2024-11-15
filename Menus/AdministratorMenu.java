@@ -12,6 +12,7 @@ import Users.Doctor;
 import Users.Pharmacist;
 import Users.User;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AdministratorMenu extends BaseMenu<AdministratorService> {
@@ -26,6 +27,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         super.baseMenu(currentUserId,sc);
         boolean isRunning = true;
         while (isRunning) {
+            System.out.println();
             System.out.println("""
                 Administrator Menu
                 ------------------
@@ -34,7 +36,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 3. View and Manage Medication Inventory
                 4. Approve Replenishment Requests
                 5. Log Out""");
-
+            System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine(); //get the newline
 
@@ -58,7 +60,6 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 default:
                     break;
             }
-            System.out.println();
         }
     }
 
@@ -67,24 +68,24 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         if(appointments.isEmpty()){
             System.out.println("No appointments found");
             return;
-        } else {
-            System.out.println("Appointment details:");
         }
+        System.out.println("Appointment details:");
         for (String appointment: appointments) {
             System.out.println(appointment);
+            System.out.println();
         }
     }
 
     private void addNewMedication(){
-        System.out.println("Enter Medication Name: ");
+        System.out.print("Enter Medication Name: ");
         String medName = sc.nextLine();
         if(service.getMedication(medName) != null){
             System.out.println("Medication is already in inventory");
             return;
         }
-        System.out.println("Enter Medication Stock Level: ");
+        System.out.print("Enter Medication Stock Level: ");
         int stockLevel = sc.nextInt();
-        System.out.println("Enter Medication Low Level Alert: ");
+        System.out.print("Enter Medication Low Level Alert: ");
         int lowLevelAlert = sc.nextInt();
         sc.nextLine(); //consume new line
 
@@ -100,37 +101,41 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
         int choice = printAllAndChooseOne(medications);
         String medicationName = medications.get(choice).getMedicationName();
-        System.out.println("""
-                What do you want to update?
-                1 Stock level
-                2 Low level alert""");
-        int choice2 = sc.nextInt();
+        System.out.println("What do you want to update?");
+        int choice2 = printAllAndChooseOne(List.of("Stock level", "Low level alert"));
         switch (choice2) {
-            case 1:
+            case 0:
                 System.out.println("Enter new Stock Level: ");
                 int newStockLevel = sc.nextInt();
+                sc.nextLine();
                 if(newStockLevel<0){
                     System.out.println("Invalid Stock Level");
-                    break;
+                    return;
                 }
                 service.updateMedicationStock(medicationName, newStockLevel);
                 break;
-            case 2:
-                System.out.println("Enter new Low Level Alert: ");
+            case 1:
+                System.out.print("Enter new Low Level Alert: ");
                 int newLowLevelAlert = sc.nextInt();
+                sc.nextLine();
                 if(newLowLevelAlert<0){
                     System.out.println("Invalid Low Level Alert");
-                    break;
+                    return;
                 }
                 service.updateMedicationAlertLevel(medicationName, newLowLevelAlert);
                 break;
         }
-        sc.nextLine();
         System.out.println("Medication successfully updated");
     }
 
     public void viewAllMedications(){
-        for(Medication medication : service.getAllMedications()){
+        Collection<Medication> medications = service.getAllMedications();
+        if(medications.isEmpty()){
+            System.out.println("No medications found");
+            return;
+        }
+        System.out.println("Medication list:");
+        for(Medication medication : medications){
             System.out.println(medication);
         }
     }
@@ -139,9 +144,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         ArrayList<ReplenishmentRequest> requests = new ArrayList<>(service.getPendingReplenishmentRequests());
         if(requests.isEmpty()){
             System.out.println("No pending requests");
-            System.out.println("Show all requests? y/n");
-            char choice = sc.next().charAt(0);
-            if(choice == 'y'){
+            System.out.println("Show all requests?");
+            int choice = printAllAndChooseOne(List.of("yes","no"));
+            if(choice == 0){
                 System.out.println("All requests:");
                 for(ReplenishmentRequest request : service.getReplenishmentRequests()){
                     System.out.println(request);
@@ -150,18 +155,16 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
             return;
         }
         for(int i=0; i<requests.size(); i++){
-            System.out.println("Request "+i+" of "+requests.size());
+            System.out.println("Request "+(i+1)+" of "+requests.size());
             System.out.println(requests.get(i));
-            System.out.println("Approve? y/n (q for quit)");
-            char choice = sc.next().charAt(0);
-            while(choice != 'y' && choice != 'n' && choice != 'q'){
-                System.out.println("Invalid Choice, try again");
-                choice = sc.next().charAt(0);
-            }
-            if(choice == 'y'){
+            System.out.println("Approve?");
+            int choice = printAllAndChooseOne(List.of("yes","no","back to menu"));
+            if(choice == 0){
                 service.approveReplenishmentRequest(requests.get(i));
-            } else if(choice == 'n'){
+                System.out.println("Replenishment request approved");
+            } else if(choice == 1){
                 service.denyReplenishmentRequest(requests.get(i));
+                System.out.println("Replenishment request denied");
             } else {
                 return;
             }
@@ -171,6 +174,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     private void manageHospitalMedication() {
         boolean goBack = false;
         while(!goBack) {
+            System.out.println();
             System.out.println("""
                     Medication inventory
                     --------------------
@@ -179,7 +183,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     3 View all Medications
                     4 View Pending Replenishment Requests
                     5 Return to Main Menu""");
+            System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1 -> addNewMedication();
                 case 2 -> updateMedication();
@@ -194,28 +200,28 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println("Adding " + roleToAdd);
         String id;
         while(true){
-            System.out.println("Enter ID:");
+            System.out.print("Enter ID: ");
             id = sc.nextLine();
             if(service.isIdAvailable(id))
                 break;
             System.out.println("Id is already used, choose another one");
         }
-        System.out.println("Enter Name:");
+        System.out.print("Enter Name: ");
         String name = sc.nextLine();
-        System.out.println("Enter Gender:");
+        System.out.print("Enter Gender: ");
         String gender = sc.nextLine();
         String dateOfBirth;
         while(true){
-            System.out.println("Enter Date of Birth in format dd/MM/yyyy:");
+            System.out.print("Enter Date of Birth in format dd/MM/yyyy: ");
             dateOfBirth = sc.nextLine();
-            if(DateHelper.isValidDate(dateOfBirth)){
+            if(DateHelper.isValidDateOfBirth(dateOfBirth)){
                 break;
             }
-            System.out.println("Invalid date");
+            System.out.println("Invalid date, try again");
         }
-        System.out.println("Enter Email:");
+        System.out.print("Enter Email: ");
         String email = sc.nextLine();
-        System.out.println("Enter Contact Number:");
+        System.out.print("Enter Contact Number: ");
         String contact = sc.nextLine();
         switch(roleToAdd){
             case Doctor -> service.addNewUser(new Doctor(id,name,gender,dateOfBirth,email,contact,true));
@@ -226,7 +232,11 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
 
     private void updateUser(RoleType roleToUpdate){
         ArrayList<User> users = new ArrayList<>(service.getAllUsersWithRole(roleToUpdate));
-        System.out.println("Which "+roleToUpdate+" do you want to update:");
+        if(users.isEmpty()){
+            System.out.println("No users found");
+            return;
+        }
+        System.out.println("Which "+roleToUpdate+" do you want to update?");
         int choice = printAllAndChooseOne(users);
         User userToUpdate = users.get(choice);
         boolean updatingFinished = false;
@@ -240,25 +250,26 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     4 Email
                     5 Contact Number
                     6 Save changes""");
+            System.out.print("Enter your choice: ");
             choice = sc.nextInt();
             sc.nextLine();  // Consume newline left-over
             switch(choice){
                 case 1:
-                    System.out.println("Enter new Name:");
+                    System.out.print("Enter new Name: ");
                     String name = sc.nextLine();
                     userToUpdate.setName(name);
                     break;
                 case 2:
-                    System.out.println("Enter new Gender:");
+                    System.out.print("Enter new Gender: ");
                     String gender = sc.nextLine();
                     userToUpdate.setGender(gender);
                     break;
                 case 3:
                     String dateOfBirth;
                     while(true){
-                        System.out.println("Enter new Date of Birth in format dd/MM/yyyy:");
+                        System.out.print("Enter new Date of Birth in format dd/MM/yyyy: ");
                         dateOfBirth = sc.nextLine();
-                        if(DateHelper.isValidDate(dateOfBirth)){
+                        if(DateHelper.isValidDateOfBirth(dateOfBirth)){
                             break;
                         }
                         System.out.println("Invalid date");
@@ -266,12 +277,12 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     userToUpdate.setDateOfBirth(dateOfBirth);
                     break;
                 case 4:
-                    System.out.println("Enter new Email:");
+                    System.out.print("Enter new Email: ");
                     String email = sc.nextLine();
                     userToUpdate.setEmail(email);
                     break;
                 case 5:
-                    System.out.println("Enter new Contact Number:");
+                    System.out.print("Enter new Contact Number: ");
                     String contact = sc.nextLine();
                     userToUpdate.setContactNumber(contact);
                     break;
@@ -285,7 +296,11 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
 
     private void deleteUser(RoleType roleToDelete){
         ArrayList<User> users = new ArrayList<>(service.getAllUsersWithRole(roleToDelete));
-        System.out.println("Which "+roleToDelete+" do you want to delete:");
+        if(users.isEmpty()){
+            System.out.println("No users found");
+            return;
+        }
+        System.out.println("Which "+roleToDelete+" do you want to delete?");
         int choice = printAllAndChooseOne(users);
         User userToDelete = users.get(choice);
         service.removeUser(userToDelete.getUserID());
@@ -293,19 +308,25 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     }
 
     private void displayFilteredStaff(){
-        System.out.println("Enter Role (doctor/pharmacist):");
+        System.out.print("Enter Role (doctor/pharmacist/all): ");
         String role = sc.nextLine();
-        System.out.println("Enter Gender (or leave blank for no filter):");
+        System.out.print("Enter Gender (or leave blank for no filter): ");
         String gender = sc.nextLine();
-        System.out.println("Enter Name (or leave blank for no filter):");
+        System.out.print("Enter Name (or leave blank for no filter): ");
         String name = sc.nextLine();
-        System.out.println("Enter Minimum Age (or enter -1 for no minimum age filter):");
+        System.out.print("Enter Minimum Age (or -1 for no minimum age filter): ");
         int minAge = sc.nextInt();
-        System.out.println("Enter Maximum Age (or enter -1 for no maximum age filter):");
+        System.out.print("Enter Maximum Age (or -1 for no maximum age filter): ");
         int maxAge = sc.nextInt();
         sc.nextLine();  // Consume the leftover newline
 
-        for(User u : service.getFilteredStaff(role, gender, minAge, maxAge, name)){
+        Collection<User> filteredStaff = service.getFilteredStaff(role, gender, minAge, maxAge, name);
+        if(filteredStaff.isEmpty()){
+            System.out.println("No staff found");
+            return;
+        }
+        System.out.println("Staff list:");
+        for(User u : filteredStaff){
             System.out.println(u.toString());
         }
     }
@@ -313,6 +334,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     private void manageHospitalStaff() {
         boolean goBack = false;
         while(!goBack){
+            System.out.println();
             System.out.println("""
                 Manage Hospital Staff
                 ---------------------
@@ -324,7 +346,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 6. Delete Pharmacist
                 7. Display Filtered Staff
                 8. Return to Main Menu""");
-
+            System.out.print("Enter your choice: ");
             int staffChoice = sc.nextInt();
             sc.nextLine();  // Consume newline left-over
 

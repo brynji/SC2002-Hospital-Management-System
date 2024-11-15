@@ -1,4 +1,6 @@
 package Users;
+import Misc.DateHelper;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -46,7 +48,7 @@ public abstract class User implements Serializable {
 
     public int getAge(){
         LocalDate now = LocalDate.now();
-        LocalDate birthDate = LocalDate.parse(dateOfBirth);
+        LocalDate birthDate = DateHelper.parseDate(dateOfBirth);
         return Period.between(birthDate,now).getYears();
     }
 

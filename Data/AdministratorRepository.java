@@ -29,6 +29,7 @@ public class AdministratorRepository extends BaseRepository {
     }
 
     public void remove(String userId){
+        //TODO FIX REMOVING - NULL REFERENCE EXCEPTIONS AFTER REMOVING USER BUT KEEPING HIS IDS IN THE APPOINTMENTS ETC.
         RoleType role = dataSource.getRoles().get(userId).getRole();
         dataSource.getAllUsersWithRole(role).remove(userId);
         dataSource.getRoles().remove(userId);

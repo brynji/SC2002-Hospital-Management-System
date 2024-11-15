@@ -75,13 +75,13 @@ public class Appointment implements Serializable, Comparable<Appointment> {
     }
 
     public String toString() {
-        return "Appointment ID: " + appointmentID + "\n" +
-                "Patient ID : " + patientId + "\n" +
-                "Doctor ID: " + doctorId + "\n" +
-                "Status: " + status + "\n" +
-                "Date: " + date + "\n" +
-                "Time: " + time + "\n" +
-                "Outcome Record: " + (AOR == null ? " - " : AOR.toString());
+        return "Appointment: ID: " + appointmentID +
+                ", PatientID: " + patientId +
+                ", DoctorID: " + doctorId +
+                ", Status: " + status +
+                ", Date: " + date +
+                ", Time: " + time +
+                (AOR == null ? "" : "\n"+AOR.toString());
     }
 
 

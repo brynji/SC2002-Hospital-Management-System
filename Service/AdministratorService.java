@@ -65,7 +65,7 @@ public class AdministratorService extends UserService<Administrator, Administrat
             staffList = repository.getAllUsersWithRole(RoleType.Doctor);
         } else if (role.equalsIgnoreCase("pharmacist")) {
             staffList = repository.getAllUsersWithRole(RoleType.Pharmacist);
-        } else if(role.isEmpty()){
+        } else if(role.equalsIgnoreCase("all")) {
             staffList = viewAllStaff();
         }else {
             staffList = new ArrayList<>();
@@ -98,7 +98,7 @@ public class AdministratorService extends UserService<Administrator, Administrat
     }
 
     public void addMedication(Medication m) throws IllegalArgumentException {
-        if(repository.getInventory().getMedication(m.getMedicationName())==null)
+        if(repository.getInventory().getMedication(m.getMedicationName())!=null)
             throw new IllegalArgumentException("Medication already exists.");
         repository.getInventory().addNewMedication(m);
         repository.save();
