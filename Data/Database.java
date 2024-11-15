@@ -64,17 +64,15 @@ public class Database implements DataSource {
         }
     }
 
-    private  <T> Map<String,T> readFromFile(String filename) {
+    private  <T> Map<String,T> readFromFile(String filename) throws ClassNotFoundException {
         try{
             FileInputStream file = new FileInputStream(filename);
             ObjectInputStream in = new ObjectInputStream(file);
             return (Map<String,T>) in.readObject();
         } catch (IOException e){
-            System.out.println("🟥 DATABASE - IOException - "+e.getMessage()+" | Ignoring - creating new map for file "+filename+" 🟥");
             return new HashMap<>();
         } catch (ClassNotFoundException e){
-            System.out.println("DATABASE - ClassNotFoundException - "+e.getMessage());
-            return new HashMap<>();
+            throw new ClassNotFoundException("Saved classes doesn't match current classes - " + e.getMessage());
         }
     }
 

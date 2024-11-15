@@ -1,16 +1,13 @@
 package Service;
 
 import Data.DoctorRepository;
-import Misc.Appointment;
-import Misc.AppointmentOutcomeRecord;
-import Misc.RoleType;
-import Misc.Status;
+import Misc.*;
 import Users.Doctor;
 import Users.Patient;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class DoctorService extends UserService<Doctor, DoctorRepository> {
     private final DoctorRepository repository;
@@ -22,7 +19,8 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
 
     public Collection<Patient> getAllPatientsInCare(){
         var appointments = repository.getAllAppointmentsFromIds(currentUser.getAppointments());
-        return appointments.stream().map(appointment->repository.<Patient>findUserById(appointment.getPatientId(),RoleType.Patient)).toList();
+        return appointments.stream().map(appointment->repository.<Patient>findUserById(appointment.getPatientId(),RoleType.Patient))
+                .distinct().toList();
     }
 
     public Collection<Patient> getPatientsInCareByName(String patientName) {
@@ -36,27 +34,27 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
 
     public Collection<Appointment> getUpcomingAppointments(boolean showPending){
         return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
-                .filter(appointment -> appointment.getStatus() == Status.CONFIRMED ||
-                        (!showPending || appointment.getStatus() == Status.PENDING)).sorted().toList();
+                .filter(appointment -> appointment.getStatus() == AppointmentStatus.CONFIRMED ||
+                        (!showPending || appointment.getStatus() == AppointmentStatus.PENDING)).sorted().toList();
     }
 
     public Collection<Appointment> getAllPendingAppointments(){
         return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
-                .filter(appointment -> appointment.getStatus() == Status.PENDING).sorted().toList();
+                .filter(appointment -> appointment.getStatus() == AppointmentStatus.PENDING).sorted().toList();
     }
 
     public Collection<Appointment> getConfirmedAppointments(){
         return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
-                .filter(appointment -> appointment.getStatus() == Status.CONFIRMED).sorted().toList();
+                .filter(appointment -> appointment.getStatus() == AppointmentStatus.CONFIRMED).sorted().toList();
     }
 
     public void acceptAppointment(String appointmentId){
         if(!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
         Appointment appointment =  repository.getAppointmentById(appointmentId);
-        if(appointment.getStatus() != Status.PENDING)
+        if(appointment.getStatus() != AppointmentStatus.PENDING)
             throw new IllegalStateException("Appointment is not pending - state cannot be changed");
-        appointment.setStatus(Status.CONFIRMED);
+        appointment.setStatus(AppointmentStatus.CONFIRMED);
         repository.save();
     }
 
@@ -64,30 +62,54 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
         if(!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
         Appointment appointment =  repository.getAppointmentById(appointmentId);
-        if(appointment.getStatus() != Status.PENDING)
+        if(appointment.getStatus() != AppointmentStatus.PENDING)
             throw new IllegalStateException("Appointment is not pending - state cannot be changed");
-        appointment.setStatus(Status.REJECTED);
+        appointment.setStatus(AppointmentStatus.REJECTED);
         repository.save();
     }
 
     public void completeAppointment(String appointmentId, AppointmentOutcomeRecord aor){
         if(!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
+
         Appointment appointment = repository.getAppointmentById(appointmentId);
         appointment.setAOR(aor);
-        appointment.setStatus(Status.COMPLETED);
+        appointment.setStatus(AppointmentStatus.COMPLETED);
+
+        Patient patient = repository.findUserById(appointment.getPatientId(), RoleType.Patient);
+        patient.getMedicalRecord().AddPastAppointment(aor.getRecordID());
+
         repository.save();
     }
 
-    public List<AppointmentOutcomeRecord> getPatientAppointmentOutcomeRecord(String patientName) {
-        List<String> aorIds = new ArrayList<>();
-        Collection<Patient> patients = getPatientsInCareByName(patientName);
-        for (Patient patient: patients) {
-            List<String> id = patient.getMedicalRecord().getPastAppointmentRecordsIds();
-            aorIds.addAll(id);
+    public void addNewDiagnosis(String patientId, String diagnosis){
+        repository.<Patient>findUserById(patientId, RoleType.Patient)
+                .getMedicalRecord().AddDiagnosisAndTreatment(diagnosis);
+        repository.save();
+    }
+
+    public Collection<AppointmentOutcomeRecord> getAppointmentOutcomesFromPatient(Patient patient){
+        return patient.getAppointmentsIds().stream().map(appId->repository.getAppointmentById(appId).getAOR()).toList();
+    }
+
+    public Collection<DateTimeslot> getUpcomingSchedule(){
+        ArrayList<DateTimeslot> slots = new ArrayList<>();
+        var appointments = getConfirmedAppointments();
+        for(var ap : appointments){
+            if(ap.getDate().isBefore(LocalDate.now())){
+                continue;
+            }
+            slots.add(new DateTimeslot(ap.getDate(),ap.getTime()));
         }
-        List<AppointmentOutcomeRecord> aors = repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
-        return aors;
+        return slots.stream().sorted().toList();
+    }
+
+    public boolean isValidMedication(String medicationName){
+        return repository.getInventory().getMedication(medicationName)!=null;
+    }
+
+    public String getNewAORId(){
+        return repository.generateNewAORId();
     }
 
     @Override

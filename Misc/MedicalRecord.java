@@ -11,15 +11,16 @@ public class MedicalRecord implements Serializable {
     private final String DOB;
     private final String gender;
     private final String bloodType;
-    private List <String> pastAppointmentRecordsIds;
+    private final ArrayList<String> diagnosisAndTreatments;
+    private final List <String> pastAppointmentRecordsIds;
 
-    public MedicalRecord(String patientID, String name, String DOB, String gender,
-    String bloodType, List<String> pastAppointmentRecordsIds) {
+    public MedicalRecord(String patientID, String name, String DOB, String gender, String bloodType, ArrayList<String> diagnosisAndTreatments, List<String> pastAppointmentRecordsIds) {
         this.patientID = patientID;
         this.name = name;
         this.DOB = DOB;
         this.gender = gender;
         this.bloodType = bloodType;
+        this.diagnosisAndTreatments = diagnosisAndTreatments;
         this.pastAppointmentRecordsIds = pastAppointmentRecordsIds;
     }
 
@@ -30,6 +31,7 @@ public class MedicalRecord implements Serializable {
         this.DOB = DOB;
         this.gender = gender;
         this.bloodType = bloodType;
+        this.diagnosisAndTreatments = new ArrayList<>();
         this.pastAppointmentRecordsIds = new ArrayList<>();
     }
 
@@ -60,6 +62,10 @@ public class MedicalRecord implements Serializable {
 
     public void setName(String name){ this.name = name; }
 
+    public void AddDiagnosisAndTreatment(String diagnosisAndTreatment){
+        diagnosisAndTreatments.add(diagnosisAndTreatment);
+    }
+
     public void AddPastAppointment(String AOR){
         pastAppointmentRecordsIds.add(AOR);
     }
@@ -77,13 +83,7 @@ public class MedicalRecord implements Serializable {
         return info.toString();
     }
 
-    //REFERRENCE BC IDK HOW TO ACCESS THE REPOS LOL
-
-    // public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(){
-    //     List<String> aorIds =  currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
-    //     return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
-    // }
-    
-        
-
+    public String toString(){
+        return "Id: "+patientID+", DOB: "+DOB+", Gender: "+gender+", Blood Type: "+bloodType;
+    }
 }

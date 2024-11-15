@@ -1,8 +1,8 @@
 package Menus;
 
 import Service.IService;
-import Service.UserService;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 public abstract class BaseMenu<T extends IService> implements IMenu<T> {
@@ -26,7 +26,7 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
         System.out.println("Your new password is '" + passwd + '\'');
     }
 
-    public void updatePersonalInfo(){
+    public void updatePersonalInformation(){
         String[] options = {"name","email","contact number"};
         System.out.println("What do you want to update");
         for(int i = 0; i < options.length; i++)
@@ -40,5 +40,19 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
             case 2 -> getUserService().updateEmail(newField);
             case 3 -> getUserService().updateContactNumber(newField);
         }
+    }
+
+    protected int printAllAndChooseOne(Collection<?> objects){
+        int i=1;
+        for(Object o : objects){
+            System.out.println(i+" "+o);
+        }
+        int choice = sc.nextInt() - 1;
+        while(choice<0 || choice>=objects.size()){
+            System.out.println("Invalid Choice, try again");
+            choice = sc.nextInt() - 1;
+        }
+        sc.nextLine(); //consume newline
+        return choice;
     }
 }

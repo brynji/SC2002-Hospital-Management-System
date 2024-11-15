@@ -7,6 +7,7 @@ import Users.Patient;
 import Users.Pharmacist;
 
 import javax.naming.InsufficientResourcesException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class PharmacistService extends UserService<Pharmacist, PharmacistRepository> {
@@ -64,12 +65,27 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
         repository.save();
     }
 
+    public Collection<Patient> getAllPatients(){
+        return repository.getAllUsersWithRole(RoleType.Patient);
+    }
+
     public Collection<Medication> getAllMedication(){
         return repository.getInventory().getAllMedications();
     }
 
     public Collection<Medication> getAllMedicationWithLowAlert(){
         return repository.getInventory().getAllMedications().stream().filter(Medication::isStockLow).toList();
+    }
+
+    public Collection<Prescription> getAllPatientsPendingPrescriptions(String patientId){
+        Patient patient = repository.findUserById(patientId,RoleType.Patient);
+        Collection<String> pastRecordsIds = patient.getMedicalRecord().getPastAppointmentRecordsIds();
+        return repository.getAllAppointmentsFromIds(pastRecordsIds).stream().flatMap(
+                app-> app.getAOR().getPrescriptions().stream()).filter(p->p.getStatus().equals("pending")).toList();
+    }
+
+    public boolean isValidPatientId(String userId){
+        return repository.getAllUsersWithRole(RoleType.Patient).stream().anyMatch(p -> ((Patient)p).getUserID().equals(userId));
     }
 
     public void submitReplenishmentRequest(String medicationName, int amount){

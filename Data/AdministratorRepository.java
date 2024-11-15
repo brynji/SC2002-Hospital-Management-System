@@ -39,12 +39,8 @@ public class AdministratorRepository extends BaseRepository {
 
     // --- GET ---
 
-    public ArrayList<String> getAllAppointments(){
-        ArrayList<String> appointments = new ArrayList<>();
-        for(Doctor d : super.<Doctor>getAllUsersWithRole(RoleType.Doctor)){
-            appointments.addAll(d.getAppointments());
-        }
-        return appointments;
+    public Collection<Appointment> getAllAppointments(){
+        return dataSource.getAppointments().values();
     }
 
     public Map<String,Role> getAllRoles(){

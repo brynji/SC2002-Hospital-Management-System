@@ -1,5 +1,5 @@
 package Misc;
 
-public enum Status {
+public enum AppointmentStatus {
     PENDING, CONFIRMED, CANCELLED, COMPLETED, REJECTED
 }

@@ -9,10 +9,10 @@ public class Prescription implements Serializable {
     private String status;
     private int quantity;
 
-    public Prescription(String prescriptionID, String medicationName, String status, int quantity) {
+    public Prescription(String prescriptionID, String medicationName, int quantity) {
         this.prescriptionID = prescriptionID;
         this.medicationName = medicationName;
-        this.status = status;
+        this.status = "pending";
         this.quantity = quantity;
     }
 
@@ -56,5 +56,9 @@ public class Prescription implements Serializable {
         .append("Quantity: ").append(quantity);
 
         return info.toString();
+    }
+
+    public String toString(){
+        return "Id: " + prescriptionID + ", Medication: " + medicationName + ", Status: " + status + ", Quantity: " + quantity;
     }
 }

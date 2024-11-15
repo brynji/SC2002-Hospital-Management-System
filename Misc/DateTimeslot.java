@@ -48,4 +48,9 @@ public class DateTimeslot implements Comparable<DateTimeslot>{
     public int hashCode() {
         return Objects.hash(date, timeslot);
     }
+
+    @Override
+    public String toString() {
+        return date + ", " + timeslot;
+    }
 }

@@ -1,6 +1,8 @@
 package Data;
 
 import Misc.Appointment;
+import Misc.RoleType;
+import Users.Patient;
 
 public class PatientRepository extends BaseRepository {
     public PatientRepository(DataSource dataSource) {
@@ -18,5 +20,13 @@ public class PatientRepository extends BaseRepository {
 
     public void deleteAppointment(String appointmentId){
         dataSource.getAppointments().remove(appointmentId);
+    }
+
+    public String generateNewAppointmentId(){
+        String id = generateID();
+        while(dataSource.getAppointments().containsKey(id)){
+            id = generateID();
+        }
+        return id;
     }
 }

@@ -2,11 +2,8 @@ package Menus;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import Misc.Appointment;
 import Misc.DateHelper;
-import Misc.MedicalRecord;
 import Misc.Medication;
 import Misc.ReplenishmentRequest;
 import Misc.RoleType;
@@ -29,32 +26,31 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         super.baseMenu(currentUserId,sc);
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("Administrator Menu\n---------------");
-            System.out.println("1. View and Manage Hospital Staff");
-            System.out.println("2. View Appointments Details");
-            System.out.println("3. View and Manage Medication Inventory");
-            System.out.println("4. Approve Replenishment Requests");
-            System.out.println("5. Log Out");
+            System.out.println("""
+                Administrator Menu
+                ------------------
+                1. View and Manage Hospital Staff
+                2. View Appointments Details
+                3. View and Manage Medication Inventory
+                4. Approve Replenishment Requests
+                5. Log Out""");
 
             int choice = sc.nextInt();
+            sc.nextLine(); //get the newline
 
             switch (choice) {
                 case 1:
                     manageHospitalStaff();
                     break;
-
                 case 2:
                     viewAppointmentDetails();
                     break;
-
                 case 3:
                     manageHospitalMedication();
                     break;
-
                 case 4:
-                    approveReplenishmentRequests();
+                    viewReplenishmentRequests();
                     break;
-
                 case 5:
                     System.out.println("Logging out...");
                     isRunning = false;
@@ -67,56 +63,121 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
     }
 
     private void viewAppointmentDetails() {
-        ArrayList<String> appts = service.viewAllAppointments();
-
-        // Functionality for method, awaiting adminService viewAllAppts method to be completed
-
-        // for (Appointment appt: appts) {
-        //     System.out.println(appt.getDetails());
-        // }
-    }
-
-    public void manageHospitalMedication() {
-        Collection<Medication> meds = service.viewAllMedications();
-        for (Medication med: meds) {
-            System.out.println(med.getDetails());
+        Collection<String> appointments = service.viewAllAppointmentsInformation();
+        for (String appointment: appointments) {
+            System.out.println(appointment);
         }
     }
 
-    public void approveReplenishmentRequests() {
-        System.out.println("Pending replenishment requests:\n");
-        Collection<ReplenishmentRequest> requests = service.getReplenishmentRequests();
-
-        if (requests.isEmpty()) {
-            System.out.println("No pending replenishment requests");
+    private void addNewMedication(){
+        System.out.println("Enter Medication Name: ");
+        String medName = sc.nextLine();
+        if(service.getMedication(medName) != null){
+            System.out.println("Medication is already in inventory");
             return;
         }
+        System.out.println("Enter Medication Stock Level: ");
+        int stockLevel = sc.nextInt();
+        System.out.println("Enter Medication Low Level Alert: ");
+        int lowLevelAlert = sc.nextInt();
+        sc.nextLine(); //consume new line
 
-        List<ReplenishmentRequest> requestList = new ArrayList<>(requests);
+        service.addMedication(new Medication(medName, stockLevel, lowLevelAlert));
+        System.out.println("Medication successfully added");
+    }
 
-        int index = 1;
-        for (ReplenishmentRequest req : requestList) {
-            System.out.printf("%d. %s\n", index++, req.getDetails());
+    private void updateMedication(){
+        ArrayList<Medication> medications = new ArrayList<>(service.getAllMedications());
+        int choice = printAllAndChooseOne(medications);
+        String medicationName = medications.get(choice).getMedicationName();
+        System.out.println("""
+                What do you want to update?
+                1 Stock level
+                2 Low level alert""");
+        int choice2 = sc.nextInt();
+        switch (choice2) {
+            case 1:
+                System.out.println("Enter new Stock Level: ");
+                int newStockLevel = sc.nextInt();
+                if(newStockLevel<0){
+                    System.out.println("Invalid Stock Level");
+                    break;
+                }
+                service.updateMedicationStock(medicationName, newStockLevel);
+                break;
+            case 2:
+                System.out.println("Enter new Low Level Alert: ");
+                int newLowLevelAlert = sc.nextInt();
+                if(newLowLevelAlert<0){
+                    System.out.println("Invalid Low Level Alert");
+                    break;
+                }
+                service.updateMedicationAlertLevel(medicationName, newLowLevelAlert);
+                break;
         }
+        sc.nextLine();
+        System.out.println("Medication successfully updated");
+    }
 
-        System.out.print("Enter the number of the request you want to approve (or 0 to cancel): ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume the newline character
+    public void viewAllMedications(){
+        for(Medication medication : service.getAllMedications()){
+            System.out.println(medication);
+        }
+    }
 
-        // Validate the choice
-        if (choice == 0) {
-            System.out.println("Approval process canceled.");
+    public void viewReplenishmentRequests() {
+        ArrayList<ReplenishmentRequest> requests = new ArrayList<>(service.getPendingReplenishmentRequests());
+        if(requests.isEmpty()){
+            System.out.println("No pending requests");
+            System.out.println("Show all requests? y/n");
+            char choice = sc.next().charAt(0);
+            if(choice == 'y'){
+                System.out.println("All requests:");
+                for(ReplenishmentRequest request : service.getReplenishmentRequests()){
+                    System.out.println(request);
+                }
+            }
             return;
         }
-
-        if (choice < 1 || choice > requestList.size()) {
-            System.out.println("Invalid selection. Please try again.");
-            return;
+        for(int i=0; i<requests.size(); i++){
+            System.out.println("Request "+i+" of "+requests.size());
+            System.out.println(requests.get(i));
+            System.out.println("Approve? y/n (q for quit)");
+            char choice = sc.next().charAt(0);
+            while(choice != 'y' && choice != 'n' && choice != 'q'){
+                System.out.println("Invalid Choice, try again");
+                choice = sc.next().charAt(0);
+            }
+            if(choice == 'y'){
+                service.approveReplenishmentRequest(requests.get(i));
+            } else if(choice == 'n'){
+                service.denyReplenishmentRequest(requests.get(i));
+            } else {
+                return;
+            }
         }
+    }
 
-        ReplenishmentRequest selectedReplenishmentRequest = requestList.get(choice-1);
-        service.approveReplenishmentRequest(selectedReplenishmentRequest.getMedicationName());
-        System.out.println("Replenishment request approved.");
+    private void manageHospitalMedication() {
+        boolean goBack = false;
+        while(!goBack) {
+            System.out.println("""
+                    Medication inventory
+                    --------------------
+                    1 Add new Medication
+                    2 Update Medication
+                    3 View all Medications
+                    4 View Pending Replenishment Requests
+                    5 Return to Main Menu""");
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1 -> addNewMedication();
+                case 2 -> updateMedication();
+                case 3 -> viewAllMedications();
+                case 4 -> viewReplenishmentRequests();
+                case 5 -> goBack = true;
+            }
+        }
     }
 
     private void addUser(RoleType roleToAdd){
@@ -147,110 +208,126 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println("Enter Contact Number:");
         String contact = sc.nextLine();
         switch(roleToAdd){
-            case Doctor -> service.addNewUser(new Doctor(id,name,gender,dateOfBirth,email,contact));
+            case Doctor -> service.addNewUser(new Doctor(id,name,gender,dateOfBirth,email,contact,true));
             case Pharmacist -> service.addNewUser(new Pharmacist(id,name,gender,dateOfBirth,email,contact));
         }
         System.out.println(roleToAdd + " added successfully");
     }
 
+    private void updateUser(RoleType roleToUpdate){
+        ArrayList<User> users = new ArrayList<>(service.getAllUsersWithRole(roleToUpdate));
+        System.out.println("Which "+roleToUpdate+" do you want to update:");
+        int choice = printAllAndChooseOne(users);
+        User userToUpdate = users.get(choice);
+        boolean updatingFinished = false;
+        while(!updatingFinished){
+            System.out.println("Updating "+roleToUpdate+" "+userToUpdate.toString());
+            System.out.println("""
+                    What do you want to update?
+                    1 Name
+                    2 Gender
+                    3 Date of Birth
+                    4 Email
+                    5 Contact Number
+                    6 Save changes""");
+            choice = sc.nextInt();
+            sc.nextLine();  // Consume newline left-over
+            switch(choice){
+                case 1:
+                    System.out.println("Enter new Name:");
+                    String name = sc.nextLine();
+                    userToUpdate.setName(name);
+                    break;
+                case 2:
+                    System.out.println("Enter new Gender:");
+                    String gender = sc.nextLine();
+                    userToUpdate.setGender(gender);
+                    break;
+                case 3:
+                    String dateOfBirth;
+                    while(true){
+                        System.out.println("Enter new Date of Birth in format dd/MM/yyyy:");
+                        dateOfBirth = sc.nextLine();
+                        if(DateHelper.isValidDate(dateOfBirth)){
+                            break;
+                        }
+                        System.out.println("Invalid date");
+                    }
+                    userToUpdate.setDateOfBirth(dateOfBirth);
+                    break;
+                case 4:
+                    System.out.println("Enter new Email:");
+                    String email = sc.nextLine();
+                    userToUpdate.setEmail(email);
+                    break;
+                case 5:
+                    System.out.println("Enter new Contact Number:");
+                    String contact = sc.nextLine();
+                    userToUpdate.setContactNumber(contact);
+                    break;
+                default:
+                    updatingFinished = true;
+            }
+        }
+        service.getRepository().save();
+        System.out.println(roleToUpdate + " updated successfully");
+    }
+
+    private void deleteUser(RoleType roleToDelete){
+        ArrayList<User> users = new ArrayList<>(service.getAllUsersWithRole(roleToDelete));
+        System.out.println("Which "+roleToDelete+" do you want to delete:");
+        int choice = printAllAndChooseOne(users);
+        User userToDelete = users.get(choice);
+        service.removeUser(userToDelete.getUserID());
+        System.out.println(roleToDelete + " removed successfully");
+    }
+
+    private void displayFilteredStaff(){
+        System.out.println("Enter Role (doctor/pharmacist):");
+        String role = sc.nextLine();
+        System.out.println("Enter Gender (or leave blank for no filter):");
+        String gender = sc.nextLine();
+        System.out.println("Enter Name (or leave blank for no filter):");
+        String name = sc.nextLine();
+        System.out.println("Enter Minimum Age (or enter -1 for no minimum age filter):");
+        int minAge = sc.nextInt();
+        System.out.println("Enter Maximum Age (or enter -1 for no maximum age filter):");
+        int maxAge = sc.nextInt();
+        sc.nextLine();  // Consume the leftover newline
+
+        for(User u : service.getFilteredStaff(role, gender, minAge, maxAge, name)){
+            System.out.println(u.toString());
+        }
+    }
+
     private void manageHospitalStaff() {
-        System.out.println("Manage Hospital Staff\n---------------");
-        System.out.println("1. Add Doctor");
-        System.out.println("2. Add Pharmacist");
-        System.out.println("3. Update Doctor");
-        System.out.println("4. Update Pharmacist");
-        System.out.println("5. Delete Doctor");
-        System.out.println("6. Delete Pharmacist");
-        System.out.println("7. Display Filtered Staff");
-        System.out.println("8. Return to Main Menu");
+        boolean goBack = false;
+        while(!goBack){
+            System.out.println("""
+                Manage Hospital Staff
+                ---------------------
+                1. Add Doctor
+                2. Add Pharmacist
+                3. Update Doctor
+                4. Update Pharmacist
+                5. Delete Doctor
+                6. Delete Pharmacist
+                7. Display Filtered Staff
+                8. Return to Main Menu""");
 
-        int staffChoice = sc.nextInt();
-        sc.nextLine();  // Consume newline left-over
+            int staffChoice = sc.nextInt();
+            sc.nextLine();  // Consume newline left-over
 
-        switch (staffChoice) {
-            case 1: // Add Doctor
-                addUser(RoleType.Doctor);
-                break;
-            case 2: // Add Pharmacist
-                addUser(RoleType.Pharmacist);
-                break;
-            case 3: // Update Doctor
-                System.out.println("Enter Doctor ID to update:");
-                String updateDocId = sc.nextLine();
-                System.out.println("Enter updated Name:");
-                String updateDocName = sc.nextLine();
-                System.out.println("Enter updated Gender:");
-                String updateDocGender = sc.nextLine();
-                System.out.println("Enter updated Age:");
-                String updateDocDateOfBirth = sc.nextLine();
-                System.out.println("Enter updated Email:");
-                String updateDocEmail = sc.nextLine();
-                System.out.println("Enter updated Contact Number:");
-                String updateDocContact = sc.nextLine();
-
-                Doctor updatedDoctor = new Doctor(updateDocId, updateDocName, updateDocGender, updateDocDateOfBirth, updateDocEmail, updateDocContact);
-                //administratorService.updateDoctor(updateDocId, updatedDoctor);
-                System.out.println("Doctor updated successfully.");
-                break;
-
-            case 4: // Update Pharmacist
-                System.out.println("Enter Pharmacist ID to update:");
-                String updatePhId = sc.nextLine();
-                System.out.println("Enter updated Name:");
-                String updatePhName = sc.nextLine();
-                System.out.println("Enter updated Gender:");
-                String updatePhGender = sc.nextLine();
-                System.out.println("Enter updated Age:");
-                int updatePhAge = sc.nextInt();
-                sc.nextLine();  // Consume newline left-over
-                System.out.println("Enter updated Email:");
-                String updatePhEmail = sc.nextLine();
-                System.out.println("Enter updated Contact Number:");
-                String updatePhContact = sc.nextLine();
-
-                //Pharmacist updatedPharmacist = new Pharmacist(updatePhId, updatePhName, updatePhGender, updatePhAge, updatePhEmail, updatePhContact);
-                //administratorService.updatePharmacist(updatePhId, updatedPharmacist);
-                System.out.println("Pharmacist updated successfully.");
-                break;
-
-            case 5: // Delete Doctor
-                System.out.println("Enter Doctor ID to delete:");
-                String deleteDocId = sc.nextLine();
-                service.removeUser(deleteDocId);
-                System.out.println("Doctor deleted successfully.");
-                break;
-
-            case 6: // Delete Pharmacist
-                System.out.println("Enter Pharmacist ID to delete:");
-                String deletePhId = sc.nextLine();
-                service.removeUser(deletePhId);
-                System.out.println("Pharmacist deleted successfully.");
-                break;
-
-            case 7: // Display Filtered Staff
-                System.out.println("Enter Role (doctor/pharmacist):");
-                String role = sc.nextLine();
-                System.out.println("Enter Gender (or leave blank for no filter):");
-                String gender = sc.nextLine();
-                System.out.println("Enter Name (or leave blank for no filter):");
-                String name = sc.nextLine();
-                System.out.println("Enter Minimum Age (or enter -1 for no minimum age filter):");
-                int minAge = sc.nextInt();
-                System.out.println("Enter Maximum Age (or enter -1 for no maximum age filter):");
-                int maxAge = sc.nextInt();
-                sc.nextLine();  // Consume the leftover newline
-
-                for(User u : service.getFilteredStaff(role, gender, minAge, maxAge, name)){
-                    System.out.println(u.toString());
-                }
-                break;
-
-            case 8: // Return to Main Menu
-                return;
-
-            default:
-                System.out.println("Invalid option, returning to Main Menu.");
-                break;
+            switch (staffChoice) {
+                case 1 -> addUser(RoleType.Doctor);
+                case 2 -> addUser(RoleType.Pharmacist);
+                case 3 -> updateUser(RoleType.Doctor);
+                case 4 -> updateUser(RoleType.Pharmacist);
+                case 5 -> deleteUser(RoleType.Doctor);
+                case 6 -> deleteUser(RoleType.Pharmacist);
+                case 7 -> displayFilteredStaff();
+                case 8 -> goBack = true;
+            }
         }
     }
 

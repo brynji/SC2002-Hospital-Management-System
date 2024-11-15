@@ -1,6 +1,7 @@
 package Misc;
 
 public enum Timeslot {
+    SLOT_0800,
     SLOT_0900,
     SLOT_1000,
     SLOT_1100,
@@ -8,6 +9,10 @@ public enum Timeslot {
     SLOT_1300,
     SLOT_1400,
     SLOT_1500,
-    SLOT_1600,
-    SLOT_1700
+    SLOT_1600;
+
+    @Override
+    public String toString() {
+        return name().substring(5);
+    }
 }

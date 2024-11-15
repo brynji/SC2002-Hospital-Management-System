@@ -1,6 +1,7 @@
 package Service;
 
 import Data.AdministratorRepository;
+import Misc.Appointment;
 import Misc.Medication;
 import Misc.ReplenishmentRequest;
 import Misc.RoleType;
@@ -9,7 +10,6 @@ import Users.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class AdministratorService extends UserService<Administrator, AdministratorRepository> {
     private final AdministratorRepository repository;
@@ -46,10 +46,6 @@ public class AdministratorService extends UserService<Administrator, Administrat
         repository.save();
     }
 
-    //TODO update staff
-
-    //Cannot use his, data consistency. Also, does it make sense given the menu options?
-
     public void removeUser(String userId) throws IllegalArgumentException{
         //TODO Can remove patient?
         if(isIdAvailable(userId))
@@ -58,12 +54,9 @@ public class AdministratorService extends UserService<Administrator, Administrat
         repository.save();
     }
 
-    public ArrayList<String> viewAllAppointments() {
-        ArrayList<String> appointments = repository.getAllAppointments();
-        //TODO sorting option for appointments
-        //filter
-        //sort??
-        return appointments;
+    public Collection<String> viewAllAppointmentsInformation() {
+        Collection<Appointment> appointments = repository.getAllAppointments();
+        return appointments.stream().sorted().map(Appointment::toString).toList();
     }
 
     // Display filtered staff list by role, gender, age, and name
@@ -89,24 +82,20 @@ public class AdministratorService extends UserService<Administrator, Administrat
 
 
     public Collection<User> viewAllStaff() {
-        Collection<User> staff = new ArrayList<User>(viewAllDoctors());
-        staff.addAll(viewAllPharmacist());
+        Collection<User> staff = new ArrayList<User>(getAllUsersWithRole(RoleType.Doctor));
+        staff.addAll(getAllUsersWithRole(RoleType.Pharmacist));
         return staff;
     }
 
-    public Collection<User> viewAllDoctors() {
-        return repository.getAllUsersWithRole(RoleType.Doctor);
+    public Collection<User> getAllUsersWithRole(RoleType role) {
+        return repository.getAllUsersWithRole(role);
     }
 
-    public Collection<User> viewAllPharmacist() {
-        return repository.getAllUsersWithRole(RoleType.Pharmacist);
-    }
-
-    public Collection<Medication> viewAllMedications() {
+    public Collection<Medication> getAllMedications() {
         return repository.getInventory().getAllMedications();
     }
 
-    public Medication viewMedication(String medicationID) {
+    public Medication getMedication(String medicationID) {
         return repository.getInventory().getMedication(medicationID);
     }
 
@@ -138,12 +127,22 @@ public class AdministratorService extends UserService<Administrator, Administrat
         repository.save();
     }
 
-    public void approveReplenishmentRequest(String requestId){
-        repository.getInventory().approveReplenishmentRequest(requestId);
+    public void approveReplenishmentRequest(ReplenishmentRequest request){
+        repository.getInventory().approveReplenishmentRequest(request);
         repository.save();
     }
-    
+
+    public void denyReplenishmentRequest(ReplenishmentRequest request){
+        repository.getInventory().denyReplenishmentRequest(request);
+        repository.save();
+    }
+
     public Collection<ReplenishmentRequest> getReplenishmentRequests() {
         return repository.getInventory().getReplenishmentRequests();
+    }
+
+    public Collection<ReplenishmentRequest> getPendingReplenishmentRequests(){
+        return  repository.getInventory().getReplenishmentRequests().stream().filter(
+                req -> req.getRequestState().equals("pending")).toList();
     }
 }
