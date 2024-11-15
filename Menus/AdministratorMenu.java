@@ -58,12 +58,18 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 default:
                     break;
             }
+            System.out.println();
         }
-
     }
 
     private void viewAppointmentDetails() {
         Collection<String> appointments = service.viewAllAppointmentsInformation();
+        if(appointments.isEmpty()){
+            System.out.println("No appointments found");
+            return;
+        } else {
+            System.out.println("Appointment details:");
+        }
         for (String appointment: appointments) {
             System.out.println(appointment);
         }
@@ -88,6 +94,10 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
 
     private void updateMedication(){
         ArrayList<Medication> medications = new ArrayList<>(service.getAllMedications());
+        if(medications.isEmpty()){
+            System.out.println("No medications found");
+            return;
+        }
         int choice = printAllAndChooseOne(medications);
         String medicationName = medications.get(choice).getMedicationName();
         System.out.println("""

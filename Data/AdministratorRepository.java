@@ -3,7 +3,6 @@ package Data;
 import Misc.*;
 import Users.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -20,8 +19,6 @@ public class AdministratorRepository extends BaseRepository {
     public AdministratorRepository(DataSource dataSource) {
         super(dataSource);
     }
-
-    //TODO Appointments
 
     // --- ADD ---
 
@@ -53,33 +50,6 @@ public class AdministratorRepository extends BaseRepository {
 
     // --- UPDATE ---
 
-    //TODO UPDATE
-
-    /*
-    //Issue with data consistency?
-    //Just pass new changes?
-    // Searches through the doctors ArrayList for the doctor we need, and then update said doctor with updatedDoctor
-    public void updateDoctor (String userId, Doctor updatedDoctor) {
-
-        for (int i = 0; i < doctors.size(); i++) {
-            if (doctors.get(i).getUserID() == userId) {
-                doctors.set(i, updatedDoctor);
-                Save();
-            }
-        }
-    }
-
-    // Searches through the pharmacists ArrayList for the pharmacist we need, and then update said pharmacist with updatedPharmacist
-    public void updatePharmacist (String userId, Pharmacist updatedPharmacist) {
-
-        for (int i = 0; i < pharmacists.size(); i++) {
-            if (pharmacists.get(i).getUserID() == userId) {
-                pharmacists.set(i, updatedPharmacist);
-                Save();
-            }
-        }
-    }
-     */
 
     // --- DELETE ---
 }

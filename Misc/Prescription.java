@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class Prescription implements Serializable {
 
     private final String prescriptionID;
-    private String medicationName;
+    private final String medicationName;
     private String status;
-    private int quantity;
+    private final int quantity;
 
     public Prescription(String prescriptionID, String medicationName, int quantity) {
         this.prescriptionID = prescriptionID;
@@ -16,17 +16,8 @@ public class Prescription implements Serializable {
         this.quantity = quantity;
     }
 
-    // Setters
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
-    }
-
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
     
     // Getters 
@@ -47,15 +38,10 @@ public class Prescription implements Serializable {
     }
 
     public String getDetails() {
-
-        StringBuilder info = new StringBuilder();
-
-        info.append("Prescription ID: ").append(prescriptionID).append("\n")
-        .append("Medication: ").append(medicationName).append("\n")
-        .append("Status: ").append(status).append("\n")
-        .append("Quantity: ").append(quantity);
-
-        return info.toString();
+        return  "Prescription ID: " + prescriptionID + "\n" +
+                "Medication: " + medicationName + "\n" +
+                "Status: " + status + "\n" +
+                "Quantity: " + quantity;
     }
 
     public String toString(){

@@ -10,12 +10,12 @@ import java.io.*;
 import java.util.*;
 
 public class Database implements DataSource {
-    private final String inventoryFile = "SavedData/Inventory.txt";
-    private final String appointmentsFile = "SavedData/Appointments.txt";
-    private final String rolesFile = "SavedData/Roles.txt";
+    private final String inventoryFile = "SavedData/Inventory.dat";
+    private final String appointmentsFile = "SavedData/Appointments.dat";
+    private final String rolesFile = "SavedData/Roles.dat";
     private final String[] usersFilenames =
             Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
-                    .map(role -> "SavedData/" + role.toString() + ".txt").toArray(String[]::new);
+                    .map(role -> "SavedData/" + role.toString() + ".dat").toArray(String[]::new);
 
     private Map<String, Role> roles;
     private ArrayList<Map<String, User>> users;

@@ -50,14 +50,9 @@ public class Medication implements Serializable {
     }
 
     public String getDetails() {
-
-        StringBuilder info = new StringBuilder();
-        
-        info.append("Medication:\n")
-        .append("Medication Name: ").append(medicationName).append("\n")
-        .append("Stock Level: ").append(stockLevel).append("\n")
-        .append("Low Stock Alert Level: ").append(lowStockAlert).append("\n");
-
-        return info.toString();
+        return "Medication:\n" +
+                "Medication Name: " + medicationName + "\n" +
+                "Stock Level: " + stockLevel + "\n" +
+                "Low Stock Alert Level: " + lowStockAlert + "\n";
     }
 }

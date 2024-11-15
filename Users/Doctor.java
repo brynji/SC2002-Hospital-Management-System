@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Doctor extends User{
     private boolean availableForNewAppointments;
-    private ArrayList<String> appointments;
+    private final ArrayList<String> appointments;
 
     public Doctor(String userID, String name, String gender, String dateOfBirth, String email, String contactNumber, boolean availableForNewAppointments) {
         super(userID, name, gender, dateOfBirth, email, contactNumber);

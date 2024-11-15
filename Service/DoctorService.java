@@ -23,21 +23,6 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
                 .distinct().toList();
     }
 
-    public Collection<Patient> getPatientsInCareByName(String patientName) {
-        var appointments = repository.getAllAppointmentsFromIds(currentUser.getAppointments());
-        return appointments.stream()
-            .map(appointment -> repository.<Patient>findUserById(appointment.getPatientId(), RoleType.Patient))
-            .filter(patient -> patient != null && patient.getName().equalsIgnoreCase(patientName)) // Filter by name
-            .distinct() // Ensure each patient appears only once
-            .toList(); // Collect to a List, which is a Collection
-    }
-
-    public Collection<Appointment> getUpcomingAppointments(boolean showPending){
-        return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
-                .filter(appointment -> appointment.getStatus() == AppointmentStatus.CONFIRMED ||
-                        (!showPending || appointment.getStatus() == AppointmentStatus.PENDING)).sorted().toList();
-    }
-
     public Collection<Appointment> getAllPendingAppointments(){
         return repository.getAllAppointmentsFromIds(currentUser.getAppointments()).stream()
                 .filter(appointment -> appointment.getStatus() == AppointmentStatus.PENDING).sorted().toList();
@@ -102,6 +87,10 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
             slots.add(new DateTimeslot(ap.getDate(),ap.getTime()));
         }
         return slots.stream().sorted().toList();
+    }
+
+    public void changeAvailability(){
+        currentUser.setAvailableForNewAppointments(!currentUser.isAvailableForNewAppointments());
     }
 
     public boolean isValidMedication(String medicationName){

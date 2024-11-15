@@ -1,9 +1,10 @@
 package Menus;
 
 import Data.AdministratorRepository;
+import Misc.MedicalRecord;
+import Misc.RoleType;
 import Service.AdministratorService;
 import Service.ILoginService;
-import Misc.*;
 import Users.Administrator;
 import Users.Doctor;
 import Users.Patient;
@@ -21,11 +22,24 @@ public class HospitalManagementApp {
         this.loginService = loginService;
     }
 
+    //TODO newline pred vracenim do menu
+    //TODO rozdily vypisu, y/n, prejit na printAllAndChoose
+    /*
+        admin menu 2 kdyz neni zadny app
+        view inventory zadna vec
+
+        pharma view empty AOR
+        printAllAndChoose na empty
+
+        patient change passwd
+        medical record vypis info
+     */
+
     public void mainMenu() {
         //AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
         //admin.addNew(new Administrator("admin","new admin","jedi","1212-12-10","mail","56"));
-        //admin.addNew(new Doctor("doctor","doc","snail","1086-01-29","sa","468"));
-        //admin.addNew(new Patient("patient","sdf","a@d.s","156","5",new MedicalRecord("5","sdf","20002-06-12","","")));
+        //admin.addNew(new Doctor("doctor","doc","snail","1086-01-29","sa","468",false));
+        //admin.addNew(new Patient("patient","sdf","a@d.s","156",new MedicalRecord("patient","sdf","12/04/2004","","")));
         //admin.save();
 
         Scanner sc = new Scanner(System.in);

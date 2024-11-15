@@ -33,7 +33,6 @@ public class DateHelper {
         return next7Days;
     }
 
-    //TODO no work on Weekends?
     public static List<DateTimeslot> getTimeslotsNext7Days(){
         return getDatesNext7Days().stream().flatMap(date->
                 Arrays.stream(Timeslot.values()).map(timeslot->

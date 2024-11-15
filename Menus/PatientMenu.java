@@ -3,7 +3,6 @@ package Menus;
 import Service.PatientService;
 import Users.Doctor;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Collection;

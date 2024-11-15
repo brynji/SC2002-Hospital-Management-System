@@ -35,7 +35,6 @@ public class MedicalRecord implements Serializable {
         this.pastAppointmentRecordsIds = new ArrayList<>();
     }
 
-    // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
     public String getPatientID() {
         return patientID;
     }
@@ -71,16 +70,11 @@ public class MedicalRecord implements Serializable {
     }
 
     public String getDetails() {
-
-        StringBuilder info = new StringBuilder();
-
-        info.append("Patient ID: ").append(patientID).append("\n")
-                .append("Patient: ").append(name).append("\n")
-                .append("DOB: ").append(DOB).append("\n")
-                .append("Gender: ").append(gender).append("\n")
-                .append("Blood Type: ").append(bloodType).append("\n");
-
-        return info.toString();
+        return "Patient ID: " + patientID + "\n" +
+                "Patient: " + name + "\n" +
+                "DOB: " + DOB + "\n" +
+                "Gender: " + gender + "\n" +
+                "Blood Type: " + bloodType + "\n";
     }
 
     public String toString(){

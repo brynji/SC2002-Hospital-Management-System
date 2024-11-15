@@ -5,7 +5,6 @@ import Misc.Prescription;
 import Service.DoctorService;
 import Users.Patient;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
@@ -132,8 +131,8 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
                 + (doctorService.getCurrentUser().isAvailableForNewAppointments() ? "Available" : "Not Available"));
         System.out.println("Do you want to change your availability?\n 1 Yes\n 2 No");
         if (sc.nextInt() == 1) {
-            doctorService.getCurrentUser().setAvailableForNewAppointments(
-                    !doctorService.getCurrentUser().isAvailableForNewAppointments());
+            doctorService.changeAvailability();
+
             System.out.println("Availability changed to "+
                     (doctorService.getCurrentUser().isAvailableForNewAppointments() ? "Available" : "Not Available"));
         } else {

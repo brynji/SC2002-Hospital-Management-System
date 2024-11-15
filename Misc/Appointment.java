@@ -2,7 +2,6 @@ package Misc;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Random;
 
 public class Appointment implements Serializable, Comparable<Appointment> {
 
@@ -75,12 +74,11 @@ public class Appointment implements Serializable, Comparable<Appointment> {
         this.status = status;
     }
 
-    // TODO: Get docor and patient name from doctor and patient ID so that it is more readable (easier to remember a doctor's name than a random ID number)
     public String toString() {
         return "Appointment ID: " + appointmentID + "\n" +
                 "Patient ID : " + patientId + "\n" +
                 "Doctor ID: " + doctorId + "\n" +
-                "Status: " + status +
+                "Status: " + status + "\n" +
                 "Date: " + date + "\n" +
                 "Time: " + time + "\n" +
                 "Outcome Record: " + (AOR == null ? " - " : AOR.toString());

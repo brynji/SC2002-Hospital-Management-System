@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Inventory implements Serializable {
-    private Map<String,Medication> medications;
-    private Map<String, ArrayList<ReplenishmentRequest>> replenishmentRequests;
+    private final Map<String,Medication> medications;
+    private final Map<String, ArrayList<ReplenishmentRequest>> replenishmentRequests;
 
     public Inventory(Map<String,Medication> medications, Map<String,ArrayList<ReplenishmentRequest>> replenishmentRequests) {
         this.medications = medications;
@@ -62,11 +62,6 @@ public class Inventory implements Serializable {
 
     public void addNewMedication(Medication m){
         medications.put(m.getMedicationName(), m);
-    }
-
-    public void removeMedication(String medicationName){
-        medications.remove(medicationName);
-        replenishmentRequests.remove(medicationName);
     }
 }
 

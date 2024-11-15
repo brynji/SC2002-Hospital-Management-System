@@ -1,13 +1,11 @@
 package Service;
 
-import Misc.AppointmentOutcomeRecord;
 import Data.PharmacistRepository;
 import Misc.*;
 import Users.Patient;
 import Users.Pharmacist;
 
 import javax.naming.InsufficientResourcesException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class PharmacistService extends UserService<Pharmacist, PharmacistRepository> {
@@ -58,7 +56,10 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
         try{
             Inventory inventory = repository.getInventory();
             inventory.dispenseMedication(prescription.getMedicationName(),prescription.getQuantity());
-            appointmentOutcomeRecord.setStatus("dispensed");
+            prescription.setStatus("dispensed");
+            if(appointmentOutcomeRecord.getPrescriptions().stream().allMatch(p->p.getStatus().equals("dispensed"))){
+                appointmentOutcomeRecord.setStatus("dispensed");
+            }
         } catch (InsufficientResourcesException e){
             throw new InsufficientResourcesException("Not enough medication in stock");
         }

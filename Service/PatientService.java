@@ -40,7 +40,6 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         if(doctor==null) throw new IllegalArgumentException("Doctor not found");
         if(patient==null) throw new IllegalArgumentException("Patient not found");
 
-        //TODO Check that the slot is not already full
         if(repository.getAllAppointmentsFromIds(patient.getAppointments())
                 .stream().anyMatch(app->app.isOverlapping(date,timeslot)) ||
             repository.getAllAppointmentsFromIds(doctor.getAppointments())
@@ -92,7 +91,7 @@ public class PatientService extends UserService<Patient,PatientRepository> {
     public Collection<Appointment> getUpcomingAppointments(){
         return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(
                 currentUser.getUserID(),RoleType.Patient).getAppointments()).stream().filter(
-                        app->app.getStatus().equals(AppointmentStatus.CONFIRMED) && app.getDate().isBefore(LocalDate.now())).toList();
+                        app->app.getStatus().equals(AppointmentStatus.CONFIRMED) && app.getDate().isAfter(LocalDate.now())).toList();
     }
 
     public String getDoctorName(String doctorUserId){

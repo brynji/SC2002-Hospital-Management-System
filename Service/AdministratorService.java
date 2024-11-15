@@ -39,7 +39,6 @@ public class AdministratorService extends UserService<Administrator, Administrat
     }
 
     public void addNewUser(User u) throws IllegalArgumentException{
-        //TODO Can add new patient?
         if(!isIdAvailable(u.getUserID()))
             throw new IllegalArgumentException("User ID is not available.");
         repository.addNew(u);
@@ -47,7 +46,6 @@ public class AdministratorService extends UserService<Administrator, Administrat
     }
 
     public void removeUser(String userId) throws IllegalArgumentException{
-        //TODO Can remove patient?
         if(isIdAvailable(userId))
             throw new IllegalArgumentException("User ID does not exist.");
         repository.remove(userId);
@@ -82,7 +80,7 @@ public class AdministratorService extends UserService<Administrator, Administrat
 
 
     public Collection<User> viewAllStaff() {
-        Collection<User> staff = new ArrayList<User>(getAllUsersWithRole(RoleType.Doctor));
+        Collection<User> staff = new ArrayList<>(getAllUsersWithRole(RoleType.Doctor));
         staff.addAll(getAllUsersWithRole(RoleType.Pharmacist));
         return staff;
     }
@@ -119,11 +117,6 @@ public class AdministratorService extends UserService<Administrator, Administrat
         if(medication==null)
             throw new IllegalArgumentException("Medication does not exist.");
         medication.setLowStockAlert(newAlertLevel);
-        repository.save();
-    }
-
-    public void removeMedication(String medicationName){
-        repository.getInventory().removeMedication(medicationName);
         repository.save();
     }
 

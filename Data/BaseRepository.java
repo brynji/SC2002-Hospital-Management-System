@@ -1,8 +1,6 @@
 package Data;
 
 import Misc.Appointment;
-import Misc.Inventory;
-import Misc.Role;
 import Misc.RoleType;
 import Users.*;
 

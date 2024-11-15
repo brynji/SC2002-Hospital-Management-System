@@ -3,7 +3,7 @@ package Misc;
 import java.io.Serializable;
 
 public class Role implements Serializable {
-    String userId;
+    final String userId;
     RoleType role;
 
     public Role(String userId, RoleType role) {
