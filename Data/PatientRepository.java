@@ -6,7 +6,6 @@ public class PatientRepository extends BaseRepository {
     public PatientRepository(DataSource dataSource) {
         super(dataSource);
     }
-    //TODO Appointments
 
     public void addNewAppointment(Appointment appointment) {
         dataSource.getAppointments().put(appointment.getAppointmentID(), appointment);
@@ -18,5 +17,13 @@ public class PatientRepository extends BaseRepository {
 
     public void deleteAppointment(String appointmentId){
         dataSource.getAppointments().remove(appointmentId);
+    }
+
+    public String generateNewAppointmentId(){
+        String id = generateID();
+        while(dataSource.getAppointments().containsKey(id)){
+            id = generateID();
+        }
+        return id;
     }
 }

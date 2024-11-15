@@ -1,6 +1,5 @@
 package Service;
 
-import Misc.AppointmentOutcomeRecord;
 import Data.PharmacistRepository;
 import Misc.*;
 import Users.Patient;
@@ -57,11 +56,18 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
         try{
             Inventory inventory = repository.getInventory();
             inventory.dispenseMedication(prescription.getMedicationName(),prescription.getQuantity());
-            appointmentOutcomeRecord.setStatus("dispensed");
+            prescription.setStatus("dispensed");
+            if(appointmentOutcomeRecord.getPrescriptions().stream().allMatch(p->p.getStatus().equals("dispensed"))){
+                appointmentOutcomeRecord.setStatus("dispensed");
+            }
         } catch (InsufficientResourcesException e){
             throw new InsufficientResourcesException("Not enough medication in stock");
         }
         repository.save();
+    }
+
+    public Collection<Patient> getAllPatients(){
+        return repository.getAllUsersWithRole(RoleType.Patient);
     }
 
     public Collection<Medication> getAllMedication(){
@@ -70,6 +76,17 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
 
     public Collection<Medication> getAllMedicationWithLowAlert(){
         return repository.getInventory().getAllMedications().stream().filter(Medication::isStockLow).toList();
+    }
+
+    public Collection<Prescription> getAllPatientsPendingPrescriptions(String patientId){
+        Patient patient = repository.findUserById(patientId,RoleType.Patient);
+        Collection<String> pastRecordsIds = patient.getMedicalRecord().getPastAppointmentRecordsIds();
+        return repository.getAllAppointmentsFromIds(pastRecordsIds).stream().flatMap(
+                app-> app.getAOR().getPrescriptions().stream()).filter(p->p.getStatus().equals("pending")).toList();
+    }
+
+    public boolean isValidPatientId(String userId){
+        return repository.getAllUsersWithRole(RoleType.Patient).stream().anyMatch(p -> ((Patient)p).getUserID().equals(userId));
     }
 
     public void submitReplenishmentRequest(String medicationName, int amount){

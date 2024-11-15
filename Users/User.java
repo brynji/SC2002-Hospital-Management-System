@@ -83,15 +83,9 @@ public abstract class User implements Serializable {
         return this.userID.equals(inputUserID) && this.password.equals(inputPassword);
     }
 
-    public void updateContactInfo (String newEmail, String newContactNumber) {
-        setEmail(newEmail);
-        setContactNumber(newContactNumber);
-    }
-
     @Override
     public String toString() {
         return  "userID: '" + userID + '\'' +
-                ", password: '" + password + '\'' +
                 ", name: '" + name + '\'' +
                 ", gender: " + gender + '\'' +
                 ", dateOfBirth: '" + dateOfBirth + '\'' +

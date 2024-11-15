@@ -6,22 +6,17 @@ import Misc.MedicalRecord;
 
 public class Patient extends User {
 
-    private final String patientID;
     private MedicalRecord medicalRecord;
     private ArrayList<String> appointmentsIds;
 
     public Patient(String userID, String name, String email, String contactNumber, 
-                   String patientID, MedicalRecord medicalRecord) {
+                   MedicalRecord medicalRecord) {
         super(userID, name, medicalRecord.getGender(), medicalRecord.DOB(), email, contactNumber);
-        this.patientID = patientID;
         this.medicalRecord = medicalRecord;
         this.appointmentsIds = new ArrayList<>(); // Initialize the appointments list
     }
 
     // Getters, note that there are no setters as the patient's medical info is immutable
-    public String getPatientID() {
-        return patientID;
-    }
 
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
@@ -61,8 +56,6 @@ public class Patient extends User {
     public void setAppointmentsIds(ArrayList<String> appointmentsIds) {
         this.appointmentsIds = appointmentsIds;
     }
-
-    
 }
 
 

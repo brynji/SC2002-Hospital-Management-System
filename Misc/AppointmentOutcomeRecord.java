@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AppointmentOutcomeRecord implements Serializable {
 
-    private final String recordID; //RecordID = apptID for past appt
+    private final String recordID;
     private LocalDate appointmentDate;
     private String serviceType;
     private List<Prescription> prescriptions;
@@ -23,7 +23,6 @@ public class AppointmentOutcomeRecord implements Serializable {
         this.prescriptions = prescriptions;
         this.consultationNotes = consultationNotes;
         this.status = "pending"; // Default status is set to "pending"
-
     }
 
     // Setters 
@@ -49,7 +48,7 @@ public class AppointmentOutcomeRecord implements Serializable {
         this.status = status;
     }
 
-    // Getters 
+    // Getters
     public String getRecordID() {
         return recordID;
     }
@@ -75,7 +74,7 @@ public class AppointmentOutcomeRecord implements Serializable {
         return status;
     }
 
-    public String getDetails() {
+    public String toString() {
 
         StringBuilder info = new StringBuilder();
         
@@ -86,7 +85,7 @@ public class AppointmentOutcomeRecord implements Serializable {
         .append("Medications:\n");
 
         for (Prescription prescription: prescriptions) {
-            info.append("  - ").append(prescription.getDetails()).append("\n"); 
+            info.append(" - ").append(prescription.getDetails()).append("\n");
         }
 
         info.append("Consultation Notes: ").append(consultationNotes).append("\n")
@@ -95,5 +94,6 @@ public class AppointmentOutcomeRecord implements Serializable {
         return info.toString();
 
     }
+
 
 }

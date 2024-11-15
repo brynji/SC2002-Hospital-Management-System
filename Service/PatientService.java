@@ -40,7 +40,6 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         if(doctor==null) throw new IllegalArgumentException("Doctor not found");
         if(patient==null) throw new IllegalArgumentException("Patient not found");
 
-        //TODO Check that the slot is not already full
         if(repository.getAllAppointmentsFromIds(patient.getAppointments())
                 .stream().anyMatch(app->app.isOverlapping(date,timeslot)) ||
             repository.getAllAppointmentsFromIds(doctor.getAppointments())
@@ -49,7 +48,7 @@ public class PatientService extends UserService<Patient,PatientRepository> {
             throw new IllegalArgumentException("Appointments timeslot is already booked");
         }
 
-        Appointment appointment = new Appointment(currentUser.getUserID(),doctorId,date,timeslot);
+        Appointment appointment = new Appointment(repository.generateNewAppointmentId(),currentUser.getUserID(),doctorId,date,timeslot);
         repository.addNewAppointment(appointment);
         patient.addAppointment(appointment.getAppointmentID());
         doctor.addAppointment(appointment.getAppointmentID());
@@ -67,10 +66,10 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         repository.save();
     }
 
-    public void rescheduleAppointment(String appointmentId, LocalDate date, Timeslot timeslot){
+    public void rescheduleAppointment(String appointmentId, DateTimeslot dateTimeslot){
         String doctorId = repository.getAppointment(appointmentId).getDoctorId();
         removeAppointment(appointmentId);
-        addNewAppointment(doctorId, date, timeslot);
+        addNewAppointment(doctorId, dateTimeslot.getDate(), dateTimeslot.getTimeslot());
     }
 
     public Collection<Doctor> getAllDoctors(){
@@ -78,6 +77,9 @@ public class PatientService extends UserService<Patient,PatientRepository> {
     }
 
     public Collection<DateTimeslot> getFreeTimeslots(String doctorUserId){
+        if(!repository.<Doctor>findUserById(doctorUserId,RoleType.Doctor).isAvailableForNewAppointments()){
+            return List.of();
+        }
         HashSet<DateTimeslot> slots = new HashSet<>(DateHelper.getTimeslotsNext7Days());
         var appointments = repository.getAllAppointmentsFromIds(repository.<Doctor>findUserById(doctorUserId,RoleType.Doctor).getAppointments());
         for(var ap : appointments){
@@ -87,17 +89,18 @@ public class PatientService extends UserService<Patient,PatientRepository> {
     }
 
     public Collection<Appointment> getUpcomingAppointments(){
-        var ap = repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(
-                currentUser.getUserID(),RoleType.Patient).getAppointments()).stream().toList();
-        return ap;
+        return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(
+                currentUser.getUserID(),RoleType.Patient).getAppointments()).stream().filter(
+                        app->app.getStatus().equals(AppointmentStatus.CONFIRMED) && app.getDate().isAfter(LocalDate.now())).toList();
     }
 
     public String getDoctorName(String doctorUserId){
         return repository.<Doctor>findUserById(doctorUserId,RoleType.Doctor).getName();
     }
 
+
     public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(){
         List<String> aorIds =  currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
-        return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
+        return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).sorted().toList();
     }
 }
