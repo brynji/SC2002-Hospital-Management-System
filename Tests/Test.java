@@ -18,7 +18,7 @@ public class Test {
     public static Map<RoleType, IMenu> menus;
     public static HospitalManagementApp hospital;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         DataSource dataSource = new TestDataSource();
         ILoginService loginService = new LoginService(dataSource);
         menus = Map.of(
