@@ -7,14 +7,18 @@ import Service.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Map;
+import java.nio.file.*;
+import java.util.stream.Stream;
 
 public class Test {
     public static Map<RoleType, IMenu> menus;
     public static HospitalManagementApp hospital;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         DataSource dataSource = new TestDataSource();
         ILoginService loginService = new LoginService(dataSource);
         menus = Map.of(
@@ -28,36 +32,59 @@ public class Test {
         testAll();
     }
 
-    static void testAll(){
-        boolean testResult = false;
-        int allTests = 1;
+    static void testAll() {
+        boolean testResult;
+        int allTests = 0;
         int passedTests = 0;
+        Path inputDir = Paths.get("Tests/Inputs");
+        Path outputDir = Paths.get("Tests/Outputs");
 
-        //for all tests
-        testResult = test("2\n","HOSPITAL SYSTEM\n1 LOGIN\n2 QUIT\n");
-        if(testResult){
-            passedTests++;
-            System.out.println("Test ... passed");
-        } else {
-            System.out.println("Test ... failed");
-        }
+        try (Stream<Path> inputFiles = Files.list(inputDir)) {
+            for(var file : inputFiles.toList()){
+                Path expectedOutputFile = outputDir.resolve(file.getFileName());
+                if (!(Files.exists(expectedOutputFile))) {
+                    System.out.println("No matching output file found for: " + file.getFileName());
+                    return;
+                }
+                testResult = test(file,expectedOutputFile);
+                if (testResult) {
+                    passedTests++;
+                    System.out.println("Test " + file.getFileName() + " passed");//TODO
+                } else { System.out.println("Test " + file.getFileName() + " failed"); }
+                allTests++;
+            }
+        } catch (IOException e) { System.out.println("Error: Problem resolving files"+e.getMessage()); }
         System.out.println("-------------");
         System.out.println(passedTests+" of "+allTests+" tests passed");
     }
 
-    static boolean test(String input, String expectedOutput){
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-
+    static boolean test(Path input, Path expectedOutputFile) throws IOException {
+        List<String> inputLines = Files.readAllLines(input);
+        System.setIn(new ByteArrayInputStream(String.join("\n", inputLines).getBytes()));
         PrintStream originalOut = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        hospital.mainMenu();
+        try {
+            hospital.mainMenu();
+
+            originalOut.println("outputStream start =============");
+            originalOut.println(outputStream);
+            originalOut.println("outputStream end =============");
+
+        } catch (Exception e) {
+            System.setOut(originalOut);
+            return false;
+        }
 
         System.setOut(originalOut);
-        String output = outputStream.toString().replace("\r\n", "\n").trim();
-        expectedOutput = expectedOutput.replace("\r\n", "\n").trim();
 
-        return expectedOutput.equals(output);
+        String output = outputStream.toString().replace("\r\n", "\n").trim();
+
+        List<String> expectedLines = Files.readAllLines(expectedOutputFile);
+        String expectedOutput = String.join("\n", expectedLines).replace("\r\n", "\n").trim();
+
+        return output.equals(expectedOutput); // Return comparison result
     }
+
 }
