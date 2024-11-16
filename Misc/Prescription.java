@@ -5,28 +5,19 @@ import java.io.Serializable;
 public class Prescription implements Serializable {
 
     private final String prescriptionID;
-    private String medicationName;
+    private final String medicationName;
     private String status;
-    private int quantity;
+    private final int quantity;
 
-    public Prescription(String prescriptionID, String medicationName, String status, int quantity) {
+    public Prescription(String prescriptionID, String medicationName, int quantity) {
         this.prescriptionID = prescriptionID;
         this.medicationName = medicationName;
-        this.status = status;
+        this.status = "pending";
         this.quantity = quantity;
-    }
-
-    // Setters
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
     
     // Getters 
@@ -47,14 +38,13 @@ public class Prescription implements Serializable {
     }
 
     public String getDetails() {
+        return  "PrescriptionID: " + prescriptionID +
+                ", Medication: " + medicationName +
+                ", Status: " + status +
+                ", Quantity: " + quantity;
+    }
 
-        StringBuilder info = new StringBuilder();
-
-        info.append("Prescription ID: ").append(prescriptionID).append("\n")
-        .append("Medication: ").append(medicationName).append("\n")
-        .append("Status: ").append(status).append("\n")
-        .append("Quantity: ").append(quantity);
-
-        return info.toString();
+    public String toString(){
+        return "Id: " + prescriptionID + ", Medication: " + medicationName + ", Status: " + status + ", Quantity: " + quantity;
     }
 }

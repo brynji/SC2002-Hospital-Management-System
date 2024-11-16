@@ -3,15 +3,16 @@ package Misc;
 import javax.naming.InsufficientResourcesException;
 import java.io.Serializable;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Inventory implements Serializable {
-    private Map<String,Medication> medications;
-    private Map<String,ReplenishmentRequest> replenishmentRequests;
+    private final Map<String,Medication> medications;
+    private final Map<String, ArrayList<ReplenishmentRequest>> replenishmentRequests;
 
-    public Inventory(Map<String,Medication> medications, Map<String,ReplenishmentRequest> replenishmentRequests) {
+    public Inventory(Map<String,Medication> medications, Map<String,ArrayList<ReplenishmentRequest>> replenishmentRequests) {
         this.medications = medications;
         this.replenishmentRequests = replenishmentRequests;
     }
@@ -30,7 +31,7 @@ public class Inventory implements Serializable {
     }
 
     public Collection<ReplenishmentRequest> getReplenishmentRequests() {
-        return replenishmentRequests.values();
+        return replenishmentRequests.values().stream().flatMap(Collection::stream).toList();
     }
 
     public void dispenseMedication(String medicationName, int amount) throws InsufficientResourcesException {
@@ -47,23 +48,21 @@ public class Inventory implements Serializable {
     public void addReplenishmentRequest(ReplenishmentRequest replenishmentRequest) {
         if(!medications.containsKey(replenishmentRequest.getMedicationName()))
             throw new InvalidParameterException("Invalid medication name");
-        replenishmentRequests.put(replenishmentRequest.getMedicationName(),replenishmentRequest);
+        replenishmentRequests.get(replenishmentRequest.getMedicationName()).add(replenishmentRequest);
     }
 
-    public void approveReplenishmentRequest(String requestId) { // Request ID is medicine name
-        ReplenishmentRequest request = replenishmentRequests.get(requestId);
-        if(request == null) throw new InvalidParameterException("Invalid request id");
+    public void approveReplenishmentRequest(ReplenishmentRequest request) {
         request.setRequestState("Approved");
         refillMedication(request.getMedicationName(),request.getRequestedAmount());
     }
 
-    public void addNewMedication(Medication m){
-        medications.put(m.getMedicationName(), m);
+    public void denyReplenishmentRequest(ReplenishmentRequest request) {
+        request.setRequestState("Denied");
     }
 
-    public void removeMedication(String medicationName){
-        medications.remove(medicationName);
-        replenishmentRequests.remove(medicationName);
+    public void addNewMedication(Medication m){
+        medications.put(m.getMedicationName(), m);
+        replenishmentRequests.put(m.getMedicationName(), new ArrayList<>());
     }
 }
 

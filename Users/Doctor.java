@@ -3,11 +3,21 @@ package Users;
 import java.util.ArrayList;
 
 public class Doctor extends User{
-    private ArrayList<String> appointments;
+    private boolean availableForNewAppointments;
+    private final ArrayList<String> appointments;
 
-    public Doctor(String userID, String name, String gender, String dateOfBirth, String email, String contactNumber) {
+    public Doctor(String userID, String name, String gender, String dateOfBirth, String email, String contactNumber, boolean availableForNewAppointments) {
         super(userID, name, gender, dateOfBirth, email, contactNumber);
+        this.availableForNewAppointments = availableForNewAppointments;
         appointments = new ArrayList<>();
+    }
+
+    public boolean isAvailableForNewAppointments() {
+        return availableForNewAppointments;
+    }
+
+    public void setAvailableForNewAppointments(boolean availableForNewAppointments) {
+        this.availableForNewAppointments = availableForNewAppointments;
     }
 
     public void addAppointment(String appointment){
@@ -22,6 +32,6 @@ public class Doctor extends User{
 
     @Override
     public String toString() {
-        return "Doctor - " + super.toString();
+        return "Doctor - " + super.toString() + ", availableForNewAppointments: " + availableForNewAppointments;
     }
 }

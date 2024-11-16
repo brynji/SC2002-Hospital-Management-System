@@ -1,8 +1,6 @@
 package Data;
 
 import Misc.Appointment;
-import Misc.Inventory;
-import Misc.Role;
 import Misc.RoleType;
 import Users.*;
 
@@ -36,13 +34,47 @@ public abstract class BaseRepository{
         return appointmentIds.stream().map(apps::get).toList();
     }
 
-    protected RoleType getRoleTypeFromUser(User user) throws IllegalArgumentException{
+    protected RoleType getRoleTypeFromUser(User user) {
         return switch (user) {
             case Patient _ -> RoleType.Patient;
             case Doctor _ -> RoleType.Doctor;
             case Pharmacist _ -> RoleType.Pharmacist;
             case Administrator _ -> RoleType.Administrator;
-            default -> throw new IllegalArgumentException("User doesnt have any role");
+            default -> RoleType.None;
         };
+    }
+
+    public String generateID() {
+        Random random = new Random();
+        StringBuilder id = new StringBuilder();
+
+        // Generate first segment (4 random letters, mixed case)
+        for (int i = 0; i < 4; i++) {
+            char letter = (char) (random.nextBoolean() ?
+                    ('A' + random.nextInt(26)) : // Uppercase
+                    ('a' + random.nextInt(26))); // Lowercase
+            id.append(letter);
+        }
+        id.append("-");
+
+        // Generate second segment (4 random letters, mixed case)
+        for (int i = 0; i < 4; i++) {
+            char letter = (char) (random.nextBoolean() ?
+                    ('A' + random.nextInt(26)) :
+                    ('a' + random.nextInt(26)));
+            id.append(letter);
+        }
+        id.append("-");
+
+        // Generate third and fourth segments (4 random digits each)
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < 4; i++) {
+                int digit = random.nextInt(10);
+                id.append(digit);
+            }
+            if (j == 0) id.append("-");
+        }
+
+        return id.toString();
     }
 }

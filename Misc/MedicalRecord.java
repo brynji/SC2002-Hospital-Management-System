@@ -11,15 +11,16 @@ public class MedicalRecord implements Serializable {
     private final String DOB;
     private final String gender;
     private final String bloodType;
-    private List <String> pastAppointmentRecordsIds;
+    private final ArrayList<String> diagnosisAndTreatments;
+    private final List <String> pastAppointmentRecordsIds;
 
-    public MedicalRecord(String patientID, String name, String DOB, String gender,
-    String bloodType, List<String> pastAppointmentRecordsIds) {
+    public MedicalRecord(String patientID, String name, String DOB, String gender, String bloodType, ArrayList<String> diagnosisAndTreatments, List<String> pastAppointmentRecordsIds) {
         this.patientID = patientID;
         this.name = name;
         this.DOB = DOB;
         this.gender = gender;
         this.bloodType = bloodType;
+        this.diagnosisAndTreatments = diagnosisAndTreatments;
         this.pastAppointmentRecordsIds = pastAppointmentRecordsIds;
     }
 
@@ -30,10 +31,10 @@ public class MedicalRecord implements Serializable {
         this.DOB = DOB;
         this.gender = gender;
         this.bloodType = bloodType;
+        this.diagnosisAndTreatments = new ArrayList<>();
         this.pastAppointmentRecordsIds = new ArrayList<>();
     }
 
-    // Getters for attributes, note that there are only one setter as a medical record is meant to be immutable
     public String getPatientID() {
         return patientID;
     }
@@ -60,30 +61,19 @@ public class MedicalRecord implements Serializable {
 
     public void setName(String name){ this.name = name; }
 
+    public void AddDiagnosisAndTreatment(String diagnosisAndTreatment){
+        diagnosisAndTreatments.add(diagnosisAndTreatment);
+    }
+
     public void AddPastAppointment(String AOR){
         pastAppointmentRecordsIds.add(AOR);
     }
 
-    public String getDetails() {
-
-        StringBuilder info = new StringBuilder();
-
-        info.append("Patient ID: ").append(patientID).append("\n")
-                .append("Patient: ").append(name).append("\n")
-                .append("DOB: ").append(DOB).append("\n")
-                .append("Gender: ").append(gender).append("\n")
-                .append("Blood Type: ").append(bloodType).append("\n");
-
-        return info.toString();
+    public String toString(){
+        StringBuilder res = new StringBuilder("Id: " + patientID + ", DOB: " + DOB + ", Gender: " + gender + ", Blood Type: " + bloodType + "\nDiagnosis and Treatments:");
+        for(String diagnosisAndTreatment: diagnosisAndTreatments){
+            res.append("\n- ").append(diagnosisAndTreatment);
+        }
+        return res.toString();
     }
-
-    //REFERRENCE BC IDK HOW TO ACCESS THE REPOS LOL
-
-    // public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(){
-    //     List<String> aorIds =  currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
-    //     return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).toList();
-    // }
-    
-        
-
 }

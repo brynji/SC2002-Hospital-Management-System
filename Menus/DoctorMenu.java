@@ -1,16 +1,12 @@
 package Menus;
 
+import Misc.*;
 import Service.DoctorService;
 import Users.Patient;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
-
-import Misc.Appointment;
-import Misc.AppointmentOutcomeRecord;
-import Misc.Prescription;
 
 import java.util.List;
 
@@ -26,15 +22,18 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
         super.baseMenu(currentUserId,sc);
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("Doctor Menu\n--------------");
-            System.out.println("1. View Patient Medical Records");
-            System.out.println("2. Update Patient Medical Records");
-            System.out.println("3. View Personal Schedule");
-            System.out.println("4. Set Availability for Appointments");
-            System.out.println("5. Accept or Decline Appointment Requests");
-            System.out.println("6. View Confirmed Appointments");
-            System.out.println("7. Record Appointment Outcome");
-            System.out.println("8. Logout");
+            System.out.println();
+            System.out.println("""
+            Doctor Menu
+            -----------
+            1. View Patient Medical Records
+            2. Update Patient Medical Records
+            3. View Personal Schedule
+            4. Set Availability for Appointments
+            5. Accept or Decline Appointment Requests
+            6. View Confirmed Appointments
+            7. Record Appointment Outcome
+            8. Logout""");
 
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
@@ -74,92 +73,83 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
     }
 
     public void viewPatientMedicalRecords() {
-        System.out.println("Enter patient name:\n");
-        String patientName = sc.nextLine();
-        sc.nextLine();
+        ArrayList<Patient> patients = new ArrayList<>(doctorService.getAllPatientsInCare());
+        if(patients.isEmpty()){
+            System.out.println("No patients in care, nothing to view");
+            return;
+        }
+        System.out.print("Choose patient: ");
+        Patient patient = patients.get(printAllAndChooseOne(patients));
+        Collection<AppointmentOutcomeRecord> aors = doctorService.getAppointmentOutcomesFromPatient(patient);
 
-        Collection<Patient> patients = doctorService.getPatientsInCareByName(patientName);
-        List <AppointmentOutcomeRecord> aors = doctorService.getPatientAppointmentOutcomeRecord(patientName);
-
-        for (Patient patient: patients) {
-            String medRec = patient.getMedicalRecord().getDetails();
-            System.out.printf("Medical Record for patient %s", patient);
-            System.out.println(medRec);
-
-            for (AppointmentOutcomeRecord aor : aors) {
-                System.out.println(aor.getDetails());
-            }
+        System.out.println("Patient's medical records:");
+        System.out.println(patient.getMedicalRecord().toString());
+        System.out.println("Past appointment outcome records:");
+        for (AppointmentOutcomeRecord aor : aors) {
+            System.out.println(aor);
         }
     }
 
-    // public void updatePatientMedicalRecords() {
-    //     System.out.println("Enter patient name:\n");
-    //     String patientName = sc.nextLine();
-    //     sc.nextLine();
-
-    //     List<AppointmentOutcomeRecord> aors = doctorService.getPatientAppointmentOutcomeRecord(patientName);
-    //     for(AppointmentOutcomeRecord aor: aors) {
-    //         String details = aor.getDetails();
-    //         System.out.println(details);
-    //     }
-    //     System.out.println("Which appointment outcome record do you want to edit?");
-
-    // }
-
     public void updatePatientMedicalRecords() {
-        System.out.println("Enter patient name:");
-        String patientName = sc.nextLine();
-        sc.nextLine();
+        ArrayList<Patient> patients = new ArrayList<>(doctorService.getAllPatientsInCare());
+        if(patients.isEmpty()){
+            System.out.println("No patients in care, nothing to update");
+            return;
+        }
+        System.out.println("Choose patient:");
+        Patient patient = patients.get(printAllAndChooseOne(patients));
 
-        List<AppointmentOutcomeRecord> aors = doctorService.getPatientAppointmentOutcomeRecord(patientName);
-
-        // Display all appointment outcome records with an index
-        for (int i = 0; i < aors.size(); i++) {
-            System.out.println((i + 1) + ". " + aors.get(i).getDetails());
+        System.out.println("Do you want to view medical record and past appointments records?");
+        int choice = printAllAndChooseOne(List.of("view","just add diagnosis and treatment"));
+        if(choice==0){
+            System.out.println("Medical record:");
+            System.out.println(patient.getMedicalRecord().toString());
+            for(var aor : doctorService.getAppointmentOutcomesFromPatient(patient)){
+                System.out.println(aor);
+            }
         }
 
-        // Prompt user to select which record to edit
-        System.out.println("Which appointment outcome record do you want to edit? Enter the number:");
-        int choice = sc.nextInt() - 1; // Subtract 1 to match list index
-        sc.nextLine();
+        System.out.print("Enter your new diagnosis and treatment: ");
+        String diagnosis = sc.nextLine();
 
-        if (choice >= 0 && choice < aors.size()) {
-            AppointmentOutcomeRecord selectedAOR = aors.get(choice);
-            System.out.println("Do you want to change the prescriptions?\n 1. Yes\n 2. No");
-            if(sc.nextInt() == 1) {
-                System.out.println("Enter new prescription ");
-                //TODO: IMPLEMENT LOGIC (IMPORTANT)
-                selectedAOR.setPrescriptions(null);
-            }
-
-            System.out.println("Do you want to change the consultation notes?\n 1. Yes\n 2. No");
-            if (sc.nextInt() == 1) {
-                System.out.println("Please enter new consultation notes:");
-                String newNotes = sc.nextLine();
-                selectedAOR.setConsultationNotes(newNotes);
-            }
-
-        } else {
-            System.out.println("Invalid choice. Please try again.");
-        }
+        doctorService.addNewDiagnosis(patient.getUserID(),diagnosis);
+        System.out.println("Diagnosis and treatment added successfully.");
     }
 
     public void viewPersonalSchedule() {
-        // TODO: implement functionality
+        System.out.println("All appointments in next 7 days:");
+        for(DateTimeslot dateTimeslot : doctorService.getUpcomingSchedule()){
+            System.out.println(dateTimeslot);
+        }
     }
 
     public void setAvailability() {
-        // TODO: implement functionality
+        System.out.println("Current availability for new appointments: "
+                + (doctorService.getCurrentUser().isAvailableForNewAppointments() ? "Available" : "Not Available"));
+        System.out.println("Do you want to change your availability?");
+
+        if (printAllAndChooseOne(List.of("yes","no"))==0) {
+            doctorService.changeAvailability();
+            System.out.println("Availability changed to "+
+                    (doctorService.getCurrentUser().isAvailableForNewAppointments() ? "Available" : "Not Available"));
+        } else {
+            System.out.println("Availability not changed");
+        }
     }
 
     public void acceptOrDeclineAppointments() {
-        System.out.println("Appointment requests:\n");
         Collection<Appointment> pendingAppts = doctorService.getAllPendingAppointments();
-
+        if(pendingAppts.isEmpty()){
+            System.out.println("No pending appointment requests, nothing to accept");
+            return;
+        }
+        System.out.println("Appointment requests:");
+        int i=1;
         for(Appointment appt: pendingAppts) {
-            System.out.println(appt.getDetails());
-            System.out.println("Do you want to accept this appointment?\n 1. Yes\n 2. No");
-            if (sc.nextInt() == 1) {
+            System.out.println("Request "+i+" of "+pendingAppts.size());
+            System.out.println(appt.toString());
+            System.out.println("Do you want to accept this appointment?");
+            if (printAllAndChooseOne(List.of("yes","no"))==0) {
                 doctorService.acceptAppointment(appt.getAppointmentID());
                 System.out.println("Appointment has been accepted.");
             }
@@ -167,66 +157,62 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
                 doctorService.declineAppointment(appt.getAppointmentID());
                 System.out.println("Appointment has been declined.");
             }
+            i++;
         }
     }
 
     public void viewConfirmedAppointments() {
-        System.out.println("Upcoming appointments:\n");
         Collection<Appointment> appts = doctorService.getConfirmedAppointments();
-
-        if (appts.isEmpty()) {
-            System.out.println("No appointments scheduled.");
+        if(appts.isEmpty()){
+            System.out.println("No upcoming appointments, nothing to view");
             return;
         }
-
+        System.out.println("Upcoming appointments:");
         for (Appointment appt: appts) {
-            System.out.println(appt.getDetails());
+            System.out.println(appt.toString());
         }
     }
 
     public void recordAppointmentOutcome() {
+        ArrayList<Appointment> appointments = new ArrayList<>(doctorService.getConfirmedAppointments());
+        if(appointments.isEmpty()){
+            System.out.println("No appointments completed");
+            return;
+        }
         System.out.println("Select completed appointment:");
-        Collection<Appointment> appointmentCollection = doctorService.getConfirmedAppointments();
-
-        if (appointmentCollection.isEmpty()) {
-            System.out.println("No appointments completed.");
-            return;
-        }
-
-        List<Appointment> appointmentList = new ArrayList<>(appointmentCollection);
-
-        int index = 1;
-        for (Appointment appt : appointmentList) {
-            System.out.printf("%d. %s\n", index++, appt.getDetails());
-        }
-
-        // Prompt user to select an appointment by number
-        System.out.print("Enter the number of the appointment to complete: ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume newline
-
-        if (choice < 1 || choice > appointmentList.size()) {
-            System.out.println("Invalid selection.");
-            return;
-        }
-
-        Appointment selectedAppointment = appointmentList.get(choice - 1);
-        String appointmentId = selectedAppointment.getAppointmentID();
+        Appointment appointment = appointments.get(printAllAndChooseOne(appointments));
 
         System.out.println("Filling in details for the Appointment Outcome Record:");
-        LocalDate appointmentDate = selectedAppointment.getDate();
-
         System.out.print("Enter service type: ");
         String serviceType = sc.nextLine();
 
-        // System.out.print("Enter prescription: ");
-        // List<Prescription> prescription = ???
-
+        ArrayList<Prescription> prescriptions = new ArrayList<>();
+        ArrayList<Medication> medications = new ArrayList<>(doctorService.getAllMedications());
+        while (printAllAndChooseOne(List.of("Add prescriptions", "Continue")) == 0){
+            if(medications.isEmpty()){
+                System.out.println("No medications available");
+                break;
+            }
+            System.out.println("Prescription - Choose medication:");
+            String medication = medications.get(printAllAndChooseOne(medications)).getMedicationName();
+            while (!doctorService.isValidMedication(medication)) {
+                System.out.println("Invalid medication name, try again");
+                medication = sc.nextLine();
+            }
+            System.out.print("Enter medication amount: ");
+            int amount = Integer.parseInt(sc.nextLine());
+            while (amount < 0) {
+                System.out.println("Invalid medication amount, try again");
+                amount = Integer.parseInt(sc.nextLine());
+            }
+            prescriptions.add(new Prescription(doctorService.getNewAORId(), medication, amount));
+            System.out.println("Prescription added");
+        }
         System.out.print("Enter consultation notes: ");
         String consultationNotes = sc.nextLine();
 
-        AppointmentOutcomeRecord aor = new AppointmentOutcomeRecord(appointmentId, appointmentDate, serviceType, null, consultationNotes);
-        doctorService.completeAppointment(appointmentId, aor);
+        AppointmentOutcomeRecord aor = new AppointmentOutcomeRecord(appointment.getAppointmentID(), appointment.getDate(), serviceType, prescriptions, consultationNotes);
+        doctorService.completeAppointment(appointment.getAppointmentID(), aor);
         System.out.println("Appointment Outcome Record created.");
         System.out.println("Appointment completed.");
     }

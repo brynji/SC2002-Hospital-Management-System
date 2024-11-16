@@ -49,15 +49,9 @@ public class Medication implements Serializable {
         return stockLevel <= lowStockAlert;
     }
 
-    public String getDetails() {
-
-        StringBuilder info = new StringBuilder();
-        
-        info.append("Medication:\n")
-        .append("Medication Name: ").append(medicationName).append("\n")
-        .append("Stock Level: ").append(stockLevel).append("\n")
-        .append("Low Stock Alert Level: ").append(lowStockAlert).append("\n");
-
-        return info.toString();
+    public String toString() {
+        return "Medication Name: " + medicationName +
+                ", Stock Level: " + stockLevel +
+                ", Low Stock Alert Level: " + lowStockAlert;
     }
 }
