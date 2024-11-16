@@ -1,16 +1,12 @@
 package Menus;
 
-import Misc.DateTimeslot;
-import Misc.Prescription;
+import Misc.*;
 import Service.DoctorService;
 import Users.Patient;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
-
-import Misc.Appointment;
-import Misc.AppointmentOutcomeRecord;
 
 import java.util.List;
 
@@ -148,8 +144,9 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
             return;
         }
         System.out.println("Appointment requests:");
-
+        int i=1;
         for(Appointment appt: pendingAppts) {
+            System.out.println("Request "+i+" of "+pendingAppts.size());
             System.out.println(appt.toString());
             System.out.println("Do you want to accept this appointment?");
             if (printAllAndChooseOne(List.of("yes","no"))==0) {
@@ -160,6 +157,7 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
                 doctorService.declineAppointment(appt.getAppointmentID());
                 System.out.println("Appointment has been declined.");
             }
+            i++;
         }
     }
 
@@ -189,9 +187,14 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
         String serviceType = sc.nextLine();
 
         ArrayList<Prescription> prescriptions = new ArrayList<>();
-        do {
-            System.out.print("Prescription - Enter medication name: ");
-            String medication = sc.nextLine();
+        ArrayList<Medication> medications = new ArrayList<>(doctorService.getAllMedications());
+        while (printAllAndChooseOne(List.of("Add prescriptions", "Continue")) == 0){
+            if(medications.isEmpty()){
+                System.out.println("No medications available");
+                break;
+            }
+            System.out.println("Prescription - Choose medication:");
+            String medication = medications.get(printAllAndChooseOne(medications)).getMedicationName();
             while (!doctorService.isValidMedication(medication)) {
                 System.out.println("Invalid medication name, try again");
                 medication = sc.nextLine();
@@ -203,8 +206,8 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
                 amount = Integer.parseInt(sc.nextLine());
             }
             prescriptions.add(new Prescription(doctorService.getNewAORId(), medication, amount));
-        } while (printAllAndChooseOne(List.of("Add more prescriptions", "Continue")) == 0);
-
+            System.out.println("Prescription added");
+        }
         System.out.print("Enter consultation notes: ");
         String consultationNotes = sc.nextLine();
 

@@ -70,6 +70,10 @@ public class MedicalRecord implements Serializable {
     }
 
     public String toString(){
-        return "Id: "+patientID+", DOB: "+DOB+", Gender: "+gender+", Blood Type: "+bloodType;
+        StringBuilder res = new StringBuilder("Id: " + patientID + ", DOB: " + DOB + ", Gender: " + gender + ", Blood Type: " + bloodType + "\nDiagnosis and Treatments:");
+        for(String diagnosisAndTreatment: diagnosisAndTreatments){
+            res.append("\n- ").append(diagnosisAndTreatment);
+        }
+        return res.toString();
     }
 }

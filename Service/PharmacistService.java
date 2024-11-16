@@ -32,7 +32,7 @@ public class PharmacistService extends UserService<Pharmacist, PharmacistReposit
     }
 
     public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(String userId){
-        return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(userId,RoleType.Patient).getAppointments())
+        return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(userId,RoleType.Patient).getMedicalRecord().getPastAppointmentRecordsIds())
                 .stream().map(Appointment::getAOR).toList();
     }
 

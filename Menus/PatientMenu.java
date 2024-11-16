@@ -42,6 +42,7 @@ public class PatientMenu extends BaseMenu<PatientService>{
             switch (choice) {
                 case 1:
                     changePassword();
+                    break;
                 case 2:
                     viewMedicalRecord();
                     break;
@@ -157,7 +158,7 @@ public class PatientMenu extends BaseMenu<PatientService>{
     public void viewUpcomingAppointments(){
         System.out.println("Your upcoming appointments:");
         for(var app : patientService.getUpcomingAppointments()){
-            System.out.println(patientService.getDoctorName("Doctor: "+app.getDoctorId())+
+            System.out.println("Doctor: "+patientService.getDoctorName(app.getDoctorId())+
                     ", date: "+app.getDate()+" "+app.getTime()+", status: "+app.getStatus().name());
         }
     }

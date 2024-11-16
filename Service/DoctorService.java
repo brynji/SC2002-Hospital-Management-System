@@ -33,6 +33,10 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
                 .filter(appointment -> appointment.getStatus() == AppointmentStatus.CONFIRMED).sorted().toList();
     }
 
+    public Collection<Medication> getAllMedications(){
+        return repository.getInventory().getAllMedications();
+    }
+
     public void acceptAppointment(String appointmentId){
         if(!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
@@ -57,6 +61,10 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
         if(!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
 
+        if(aor.getPrescriptions().isEmpty()){
+            aor.setStatus("dispensed");
+        }
+
         Appointment appointment = repository.getAppointmentById(appointmentId);
         appointment.setAOR(aor);
         appointment.setStatus(AppointmentStatus.COMPLETED);
@@ -74,7 +82,8 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
     }
 
     public Collection<AppointmentOutcomeRecord> getAppointmentOutcomesFromPatient(Patient patient){
-        return patient.getAppointmentsIds().stream().map(appId->repository.getAppointmentById(appId).getAOR()).toList();
+        var ids = patient.getMedicalRecord().getPastAppointmentRecordsIds();
+        return repository.getAllAppointmentsFromIds(ids).stream().map(Appointment::getAOR).toList();
     }
 
     public Collection<DateTimeslot> getUpcomingSchedule(){

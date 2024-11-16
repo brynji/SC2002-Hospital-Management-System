@@ -23,14 +23,6 @@ public class HospitalManagementApp {
         this.loginService = loginService;
     }
 
-    /*
-        pharma view empty AOR
-        printAllAndChoose na empty
-
-        patient change passwd
-        medical record vypis info
-     */
-
     public void mainMenu() {
         //AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
         //admin.addNew(new Administrator("admin","new admin","jedi","12/11/1568","mail","56"));

@@ -98,7 +98,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
             return;
         }
         for (AppointmentOutcomeRecord aor: aors) {
-            System.out.println(aor.toString());
+            System.out.println(aor.toString()+"\n");
         }
     }
 
@@ -137,12 +137,12 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
     }
 
     public void submitReplenishmentRequest() {
-        System.out.println("What medication do you want to request?:");
         ArrayList<Medication> medicationsWithLowStock = new ArrayList<>(pharmacistService.getAllMedicationWithLowAlert());
         if(medicationsWithLowStock.isEmpty()) {
             System.out.println("No medications with low stock found, nothing to replenish");
             return;
         }
+        System.out.println("What medication do you want to request?:");
         String medName = medicationsWithLowStock.get(printAllAndChooseOne(medicationsWithLowStock)).getMedicationName();
 
         System.out.print("Enter medication amount needed: ");
@@ -156,8 +156,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         pharmacistService.submitReplenishmentRequest(medName, medAmount);
         System.out.println("Replenishment request submitted");
     }
-
-
+    
     @Override
     public PharmacistService getUserService() {
         return pharmacistService;
