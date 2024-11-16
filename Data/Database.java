@@ -10,12 +10,10 @@ import java.io.*;
 import java.util.*;
 
 public class Database implements DataSource {
-    private final String inventoryFile = "SavedData/Inventory.dat";
-    private final String appointmentsFile = "SavedData/Appointments.dat";
-    private final String rolesFile = "SavedData/Roles.dat";
-    private final String[] usersFilenames =
-            Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
-                    .map(role -> "SavedData/" + role.toString() + ".dat").toArray(String[]::new);
+    private final String inventoryFile;
+    private final String appointmentsFile;
+    private final String rolesFile;
+    private final String[] usersFilenames;
 
     private Map<String, Role> roles;
     private ArrayList<Map<String, User>> users;
@@ -23,6 +21,20 @@ public class Database implements DataSource {
     private Map<String, Inventory> inventory;
 
     public Database() {
+        inventoryFile = "SavedData/Inventory.dat";
+        appointmentsFile = "SavedData/Appointments.dat";
+        rolesFile = "SavedData/Roles.dat";
+        usersFilenames = Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
+                        .map(role -> "SavedData/" + role.toString() + ".dat").toArray(String[]::new);
+        update();
+    }
+
+    public Database(String filesPath) {
+        inventoryFile = filesPath+"/Inventory.dat";
+        appointmentsFile = filesPath+"/Appointments.dat";
+        rolesFile = filesPath+"/Roles.dat";
+        usersFilenames = Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
+                .map(role -> filesPath+"/" + role.toString() + ".dat").toArray(String[]::new);
         update();
     }
 
