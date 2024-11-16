@@ -93,7 +93,7 @@ public class PatientService extends UserService<Patient,PatientRepository> {
                 currentUser.getUserID(),RoleType.Patient).getAppointments()).stream().filter(
                         app->(app.getStatus().equals(AppointmentStatus.CONFIRMED)|| app.getStatus().equals(AppointmentStatus.PENDING) ||
                                 app.getStatus().equals(AppointmentStatus.REJECTED))
-                                && app.getDate().isAfter(LocalDate.now())).toList();
+                                && app.getDate().isAfter(LocalDate.now().minusDays(1))).toList();
     }
 
     public String getDoctorName(String doctorUserId){
