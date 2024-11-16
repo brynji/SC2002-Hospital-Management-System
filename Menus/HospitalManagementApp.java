@@ -23,6 +23,19 @@ public class HospitalManagementApp {
         this.loginService = loginService;
     }
 
+    public int nextInt(Scanner sc) {
+        int in;
+        try{
+            in = sc.nextInt();
+        } catch(Exception e){
+            System.out.println("Invalid input, please try again");
+            sc.nextLine();
+            return nextInt(sc);
+        }
+        sc.nextLine();
+        return in;
+    }
+
     public void mainMenu() {
         //AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
         //admin.addNew(new Administrator("admin","new admin","jedi","12/11/1568","mail","56"));
@@ -37,7 +50,7 @@ public class HospitalManagementApp {
             System.out.println("1 LOGIN");
             System.out.println("2 QUIT");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
+            int choice = nextInt(sc);
             if(choice!=1) {
                 return;
             }

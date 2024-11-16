@@ -36,8 +36,7 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
             8. Logout""");
 
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); // To consume the newline character
+            int choice = nextInt();
 
             switch (choice) {
                 case 1:
@@ -84,6 +83,10 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
 
         System.out.println("Patient's medical records:");
         System.out.println(patient.getMedicalRecord().toString());
+        if(aors.isEmpty()){
+            System.out.println("No past appointment outcome records");
+            return;
+        }
         System.out.println("Past appointment outcome records:");
         for (AppointmentOutcomeRecord aor : aors) {
             System.out.println(aor);
@@ -117,8 +120,13 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
     }
 
     public void viewPersonalSchedule() {
+        var apps = doctorService.getUpcomingSchedule();
+        if(apps.isEmpty()){
+            System.out.println("No appointments in next 7 days");
+            return;
+        }
         System.out.println("All appointments in next 7 days:");
-        for(DateTimeslot dateTimeslot : doctorService.getUpcomingSchedule()){
+        for(DateTimeslot dateTimeslot : apps){
             System.out.println(dateTimeslot);
         }
     }
@@ -200,10 +208,10 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
                 medication = sc.nextLine();
             }
             System.out.print("Enter medication amount: ");
-            int amount = Integer.parseInt(sc.nextLine());
+            int amount = nextInt();
             while (amount < 0) {
                 System.out.println("Invalid medication amount, try again");
-                amount = Integer.parseInt(sc.nextLine());
+                amount = nextInt();
             }
             prescriptions.add(new Prescription(doctorService.getNewAORId(), medication, amount));
             System.out.println("Prescription added");
