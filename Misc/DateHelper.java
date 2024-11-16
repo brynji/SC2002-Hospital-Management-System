@@ -10,16 +10,17 @@ import java.util.List;
 
 public class DateHelper {
 
-    public static boolean isValidDate(String date) {
+    public static boolean isValidDateOfBirth(String date) {
+        LocalDate parsedDate;
         try{
-            LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT));
+            parsedDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT));
         } catch (DateTimeParseException e) {
             return false;
         }
-        return true;
+        return parsedDate.isBefore(LocalDate.now());
     }
 
-    public LocalDate parseDate(String date) {
+    public static LocalDate parseDate(String date) {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT));
     }
 

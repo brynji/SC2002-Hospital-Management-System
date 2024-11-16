@@ -20,8 +20,6 @@ public class AdministratorRepository extends BaseRepository {
         super(dataSource);
     }
 
-    // --- ADD ---
-
     public void addNew(User u){
         RoleType role = getRoleTypeFromUser(u);
         dataSource.getAllUsersWithRole(role).put(u.getUserID(),u);
@@ -30,11 +28,21 @@ public class AdministratorRepository extends BaseRepository {
 
     public void remove(String userId){
         RoleType role = dataSource.getRoles().get(userId).getRole();
+        if(role==RoleType.Doctor){
+            Doctor doctor = findUserById(userId,RoleType.Doctor);
+            Collection<Appointment> appointments = getAllAppointmentsFromIds(doctor.getAppointments());
+            for (Appointment appointment : appointments){
+                Patient patient = findUserById(appointment.getPatientId(), RoleType.Patient);
+                patient.cancelAppointment(appointment.getAppointmentID());
+                if(appointment.getStatus().equals(AppointmentStatus.COMPLETED)){
+                    patient.getMedicalRecord().getPastAppointmentRecordsIds().remove(appointment.getAppointmentID());
+                }
+                dataSource.getAppointments().remove(appointment.getAppointmentID());
+            }
+        }
         dataSource.getAllUsersWithRole(role).remove(userId);
         dataSource.getRoles().remove(userId);
     }
-
-    // --- GET ---
 
     public Collection<Appointment> getAllAppointments(){
         return dataSource.getAppointments().values();
@@ -47,9 +55,4 @@ public class AdministratorRepository extends BaseRepository {
     public Inventory getInventory(){
         return dataSource.getInventory();
     }
-
-    // --- UPDATE ---
-
-
-    // --- DELETE ---
 }

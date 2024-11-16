@@ -69,15 +69,11 @@ public class MedicalRecord implements Serializable {
         pastAppointmentRecordsIds.add(AOR);
     }
 
-    public String getDetails() {
-        return "Patient ID: " + patientID + "\n" +
-                "Patient: " + name + "\n" +
-                "DOB: " + DOB + "\n" +
-                "Gender: " + gender + "\n" +
-                "Blood Type: " + bloodType + "\n";
-    }
-
     public String toString(){
-        return "Id: "+patientID+", DOB: "+DOB+", Gender: "+gender+", Blood Type: "+bloodType;
+        StringBuilder res = new StringBuilder("Id: " + patientID + ", DOB: " + DOB + ", Gender: " + gender + ", Blood Type: " + bloodType + "\nDiagnosis and Treatments:");
+        for(String diagnosisAndTreatment: diagnosisAndTreatments){
+            res.append("\n- ").append(diagnosisAndTreatment);
+        }
+        return res.toString();
     }
 }

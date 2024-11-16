@@ -78,9 +78,10 @@ public class AppointmentOutcomeRecord implements Serializable {
 
         StringBuilder info = new StringBuilder();
         
-        info.append("Appointment Outcome Record:\n")
-        .append("Record ID: ").append(recordID).append("\n")
-        .append("Date: ").append(appointmentDate).append("\n")
+        info.append("Appointment Outcome Record: ")
+        .append("Record ID: ").append(recordID).append(", ")
+        .append("Date: ").append(appointmentDate).append(", ")
+        .append("Status: ").append(status).append(", ")
         .append("Service Type: ").append(serviceType).append("\n")
         .append("Medications:\n");
 
@@ -88,8 +89,7 @@ public class AppointmentOutcomeRecord implements Serializable {
             info.append(" - ").append(prescription.getDetails()).append("\n");
         }
 
-        info.append("Consultation Notes: ").append(consultationNotes).append("\n")
-            .append("Status: ").append(status);
+        info.append("Consultation Notes: ").append(consultationNotes);
 
         return info.toString();
 

@@ -35,10 +35,10 @@ public class ReplenishmentRequest implements Serializable {
     }
 
     public String toString() {
-        return "Replenishment Request:\n" +
-                "Medication Name" + medicationName + "\n" +
-                "Pharmacist ID: " + pharmacistId + "\n" +
-                "Requested Amount: " + requestedAmount + "\n" +
-                "Status: " + requestState + "\n";
+        return "Replenishment Request: "+
+                "Medication Name: " + medicationName +
+                ", PharmacistID: " + pharmacistId +
+                ", Requested Amount: " + requestedAmount +
+                ", Status: " + requestState;
     }
 }

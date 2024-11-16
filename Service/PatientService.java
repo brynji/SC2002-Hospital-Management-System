@@ -91,7 +91,9 @@ public class PatientService extends UserService<Patient,PatientRepository> {
     public Collection<Appointment> getUpcomingAppointments(){
         return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(
                 currentUser.getUserID(),RoleType.Patient).getAppointments()).stream().filter(
-                        app->app.getStatus().equals(AppointmentStatus.CONFIRMED) && app.getDate().isAfter(LocalDate.now())).toList();
+                        app->(app.getStatus().equals(AppointmentStatus.CONFIRMED)|| app.getStatus().equals(AppointmentStatus.PENDING) ||
+                                app.getStatus().equals(AppointmentStatus.REJECTED))
+                                && app.getDate().isAfter(LocalDate.now())).toList();
     }
 
     public String getDoctorName(String doctorUserId){

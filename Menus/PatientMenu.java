@@ -21,11 +21,11 @@ public class PatientMenu extends BaseMenu<PatientService>{
         super.baseMenu(currentUserId,sc);
         boolean isRunning = true;
         while (isRunning){
+            System.out.println();
             System.out.println("""
                 Patient menu
                 ------------
-                1 Change passwd
-                Patient Menu:
+                1 Change password
                 2. View Medical Record
                 3. Update Personal Information
                 4. View Available Appointment Slots
@@ -42,6 +42,7 @@ public class PatientMenu extends BaseMenu<PatientService>{
             switch (choice) {
                 case 1:
                     changePassword();
+                    break;
                 case 2:
                     viewMedicalRecord();
                     break;
@@ -73,22 +74,26 @@ public class PatientMenu extends BaseMenu<PatientService>{
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-
         }
     }
 
     public void viewMedicalRecord() {
         System.out.println("Your medical record:");
-        String details = patientService.getCurrentUser().getMedicalRecord().getDetails();
+        String details = patientService.getCurrentUser().getMedicalRecord().toString();
         System.out.println(details);
+        System.out.println("Appointment outcome records:");
         for(AppointmentOutcomeRecord aor : patientService.getAppointmentOutcomeRecords()){
             System.out.println(aor);
         }
     }
 
     public void viewAvailableAppointmentSlots() {
-        System.out.println("Choose doctor you want to visit");
         ArrayList<Doctor> doctors = new ArrayList<>(patientService.getAllDoctors());
+        if(doctors.isEmpty()){
+            System.out.println("No available doctors found");
+            return;
+        }
+        System.out.println("Choose doctor you want to visit");
         int doctorChoice = printAllAndChooseOne(doctors);
         System.out.println("Available dates and times:");
         for(DateTimeslot dt : patientService.getFreeTimeslots(doctors.get(doctorChoice).getUserID())){
@@ -97,11 +102,19 @@ public class PatientMenu extends BaseMenu<PatientService>{
     }
 
     public void scheduleAppointment(){
-        System.out.println("Choose doctor you want to visit");
         ArrayList<Doctor> doctors = new ArrayList<>(patientService.getAllDoctors());
+        if(doctors.isEmpty()){
+            System.out.println("No available doctors found");
+            return;
+        }
+        System.out.println("Choose doctor you want to visit");
         int doctorChoice = printAllAndChooseOne(doctors);
         System.out.println("Available dates and times:");
         ArrayList<DateTimeslot> times = new ArrayList<>(patientService.getFreeTimeslots(doctors.get(doctorChoice).getUserID()));
+        if(times.isEmpty()){
+            System.out.println("No available times found");
+            return;
+        }
         int timeslotChoice = printAllAndChooseOne(times);
 
         patientService.addNewAppointment(doctors.get(doctorChoice).getUserID(),
@@ -145,13 +158,18 @@ public class PatientMenu extends BaseMenu<PatientService>{
     public void viewUpcomingAppointments(){
         System.out.println("Your upcoming appointments:");
         for(var app : patientService.getUpcomingAppointments()){
-            System.out.println(patientService.getDoctorName(app.getDoctorId())+" "+app.getDate()+" "+app.getTime());
+            System.out.println("Doctor: "+patientService.getDoctorName(app.getDoctorId())+
+                    ", date: "+app.getDate()+" "+app.getTime()+", status: "+app.getStatus().name());
         }
     }
 
     public void viewPastAppointmentOutcomeRecords() {
-        System.out.println("All past appointment records:");
         Collection <AppointmentOutcomeRecord> AORs = patientService.getAppointmentOutcomeRecords();
+        if(AORs.isEmpty()){
+            System.out.println("No appointment outcome records found");
+            return;
+        }
+        System.out.println("All past appointment records:");
         for (AppointmentOutcomeRecord AOR: AORs) {
             System.out.println(AOR.toString());
         }

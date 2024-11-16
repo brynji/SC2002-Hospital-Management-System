@@ -38,10 +38,10 @@ public class Prescription implements Serializable {
     }
 
     public String getDetails() {
-        return  "Prescription ID: " + prescriptionID + "\n" +
-                "Medication: " + medicationName + "\n" +
-                "Status: " + status + "\n" +
-                "Quantity: " + quantity;
+        return  "PrescriptionID: " + prescriptionID +
+                ", Medication: " + medicationName +
+                ", Status: " + status +
+                ", Quantity: " + quantity;
     }
 
     public String toString(){
