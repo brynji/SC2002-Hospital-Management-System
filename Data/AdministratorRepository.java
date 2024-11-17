@@ -6,26 +6,28 @@ import Users.*;
 import java.util.Collection;
 import java.util.Map;
 
-/* The reason the methods for adding, deleting and updating the staff are in the repository
-    is that a repo is meant to serve as the site for data manipulation.
-
-    This helps to ensure the Single Responsibility Principle and also allows for cleaner
-    extension of the code base in the future (e.g. if we add a Manager class, they could
-    have the same power as administrators if not more and may be able to use this repo
-    as well).
+/**
+ * Repository with all methods user logged in as Administrator needs
  */
-
 public class AdministratorRepository extends BaseRepository {
     public AdministratorRepository(DataSource dataSource) {
         super(dataSource);
     }
 
+    /**
+     * Adds new user
+     * @param u user to add
+     */
     public void addNew(User u){
         RoleType role = getRoleTypeFromUser(u);
         dataSource.getAllUsersWithRole(role).put(u.getUserID(),u);
         dataSource.getRoles().put(u.getUserID(),new Role(u.getUserID(),role));
     }
 
+    /**
+     * Removes doctor or patient
+     * @param userId userID to remove
+     */
     public void remove(String userId){
         RoleType role = dataSource.getRoles().get(userId).getRole();
         if(role==RoleType.Doctor){
@@ -33,7 +35,7 @@ public class AdministratorRepository extends BaseRepository {
             Collection<Appointment> appointments = getAllAppointmentsFromIds(doctor.getAppointments());
             for (Appointment appointment : appointments){
                 Patient patient = findUserById(appointment.getPatientId(), RoleType.Patient);
-                patient.cancelAppointment(appointment.getAppointmentID());
+                patient.removeAppointment(appointment.getAppointmentID());
                 if(appointment.getStatus().equals(AppointmentStatus.COMPLETED)){
                     patient.getMedicalRecord().getPastAppointmentRecordsIds().remove(appointment.getAppointmentID());
                 }
@@ -48,6 +50,10 @@ public class AdministratorRepository extends BaseRepository {
         return dataSource.getAppointments().values();
     }
 
+    /**
+     * Get all roles
+     * @return Map of roles by userID
+     */
     public Map<String,Role> getAllRoles(){
         return dataSource.getRoles();
     }

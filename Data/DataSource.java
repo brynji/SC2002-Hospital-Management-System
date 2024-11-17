@@ -6,6 +6,9 @@ import Misc.RoleType;
 import Users.User;
 import java.util.Map;
 
+/**
+ * Interface for source of data
+ */
 public interface DataSource {
     Map<String, Role> getRoles();
     Map<String, Appointment> getAppointments();

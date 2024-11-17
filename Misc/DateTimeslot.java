@@ -3,6 +3,9 @@ package Misc;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Holds together date and timeslot
+ */
 public class DateTimeslot implements Comparable<DateTimeslot>{
     private LocalDate date;
     private Timeslot timeslot;
@@ -27,7 +30,7 @@ public class DateTimeslot implements Comparable<DateTimeslot>{
     public void setTimeslot(Timeslot timeslot) {
         this.timeslot = timeslot;
     }
-
+    
     @Override
     public int compareTo(DateTimeslot o) {
         int res = date.compareTo(o.getDate());

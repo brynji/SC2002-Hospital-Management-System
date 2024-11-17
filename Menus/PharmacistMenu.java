@@ -37,8 +37,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
                 5. Logout""");
 
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); // Consume newline
+            int choice = nextInt();
 
             switch (choice) {
                 case 1:
@@ -146,12 +145,11 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         String medName = medicationsWithLowStock.get(printAllAndChooseOne(medicationsWithLowStock)).getMedicationName();
 
         System.out.print("Enter medication amount needed: ");
-        int medAmount = sc.nextInt();
+        int medAmount = nextInt();
         while(medAmount<0){
             System.out.println("Invalid amount, try again");
-            medAmount = sc.nextInt();
+            medAmount = nextInt();
         }
-        sc.nextLine();
 
         pharmacistService.submitReplenishmentRequest(medName, medAmount);
         System.out.println("Replenishment request submitted");

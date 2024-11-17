@@ -9,6 +9,12 @@ public class Prescription implements Serializable {
     private String status;
     private final int quantity;
 
+    /**
+     * Initializes Prescription class
+     * @param prescriptionID unique ID
+     * @param medicationName name of prescribed medication
+     * @param quantity prescribed amount of the medication
+     */
     public Prescription(String prescriptionID, String medicationName, int quantity) {
         this.prescriptionID = prescriptionID;
         this.medicationName = medicationName;
@@ -37,14 +43,7 @@ public class Prescription implements Serializable {
         return quantity;
     }
 
-    public String getDetails() {
-        return  "PrescriptionID: " + prescriptionID +
-                ", Medication: " + medicationName +
-                ", Status: " + status +
-                ", Quantity: " + quantity;
-    }
-
     public String toString(){
-        return "Id: " + prescriptionID + ", Medication: " + medicationName + ", Status: " + status + ", Quantity: " + quantity;
+        return "PrescriptionId: " + prescriptionID + ", Medication: " + medicationName + ", Status: " + status + ", Quantity: " + quantity;
     }
 }

@@ -21,6 +21,19 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
         }
     }
 
+    protected int nextInt(){
+        int in;
+        try{
+            in = sc.nextInt();
+        } catch(Exception e){
+            System.out.println("Invalid input, please try again");
+            sc.nextLine();
+            return nextInt();
+        }
+        sc.nextLine();
+        return in;
+    }
+
     public void changePassword(){
         System.out.print("Enter new password: ");
         String passwd = sc.next();
@@ -51,12 +64,11 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
             i++;
         }
         System.out.print("Enter your choice: ");
-        int choice = sc.nextInt() - 1;
+        int choice = nextInt() - 1;
         while(choice<0 || choice>=objects.size()){
             System.out.println("Invalid choice, try again");
-            choice = sc.nextInt() - 1;
+            choice = nextInt() - 1;
         }
-        sc.nextLine(); //consume newline
         return choice;
     }
 }
