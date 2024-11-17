@@ -213,7 +213,7 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
                 System.out.println("Invalid medication amount, try again");
                 amount = nextInt();
             }
-            prescriptions.add(new Prescription(doctorService.getNewAORId(), medication, amount));
+            prescriptions.add(new Prescription(doctorService.getNewPrescriptionId(), medication, amount));
             System.out.println("Prescription added");
         }
         System.out.print("Enter consultation notes: ");

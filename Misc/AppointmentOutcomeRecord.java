@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Record made by doctor after appointment is over
+ */
 public class AppointmentOutcomeRecord implements Serializable {
-
     private final String recordID;
     private LocalDate appointmentDate;
     private String serviceType;
@@ -13,6 +15,14 @@ public class AppointmentOutcomeRecord implements Serializable {
     private String consultationNotes;
     private String status; // Pending or completed
 
+    /**
+     * Initializes AppointmentOutcomeRecord class
+     * @param recordID ID of the appointment, that has this outcome record
+     * @param appointmentDate date of the appointment, from which is this record
+     * @param serviceType description of the service doctor did
+     * @param prescriptions prescriptions prescribed by doctor on this appointment
+     * @param consultationNotes notes from this appointment
+     */
     public AppointmentOutcomeRecord(String recordID,
                                     LocalDate appointmentDate, String serviceType,
                                     List<Prescription> prescriptions, String consultationNotes) {
@@ -44,6 +54,10 @@ public class AppointmentOutcomeRecord implements Serializable {
         this.consultationNotes = consultationNotes;
     }
 
+    /**
+     * Set status of AOR, valid statuses are "pending" and "dispensed"
+     * @param status "pending" or "dispensed"
+     */
     public void setStatus(String status) {
         this.status = status;
     }
@@ -70,6 +84,10 @@ public class AppointmentOutcomeRecord implements Serializable {
         return prescriptions;
     }
 
+    /**
+     * Get status of this AOR
+     * @return "dispensed" after all prescriptions are dispensed, "pending" until that
+     */
     public String getStatus() {
         return status;
     }
@@ -86,7 +104,7 @@ public class AppointmentOutcomeRecord implements Serializable {
         .append("Medications:\n");
 
         for (Prescription prescription: prescriptions) {
-            info.append(" - ").append(prescription.getDetails()).append("\n");
+            info.append(" - ").append(prescription.toString()).append("\n");
         }
 
         info.append("Consultation Notes: ").append(consultationNotes);

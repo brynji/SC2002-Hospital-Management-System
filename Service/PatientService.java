@@ -61,7 +61,7 @@ public class PatientService extends UserService<Patient,PatientRepository> {
         if(appointment==null) throw new IllegalArgumentException("Appointment not found");
 
         ((Doctor) repository.findUserById(appointment.getDoctorId(), RoleType.Doctor)).removeAppointment(appointmentId);
-        ((Patient) repository.findUserById(appointment.getPatientId(),RoleType.Patient)).cancelAppointment(appointmentId);
+        ((Patient) repository.findUserById(appointment.getPatientId(),RoleType.Patient)).removeAppointment(appointmentId);
         repository.deleteAppointment(appointmentId);
         repository.save();
     }

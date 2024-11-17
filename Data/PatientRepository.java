@@ -2,6 +2,9 @@ package Data;
 
 import Misc.Appointment;
 
+/**
+ * Repository with all methods user logged in as Patient needs
+ */
 public class PatientRepository extends BaseRepository {
     public PatientRepository(DataSource dataSource) {
         super(dataSource);
@@ -19,6 +22,10 @@ public class PatientRepository extends BaseRepository {
         dataSource.getAppointments().remove(appointmentId);
     }
 
+    /**
+     * Get new unique appointment ID
+     * @return unique appointment ID
+     */
     public String generateNewAppointmentId(){
         String id = generateID();
         while(dataSource.getAppointments().containsKey(id)){

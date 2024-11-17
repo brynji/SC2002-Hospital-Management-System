@@ -106,8 +106,8 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
         return repository.getInventory().getMedication(medicationName)!=null;
     }
 
-    public String getNewAORId(){
-        return repository.generateNewAORId();
+    public String getNewPrescriptionId(){
+        return repository.generateNewPrescriptionId();
     }
 
     @Override

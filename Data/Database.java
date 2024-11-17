@@ -9,6 +9,9 @@ import Users.User;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Implementation of our source of data
+ */
 public class Database implements DataSource {
     private final String inventoryFile;
     private final String appointmentsFile;
@@ -20,6 +23,10 @@ public class Database implements DataSource {
     private Map<String, Appointment> appointments;
     private Map<String, Inventory> inventory;
 
+    /**
+     * Reads all data from files
+     * Default file path is SavedData/
+     */
     public Database() {
         inventoryFile = "SavedData/Inventory.dat";
         appointmentsFile = "SavedData/Appointments.dat";
@@ -29,6 +36,10 @@ public class Database implements DataSource {
         update();
     }
 
+    /**
+     * Reads all data from files
+     * @param filesPath filePath to read from
+     */
     public Database(String filesPath) {
         inventoryFile = filesPath+"/Inventory.dat";
         appointmentsFile = filesPath+"/Appointments.dat";
@@ -38,14 +49,30 @@ public class Database implements DataSource {
         update();
     }
 
+    /**
+     * Get roles by userId
+     * @return Map of roles by userId
+     */
     public Map<String, Role> getRoles() { return roles; }
 
+    /**
+     * Get appointments by appointmentId
+     * @return map of appointments by appointmentId
+     */
     public Map<String, Appointment> getAppointments(){ return appointments; }
 
     public Inventory getInventory() { return inventory.get(""); }
 
+    /**
+     * Get all users with given role
+     * @param role role
+     * @return Map of Users by userId
+     */
     public Map<String,User> getAllUsersWithRole(RoleType role){ return users.get(role.ordinal()); }
 
+    /**
+     * Updates states of all objects with states from files
+     */
     public void update(){
         try{
             roles = readFromFile(rolesFile);
@@ -62,6 +89,9 @@ public class Database implements DataSource {
         }
     }
 
+    /**
+     * Saves all states of objects to files
+     */
     public void save(){
         try{
             writeToFile(rolesFile,roles);

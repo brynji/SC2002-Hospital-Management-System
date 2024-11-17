@@ -21,7 +21,7 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
         }
     }
 
-    public int nextInt(){
+    protected int nextInt(){
         int in;
         try{
             in = sc.nextInt();
