@@ -24,13 +24,14 @@ public class HospitalManagementApp {
     }
 
     public void mainMenu() {
-        //AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
-        //admin.addNew(new Administrator("admin","new admin","jedi","12/11/1568","mail","56"));
-        //admin.addNew(new Doctor("doctor","doc","snail","10/02/2015","sa","468",false));
-        //admin.addNew(new Patient("patient","sdf","a@d.s","156",new MedicalRecord("patient","sdf","12/04/2004","sova","red")));
-        //admin.addNew(new Pharmacist("pharma","pha","klokan","29/03/2013","ph@ds.cz","456"));
-        //admin.save();
-
+        /*
+        AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
+        admin.addNew(new Administrator("admin","Taylor Swift","female","13/10/1989","mail@example.sg","56"));
+        admin.addNew(new Doctor("doctor","Priyanka Chopra","female","10/02/2000","sa","46887245",false));
+        admin.addNew(new Patient("patient","Bob Dylan","newmail@dgmail.cz","88775869",new MedicalRecord("patient","Bob Dylan","12/04/2004","male","A+")));
+        admin.addNew(new Pharmacist("pharmacist","Alex Baldwin","male","29/03/1999","phar@ems.cz","45776956"));
+        admin.save();
+        */
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("HOSPITAL SYSTEM");

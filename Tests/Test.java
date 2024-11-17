@@ -19,7 +19,7 @@ public class Test {
     public static HospitalManagementApp hospital;
 
     public static void main(String[] args) {
-        DataSource dataSource = new TestDataSource();
+        DataSource dataSource = new Database(true);
         ILoginService loginService = new LoginService(dataSource);
         menus = Map.of(
                 RoleType.Patient, new PatientMenu(new PatientService(new PatientRepository(dataSource))),
@@ -29,10 +29,11 @@ public class Test {
 
         hospital = new HospitalManagementApp(menus,loginService);
 
-        testAll();
+    testAll();
     }
 
     static void testAll() {
+
         boolean testResult;
         int allTests = 0;
         int passedTests = 0;
@@ -68,21 +69,25 @@ public class Test {
         try {
             hospital.mainMenu();
 
-            originalOut.println("outputStream start =============");
-            originalOut.println(outputStream);
-            originalOut.println("outputStream end =============");
-
         } catch (Exception e) {
+            originalOut.println("Test "  + " xxxx"+e.getMessage());
             System.setOut(originalOut);
             return false;
         }
 
         System.setOut(originalOut);
 
-        String output = outputStream.toString().replace("\r\n", "\n").trim();
+        List<String> soutput = outputStream.toString().lines().map(String::trim).toList();
+        var output = String.join("\n", soutput).replace("\r\n", "\n");
+        System.out.println("outputStream start =============");
+        System.out.println(output);
+        System.out.println("outputStream end =============");
 
-        List<String> expectedLines = Files.readAllLines(expectedOutputFile);
-        String expectedOutput = String.join("\n", expectedLines).replace("\r\n", "\n").trim();
+        List<String> expectedLines = Files.readAllLines(expectedOutputFile).stream().map(String::trim).toList();
+        String expectedOutput = String.join("\n", expectedLines).replace("\r\n", "\n");
+
+        System.out.println(expectedOutput);
+        System.out.println("---------------");
 
         return output.equals(expectedOutput); // Return comparison result
     }

@@ -10,10 +10,10 @@ import java.io.*;
 import java.util.*;
 
 public class Database implements DataSource {
-    private final String inventoryFile = "SavedData/Inventory.dat";
-    private final String appointmentsFile = "SavedData/Appointments.dat";
-    private final String rolesFile = "SavedData/Roles.dat";
-    private final String[] usersFilenames =
+    private String inventoryFile = "SavedData/Inventory.dat";
+    private String appointmentsFile = "SavedData/Appointments.dat";
+    private String rolesFile = "SavedData/Roles.dat";
+    private String[] usersFilenames =
             Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
                     .map(role -> "SavedData/" + role.toString() + ".dat").toArray(String[]::new);
 
@@ -23,6 +23,16 @@ public class Database implements DataSource {
     private Map<String, Inventory> inventory;
 
     public Database() {
+        update();
+    }
+    public Database(boolean Test) {
+        inventoryFile = "Tests/SavedTestData/Inventory.dat";
+        appointmentsFile = "Tests/SavedTestData/Appointments.dat";
+        rolesFile = "Tests/SavedTestData/Roles.dat";
+        usersFilenames =
+                Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
+                        .map(role -> "Tests/SavedTestData/" + role.toString() + ".dat").toArray(String[]::new);
+
         update();
     }
 
