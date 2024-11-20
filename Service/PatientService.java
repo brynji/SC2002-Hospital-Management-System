@@ -103,6 +103,6 @@ public class PatientService extends UserService<Patient,PatientRepository> {
 
     public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(){
         List<String> aorIds =  currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
-        return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).sorted().toList();
+        return repository.getAllAppointmentsFromIds(aorIds).stream().sorted().map(Appointment::getAOR).toList();
     }
 }

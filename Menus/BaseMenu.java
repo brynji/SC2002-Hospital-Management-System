@@ -24,19 +24,17 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
     protected int nextInt(){
         int in;
         try{
-            in = sc.nextInt();
+            in = Integer.parseInt(sc.nextLine());
         } catch(Exception e){
             System.out.println("Invalid input, please try again");
-            sc.nextLine();
             return nextInt();
         }
-        sc.nextLine();
         return in;
     }
 
     public void changePassword(){
         System.out.print("Enter new password: ");
-        String passwd = sc.next();
+        String passwd = sc.nextLine();
         getUserService().changePassword(passwd);
         System.out.println("Your new password is " + passwd);
     }
@@ -48,9 +46,9 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
         System.out.print("Enter your new " + options.get(choice)+": ");
         String newField = sc.nextLine();
         switch(choice){
-            case 1 -> getUserService().updateName(newField);
-            case 2 -> getUserService().updateEmail(newField);
-            case 3 -> getUserService().updateContactNumber(newField);
+            case 0 -> getUserService().updateName(newField);
+            case 1 -> getUserService().updateEmail(newField);
+            case 2 -> getUserService().updateContactNumber(newField);
         }
         System.out.println("Your new "+options.get(choice)+" is "+newField);
     }

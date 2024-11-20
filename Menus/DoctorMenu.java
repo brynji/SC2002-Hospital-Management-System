@@ -184,7 +184,7 @@ public class DoctorMenu extends BaseMenu<DoctorService> {
     public void recordAppointmentOutcome() {
         ArrayList<Appointment> appointments = new ArrayList<>(doctorService.getConfirmedAppointments());
         if(appointments.isEmpty()){
-            System.out.println("No appointments completed");
+            System.out.println("No appointments to be recorded.");
             return;
         }
         System.out.println("Select completed appointment:");

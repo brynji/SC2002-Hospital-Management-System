@@ -1,0 +1,144 @@
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Administrator Menu
+------------------
+1. View and Manage Hospital Staff
+2. View Appointments Details
+3. View and Manage Medication Inventory
+4. Approve Replenishment Requests
+5. Log Out
+Enter your choice:
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice: Enter Role (doctor/pharmacist/all): Enter Gender (or leave blank for no filter): Enter Name (or leave blank for no filter): Enter Minimum Age (or -1 for no minimum age filter): Enter Maximum Age (or -1 for no maximum age filter): Staff list:
+Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: true
+Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Pharmacist - userID: 'pharmacist', name: 'Alex Baldwin', gender: male', dateOfBirth: '29/03/1999', email: 'phar@ems.cz', contactNumber: '45776956'
+
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice: Adding Doctor
+Enter ID: Enter Name: Enter Gender: Enter Date of Birth in format dd/MM/yyyy: Enter Email: Enter Contact Number: Doctor added successfully
+
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice: Enter Role (doctor/pharmacist/all): Enter Gender (or leave blank for no filter): Enter Name (or leave blank for no filter): Enter Minimum Age (or -1 for no minimum age filter): Enter Maximum Age (or -1 for no maximum age filter): Staff list:
+Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: true
+Doctor - userID: 'doctor1', name: 'Philip Max', gender: male', dateOfBirth: '12/06/2000', email: 'hismail@mail.com', contactNumber: '45678912', availableForNewAppointments: true
+Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Pharmacist - userID: 'pharmacist', name: 'Alex Baldwin', gender: male', dateOfBirth: '29/03/1999', email: 'phar@ems.cz', contactNumber: '45776956'
+
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice: Which Doctor do you want to update?
+1 Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: true
+2 Doctor - userID: 'doctor1', name: 'Philip Max', gender: male', dateOfBirth: '12/06/2000', email: 'hismail@mail.com', contactNumber: '45678912', availableForNewAppointments: true
+3 Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Enter your choice: Updating Doctor Doctor - userID: 'doctor1', name: 'Philip Max', gender: male', dateOfBirth: '12/06/2000', email: 'hismail@mail.com', contactNumber: '45678912', availableForNewAppointments: true
+What do you want to update?
+1 Name
+2 Gender
+3 Date of Birth
+4 Email
+5 Contact Number
+6 Save changes
+Enter your choice: Enter new Contact Number: Updating Doctor Doctor - userID: 'doctor1', name: 'Philip Max', gender: male', dateOfBirth: '12/06/2000', email: 'hismail@mail.com', contactNumber: '85274196', availableForNewAppointments: true
+What do you want to update?
+1 Name
+2 Gender
+3 Date of Birth
+4 Email
+5 Contact Number
+6 Save changes
+Enter your choice: Doctor updated successfully
+
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice: Enter Role (doctor/pharmacist/all): Enter Gender (or leave blank for no filter): Enter Name (or leave blank for no filter): Enter Minimum Age (or -1 for no minimum age filter): Enter Maximum Age (or -1 for no maximum age filter): Staff list:
+Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: true
+Doctor - userID: 'doctor1', name: 'Philip Max', gender: male', dateOfBirth: '12/06/2000', email: 'hismail@mail.com', contactNumber: '85274196', availableForNewAppointments: true
+Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Pharmacist - userID: 'pharmacist', name: 'Alex Baldwin', gender: male', dateOfBirth: '29/03/1999', email: 'phar@ems.cz', contactNumber: '45776956'
+
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice: Which Doctor do you want to delete?
+1 Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: true
+2 Doctor - userID: 'doctor1', name: 'Philip Max', gender: male', dateOfBirth: '12/06/2000', email: 'hismail@mail.com', contactNumber: '85274196', availableForNewAppointments: true
+3 Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Enter your choice: Doctor removed successfully
+
+Manage Hospital Staff
+---------------------
+1. Add Doctor
+2. Add Pharmacist
+3. Update Doctor
+4. Update Pharmacist
+5. Delete Doctor
+6. Delete Pharmacist
+7. Display Filtered Staff
+8. Return to Main Menu
+Enter your choice:
+Administrator Menu
+------------------
+1. View and Manage Hospital Staff
+2. View Appointments Details
+3. View and Manage Medication Inventory
+4. Approve Replenishment Requests
+5. Log Out
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice:

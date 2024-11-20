@@ -50,7 +50,7 @@ public class MedicalRecord implements Serializable {
      */
     public MedicalRecord(String patientID, String name, String DOB, String gender,
                          String bloodType) {
-        if(DateHelper.isValidDateOfBirth(DOB)) throw new IllegalArgumentException("DOB is invalid");
+        if(!DateHelper.isValidDateOfBirth(DOB)) throw new IllegalArgumentException("DOB is invalid");
         this.patientID = patientID;
         this.name = name;
         this.DOB = DOB;

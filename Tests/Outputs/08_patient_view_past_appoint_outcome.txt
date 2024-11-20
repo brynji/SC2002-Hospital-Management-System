@@ -1,0 +1,145 @@
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Administrator Menu
+------------------
+1. View and Manage Hospital Staff
+2. View Appointments Details
+3. View and Manage Medication Inventory
+4. Approve Replenishment Requests
+5. Log Out
+Enter your choice:
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice: Enter Medication Name: Enter Medication Stock Level: Enter Medication Low Level Alert: Medication successfully added
+
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice: Enter Medication Name: Enter Medication Stock Level: Enter Medication Low Level Alert: Medication successfully added
+
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice:
+Administrator Menu
+------------------
+1. View and Manage Hospital Staff
+2. View Appointments Details
+3. View and Manage Medication Inventory
+4. Approve Replenishment Requests
+5. Log Out
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Appointment requests:
+Request 1 of 1
+Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: {{TODAY}}, Time: 1200
+Do you want to accept this appointment?
+1 yes
+2 no
+Enter your choice: Appointment has been accepted.
+
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Select completed appointment:
+1 Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: CONFIRMED, Date: {{TODAY}}, Time: 1200
+Enter your choice: Filling in details for the Appointment Outcome Record:
+Enter service type: 1 Add prescriptions
+2 Continue
+Enter your choice: Prescription - Choose medication:
+1 Medication Name: paralen, Stock Level: 10, Low Stock Alert Level: 5
+2 Medication Name: ibalgin, Stock Level: 20, Low Stock Alert Level: 5
+Enter your choice: Enter medication amount: Prescription added
+1 Add prescriptions
+2 Continue
+Enter your choice: Enter consultation notes: Appointment Outcome Record created.
+Appointment completed.
+
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: All past appointment records:
+Appointment Outcome Record: Record ID: <dynamic>, Date: {{TODAY}}, Status: pending, Service Type: surgery
+Medications:
+- PrescriptionId: <dynamic>, Medication: paralen, Status: pending, Quantity: 2
+Consultation Notes: Patient should have 3 day bed rest.
+
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice:
