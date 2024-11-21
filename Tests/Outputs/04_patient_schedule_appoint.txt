@@ -113,7 +113,7 @@ Doctor Menu
 8. Logout
 Enter your choice: Appointment requests:
 Request 1 of 1
-Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: 2024-11-20, Time: 1200
+Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: {{TODAY}}, Time: 1200
 Do you want to accept this appointment?
 1 yes
 2 no
@@ -148,7 +148,7 @@ Patient menu
 9. View Past Appointment Outcome Records
 10. Logout
 Enter your choice: Your upcoming appointments:
-Doctor: Bebe Rexa, date: 2024-11-20 1200, status: CONFIRMED
+Doctor: Bebe Rexa, date: {{TODAY}} 1200, status: CONFIRMED
 
 Patient menu
 ------------
