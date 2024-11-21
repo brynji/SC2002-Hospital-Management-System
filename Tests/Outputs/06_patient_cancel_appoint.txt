@@ -15,7 +15,7 @@ Patient menu
 9. View Past Appointment Outcome Records
 10. Logout
 Enter your choice: Choose appointment you want to cancel
-1 Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: 2024-11-20, Time: 1500
+1 Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: {{TODAY}}, Time: 1500
 Enter your choice: Your appointment has been cancelled.
 
 Patient menu

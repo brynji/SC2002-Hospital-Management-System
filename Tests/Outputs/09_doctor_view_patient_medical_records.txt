@@ -17,7 +17,7 @@ Enter your choice: Patient's medical records:
 Id: patient, DOB: 12/04/1923, Gender: male, Blood Type: A+
 Diagnosis and Treatments:
 Past appointment outcome records:
-Appointment Outcome Record: Record ID: <dynamic>, Date: 2024-11-20, Status: pending, Service Type: surgery
+Appointment Outcome Record: Record ID: <dynamic>, Date: {{TODAY}}, Status: pending, Service Type: surgery
 Medications:
 - PrescriptionId: <dynamic>, Medication: paralen, Status: pending, Quantity: 2
 Consultation Notes: Patient should have 3 day bed rest.
