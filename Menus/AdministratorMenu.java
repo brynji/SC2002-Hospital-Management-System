@@ -15,13 +15,29 @@ import Users.User;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Menu class for admin-specific operations.
+ * Extends BaseMenu to provide a menu-driven interface for administrator to manage staff and inventory.
+ */
 public class AdministratorMenu extends BaseMenu<AdministratorService> {
+    /** The AdministratorService instance used for handling business logic and data operations. */
     private final AdministratorService service;
 
+    /**
+     * Constructs an AdministratorMenu with the given AdministratorService.
+     *
+     * @param service the AdministratorService instance to be used for admin-specific operations.
+     */
     public AdministratorMenu(AdministratorService service) {
         this.service = service;
     }
 
+    /**
+     * Displays the main menu for administrators and handles user input to perform the corresponding operations.
+     *
+     * @param currentUserId the ID of the currently logged-in admin.
+     * @param sc the Scanner instance for reading user input.
+     */
     @Override
     public void baseMenu(String currentUserId, Scanner sc) {
         super.baseMenu(currentUserId,sc);
@@ -63,6 +79,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Displays details of selected appointment
+     */
     private void viewAppointmentDetails() {
         Collection<String> appointments = service.viewAllAppointmentsInformation();
         if(appointments.isEmpty()){
@@ -76,6 +95,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Adds new medication to the inventory
+     */
     private void addNewMedication(){
         System.out.print("Enter Medication Name: ");
         String medName = sc.nextLine();
@@ -93,6 +115,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println("Medication successfully added");
     }
 
+    /**
+     * Updates stock or low level alert of selected medication
+     */
     private void updateMedication(){
         ArrayList<Medication> medications = new ArrayList<>(service.getAllMedications());
         if(medications.isEmpty()){
@@ -128,6 +153,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println("Medication successfully updated");
     }
 
+    /**
+     * Displays all medications in inventory
+     */
     public void viewAllMedications(){
         Collection<Medication> medications = service.getAllMedications();
         if(medications.isEmpty()){
@@ -140,6 +168,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Displays selected replenishment request
+     */
     public void viewReplenishmentRequests() {
         ArrayList<ReplenishmentRequest> requests = new ArrayList<>(service.getPendingReplenishmentRequests());
         if(requests.isEmpty()){
@@ -171,6 +202,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Lets user manage medication, this includes adding, updating, displaying all, accepting replenishment requests
+     */
     private void manageHospitalMedication() {
         boolean goBack = false;
         while(!goBack) {
@@ -196,6 +230,10 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Adds new User
+     * @param roleToAdd role of the user we want to add
+     */
     private void addUser(RoleType roleToAdd){
         System.out.println("Adding " + roleToAdd);
         String id;
@@ -230,6 +268,10 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println(roleToAdd + " added successfully");
     }
 
+    /**
+     * Updates user
+     * @param roleToUpdate role of the user to update
+     */
     private void updateUser(RoleType roleToUpdate){
         ArrayList<User> users = new ArrayList<>(service.getAllUsersWithRole(roleToUpdate));
         if(users.isEmpty()){
@@ -294,6 +336,10 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println(roleToUpdate + " updated successfully");
     }
 
+    /**
+     * Deletes selected staff member
+     * @param roleToDelete role of the member to delete
+     */
     private void deleteUser(RoleType roleToDelete){
         ArrayList<User> users = new ArrayList<>(service.getAllUsersWithRole(roleToDelete));
         if(users.isEmpty()){
@@ -307,6 +353,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.println(roleToDelete + " removed successfully");
     }
 
+    /**
+     * Displays all staff with selected filters
+     */
     private void displayFilteredStaff(){
         System.out.print("Enter Role (doctor/pharmacist/all): ");
         String role = sc.nextLine();
@@ -331,6 +380,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Allows user to manage hospital staff, this includes adding new, updating, deleting and displaying
+     */
     private void manageHospitalStaff() {
         boolean goBack = false;
         while(!goBack){
@@ -363,6 +415,10 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         }
     }
 
+    /**
+     * Retrieves the DoctorService associated with the menu
+     * @return the DoctorService instance.
+     */
     @Override
     public AdministratorService getUserService() {
         return service;
