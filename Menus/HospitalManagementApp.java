@@ -57,7 +57,8 @@ public class HospitalManagementApp {
      * Allows users to log in or quit the application. Navigates authenticated users to their role-specific menus.
      */
     public void mainMenu() {
-        /*
+        //Initial data
+/*
         AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
         admin.addNew(new Administrator("admin","Taylor Swift","female","13/10/1989","mail@example.sg","56"));
         admin.addNew(new Doctor("doctor","Priyanka Chopra","female","10/02/1978","ex@seznam.cz","46887245",false));
@@ -66,7 +67,7 @@ public class HospitalManagementApp {
         admin.addNew(new Patient("patient0","Pepe Cena","exchange@mailing.cz","78531649",new MedicalRecord("patient0","Pepe Cena","22/08/1983","male","B+")));
         admin.addNew(new Pharmacist("pharmacist","Alex Baldwin","male","29/03/1999","phar@ems.cz","45776956"));
         admin.save();
-        */
+*/
         Scanner sc = new Scanner(System.in);
 
         // Main menu loop
