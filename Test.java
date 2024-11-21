@@ -72,7 +72,6 @@ public class Test {
         String inputWithDynamicDates = preprocessPlaceholders(inputLines);
 
         System.setIn(new ByteArrayInputStream(inputWithDynamicDates.getBytes()));
-//        System.setIn(new ByteArrayInputStream(String.join("\n", inputWithDynamicDates).getBytes()));
         PrintStream originalOut = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
@@ -94,20 +93,10 @@ public class Test {
         output = output.replaceAll("ID: [a-zA-Z0-9-]{16,}", "ID: <dynamic>");
         output = output.replaceAll("PrescriptionId: [a-zA-Z0-9-]{16,}", "PrescriptionId: <dynamic>");
 
-        System.out.println("outputStream start =============");
-        System.out.println(output);
-        System.out.println("outputStream end =============");
-
         List<String> expectedLines = Files.readAllLines(expectedOutputFile).stream().map(String::trim).toList();
         String expectedWithDynamicDates = preprocessPlaceholders(expectedLines);
         String expectedOutput = (expectedWithDynamicDates).replace("\r\n", "\n");
-//        String expectedOutput = String.join("\n", expectedWithDynamicDates).replace("\r\n", "\n");
 
-/*
-        System.out.println("-----s----------");
-        System.out.println(expectedOutput);
-        System.out.println("-----e----------");
-*/
         return output.equals(expectedOutput); // Return comparison result
     }
 
