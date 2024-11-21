@@ -177,7 +177,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         }
 
         pharmacistService.submitReplenishmentRequest(medName, medAmount);
-        System.out.println("Replenishment request submitted.");
+        System.out.println("Replenishment request submitted");
     }
 
     /**
