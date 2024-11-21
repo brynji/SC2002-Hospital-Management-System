@@ -48,6 +48,7 @@ public abstract class BaseRepository {
      * @param <T>    the type of the user object being returned.
      * @return the user object corresponding to the given ID and role, or null if not found.
      */
+    @SuppressWarnings("unchecked")
     public <T> T findUserById(String userId, RoleType role) {
         return (T) dataSource.getAllUsersWithRole(role).get(userId);
     }
@@ -59,6 +60,7 @@ public abstract class BaseRepository {
      * @param <T>  the type of the user objects being returned.
      * @return a collection of all users with the specified role.
      */
+    @SuppressWarnings("unchecked")
     public <T> Collection<T> getAllUsersWithRole(RoleType role) {
         return dataSource.getAllUsersWithRole(role).values().stream().map(x -> (T) x).toList();
     }

@@ -151,6 +151,7 @@ public class Database implements DataSource {
      * @return a Map containing the deserialized data, or a new HashMap if the file does not exist.
      * @throws ClassNotFoundException if the serialized class does not match the expected class type.
      */
+    @SuppressWarnings("unchecked")
     private <T> Map<String, T> readFromFile(String filename) throws ClassNotFoundException {
         try {
             FileInputStream file = new FileInputStream(filename);
