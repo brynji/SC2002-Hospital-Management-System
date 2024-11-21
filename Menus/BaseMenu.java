@@ -29,7 +29,7 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
     public void baseMenu(String currentUserId, Scanner sc) {
         this.sc = sc;
         getUserService().setCurrentUser(currentUserId);
-        if (getUserService().getCurrentUser().getFirstLogin()) {
+        if(getUserService().getCurrentUser().getFirstLogin()){
             System.out.println("This is your first login, please change your password");
             changePassword();
             getUserService().getCurrentUser().setFirstLogin(false);
@@ -38,11 +38,26 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
     }
 
     /**
+     * Reads next int from input, handling exception if input is not int
+     * @return Integer input from user
+     */
+    protected int nextInt(){
+        int in;
+        try{
+            in = Integer.parseInt(sc.nextLine());
+        } catch(Exception e){
+            System.out.println("Invalid input, please try again");
+            return nextInt();
+        }
+        return in;
+    }
+
+    /**
      * Prompts the user to change their password and updates it in the system.
      */
     public void changePassword() {
         System.out.print("Enter new password: ");
-        String passwd = sc.next();
+        String passwd = sc.nextLine();
         getUserService().changePassword(passwd);
         System.out.println("Your new password is " + passwd);
     }
@@ -57,10 +72,10 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
         int choice = printAllAndChooseOne(options);
         System.out.print("Enter your new " + options.get(choice) + ": ");
         String newField = sc.nextLine();
-        switch (choice) {
-            case 1 -> getUserService().updateName(newField);
-            case 2 -> getUserService().updateEmail(newField);
-            case 3 -> getUserService().updateContactNumber(newField);
+        switch(choice){
+            case 0 -> getUserService().updateName(newField);
+            case 1 -> getUserService().updateEmail(newField);
+            case 2 -> getUserService().updateContactNumber(newField);
         }
         System.out.println("Your new " + options.get(choice) + " is " + newField);
     }
@@ -81,10 +96,10 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
             i++;
         }
         System.out.print("Enter your choice: ");
-        int choice = sc.nextInt() - 1;
-        while (choice < 0 || choice >= objects.size()) {
+        int choice = nextInt() - 1;
+        while(choice<0 || choice>=objects.size()){
             System.out.println("Invalid choice, try again");
-            choice = sc.nextInt() - 1;
+            choice = nextInt() - 1;
         }
         sc.nextLine(); // Consume newline
         return choice;

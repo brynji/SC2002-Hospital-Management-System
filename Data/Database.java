@@ -15,22 +15,17 @@ import java.util.*;
  * Data is stored in serialized files and loaded into memory during runtime.
  */
 public class Database implements DataSource {
-
     /** Path to the serialized file storing inventory data. */
-    private final String inventoryFile = "SavedData/Inventory.dat";
+    private final String inventoryFile;
 
     /** Path to the serialized file storing appointments data. */
-    private final String appointmentsFile = "SavedData/Appointments.dat";
+    private final String appointmentsFile;
 
     /** Path to the serialized file storing roles data. */
-    private final String rolesFile = "SavedData/Roles.dat";
+    private final String rolesFile;
 
     /** Paths to serialized files storing user data, organized by RoleType. */
-    private final String[] usersFilenames =
-            Arrays.stream(RoleType.values())
-                  .filter(role -> role != RoleType.None)
-                  .map(role -> "SavedData/" + role.toString() + ".dat")
-                  .toArray(String[]::new);
+    private final String[] usersFilenames;
 
     /** Map of roles with a String key and Role object as the value. */
     private Map<String, Role> roles;
@@ -46,8 +41,27 @@ public class Database implements DataSource {
 
     /**
      * Constructs a Database instance and initializes in-memory data by loading it from persistent storage.
+     * Default file path is SavedData/
      */
     public Database() {
+        inventoryFile = "SavedData/Inventory.dat";
+        appointmentsFile = "SavedData/Appointments.dat";
+        rolesFile = "SavedData/Roles.dat";
+        usersFilenames = Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
+                        .map(role -> "SavedData/" + role.toString() + ".dat").toArray(String[]::new);
+        update();
+    }
+
+    /**
+     * Reads all data from files
+     * @param filesPath filePath to read from
+     */
+    public Database(String filesPath) {
+        inventoryFile = filesPath+"/Inventory.dat";
+        appointmentsFile = filesPath+"/Appointments.dat";
+        rolesFile = filesPath+"/Roles.dat";
+        usersFilenames = Arrays.stream(RoleType.values()).filter(role -> role != RoleType.None)
+                .map(role -> filesPath+"/" + role.toString() + ".dat").toArray(String[]::new);
         update();
     }
 
@@ -100,13 +114,13 @@ public class Database implements DataSource {
             roles = readFromFile(rolesFile);
             users = new ArrayList<>();
             for (RoleType role : RoleType.values()) {
-                if (role != RoleType.None)
+                if(role != RoleType.None)
                     users.add(readFromFile(usersFilenames[role.ordinal()]));
             }
             inventory = readFromFile(inventoryFile);
-            if (inventory.isEmpty()) inventory.put("", new Inventory());
+            if(inventory.isEmpty()) inventory.put("",new Inventory());
             appointments = readFromFile(appointmentsFile);
-        } catch (Exception e) {
+        } catch(Exception e){
             System.out.println("Error in reading files: " + e.getMessage());
         }
     }
@@ -119,12 +133,12 @@ public class Database implements DataSource {
         try {
             writeToFile(rolesFile, roles);
             for (RoleType role : RoleType.values()) {
-                if (role != RoleType.None)
-                    writeToFile(usersFilenames[role.ordinal()], users.get(role.ordinal()));
+                if(role != RoleType.None)
+                    writeToFile(usersFilenames[role.ordinal()],users.get(role.ordinal()));
             }
-            writeToFile(inventoryFile, inventory);
-            writeToFile(appointmentsFile, appointments);
-        } catch (Exception e) {
+            writeToFile(inventoryFile,inventory);
+            writeToFile(appointmentsFile,appointments);
+        } catch(Exception e){
             System.out.println("Error in saving files: " + e.getMessage());
         }
     }
@@ -141,11 +155,11 @@ public class Database implements DataSource {
         try {
             FileInputStream file = new FileInputStream(filename);
             ObjectInputStream in = new ObjectInputStream(file);
-            return (Map<String, T>) in.readObject();
-        } catch (IOException e) {
+            return (Map<String,T>) in.readObject();
+        } catch (IOException e){
             return new HashMap<>();
-        } catch (ClassNotFoundException e) {
-            throw new ClassNotFoundException("Saved classes don't match current classes - " + e.getMessage());
+        } catch (ClassNotFoundException e){
+            throw new ClassNotFoundException("Saved classes doesn't match current classes - " + e.getMessage());
         }
     }
 

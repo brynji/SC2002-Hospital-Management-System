@@ -1,5 +1,8 @@
 package Misc;
 
+/**
+ * Timeslots available for appointments
+ */
 public enum Timeslot {
     SLOT_0800,
     SLOT_0900,
@@ -10,7 +13,7 @@ public enum Timeslot {
     SLOT_1400,
     SLOT_1500,
     SLOT_1600;
-
+    
     @Override
     public String toString() {
         return name().substring(5);

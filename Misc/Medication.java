@@ -2,11 +2,20 @@ package Misc;
 
 import java.io.Serializable;
 
+/**
+ * Medication class, including medicationName, stock level and alert level
+ */
 public class Medication implements Serializable {
     private String medicationName;
     private int stockLevel;
     private int lowStockAlert;
 
+    /**
+     * Initializes Medication class
+     * @param medicationName unique name of the medication, used as ID
+     * @param stockLevel initial stock level
+     * @param lowStockAlert stock level, below which stock is considered low
+     */
     public Medication(String medicationName, int stockLevel, int lowStockAlert) {
         this.medicationName = medicationName;
         this.stockLevel = stockLevel;

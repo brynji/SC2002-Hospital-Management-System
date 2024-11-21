@@ -11,6 +11,7 @@ import java.util.Map;
  * Provides methods to add, remove, and manage users, roles, and appointments.
  * Extends BaseRepository for shared repository functionality.
  */
+
 public class AdministratorRepository extends BaseRepository {
 
     /**
@@ -35,27 +36,20 @@ public class AdministratorRepository extends BaseRepository {
 
     /**
      * Removes a user from the system by their ID.
-     * If the user is a doctor, their associated appointments are canceled, 
+     * If the user is a doctor, their associated appointments are canceled,
      * and completed appointments are removed from patients' past records.
      *
      * @param userId the ID of the user to be removed.
      */
     public void remove(String userId) {
         RoleType role = dataSource.getRoles().get(userId).getRole();
-
-        // Special handling for doctors
-        if (role == RoleType.Doctor) {
-            Doctor doctor = findUserById(userId, RoleType.Doctor);
+        if(role==RoleType.Doctor){
+            Doctor doctor = findUserById(userId,RoleType.Doctor);
             Collection<Appointment> appointments = getAllAppointmentsFromIds(doctor.getAppointments());
-
-            for (Appointment appointment : appointments) {
+            for (Appointment appointment : appointments){
                 Patient patient = findUserById(appointment.getPatientId(), RoleType.Patient);
-
-                // Cancel appointment for the patient
-                patient.cancelAppointment(appointment.getAppointmentID());
-
-                // Remove completed appointments from patient's past records
-                if (appointment.getStatus().equals(AppointmentStatus.COMPLETED)) {
+                patient.removeAppointment(appointment.getAppointmentID());
+                if(appointment.getStatus().equals(AppointmentStatus.COMPLETED)){
                     patient.getMedicalRecord().getPastAppointmentRecordsIds().remove(appointment.getAppointmentID());
                 }
 

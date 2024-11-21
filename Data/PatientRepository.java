@@ -58,7 +58,6 @@ public class PatientRepository extends BaseRepository {
         while (dataSource.getAppointments().containsKey(id)) {
             id = generateID(); // Regenerate the ID until it is unique
         }
-
         return id;
     }
 }

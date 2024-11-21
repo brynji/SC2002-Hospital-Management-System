@@ -1,0 +1,11 @@
+1
+doctor0
+doctor0p
+2
+1
+2
+Patient should rest for 3 days, strictly no exercise.
+1
+1
+8
+2

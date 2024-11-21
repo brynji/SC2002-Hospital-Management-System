@@ -1,2 +1,4 @@
 .idea
 out
+SavedData/*
+Tests/SavedTestData/*

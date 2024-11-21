@@ -4,11 +4,22 @@ import java.util.ArrayList; // Note that we use ArrayList as it helps to create 
 
 import Misc.MedicalRecord;
 
+/**
+ * Patient class in our hospital system
+ */
 public class Patient extends User {
+    private final MedicalRecord medicalRecord;
+    private final ArrayList<String> appointmentsIds;
 
-    private MedicalRecord medicalRecord;
-    private ArrayList<String> appointmentsIds;
-
+    /**
+     * Initializes Patient class
+     * @throws IllegalArgumentException for invalid date of birth
+     * @param userID Hospital-unique ID, used for login
+     * @param name Full Name
+     * @param email Email address
+     * @param contactNumber Contact number, can include country prefix
+     * @param medicalRecord Medical record of this patient
+     */
     public Patient(String userID, String name, String email, String contactNumber, 
                    MedicalRecord medicalRecord) {
         super(userID, name, medicalRecord.getGender(), medicalRecord.DOB(), email, contactNumber);
@@ -28,33 +39,33 @@ public class Patient extends User {
         medicalRecord.setName(name);
     }
 
+    /**
+     * Get Ids or all past and upcoming appointments of this patient
+     * @return ArrayList with Ids of all appointments of this patient
+     */
     public ArrayList<String> getAppointments() {
         return appointmentsIds;
     }
 
-    public void addAppointment(String appointment) {
-        appointmentsIds.add(appointment);
+    /**
+     * Adds new appointment to the collection stored in this doctor
+     * @param appointmentId appointmentId to add
+     */
+    public void addAppointment(String appointmentId) {
+        appointmentsIds.add(appointmentId);
     }
 
-    public void cancelAppointment(String appointmentId) {
+    /**
+     * Removes appointmentId from collection stored in this patient
+     * @param appointmentId appointmentId to remove
+     */
+    public void removeAppointment(String appointmentId) {
         appointmentsIds.remove(appointmentId);
     }
 
     @Override
     public String toString() {
         return "Patient - " + super.toString();
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
-
-    public ArrayList<String> getAppointmentsIds() {
-        return appointmentsIds;
-    }
-
-    public void setAppointmentsIds(ArrayList<String> appointmentsIds) {
-        this.appointmentsIds = appointmentsIds;
     }
 }
 

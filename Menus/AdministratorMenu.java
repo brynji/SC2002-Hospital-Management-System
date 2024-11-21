@@ -53,8 +53,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 4. Approve Replenishment Requests
                 5. Log Out""");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); //get the newline
+            int choice = nextInt();
 
             switch (choice) {
                 case 1:
@@ -106,10 +105,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
             return;
         }
         System.out.print("Enter Medication Stock Level: ");
-        int stockLevel = sc.nextInt();
+        int stockLevel = nextInt();
         System.out.print("Enter Medication Low Level Alert: ");
-        int lowLevelAlert = sc.nextInt();
-        sc.nextLine(); //consume new line
+        int lowLevelAlert = nextInt();
 
         service.addMedication(new Medication(medName, stockLevel, lowLevelAlert));
         System.out.println("Medication successfully added");
@@ -131,8 +129,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         switch (choice2) {
             case 0:
                 System.out.println("Enter new Stock Level: ");
-                int newStockLevel = sc.nextInt();
-                sc.nextLine();
+                int newStockLevel = nextInt();
                 if(newStockLevel<0){
                     System.out.println("Invalid Stock Level");
                     return;
@@ -141,8 +138,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 break;
             case 1:
                 System.out.print("Enter new Low Level Alert: ");
-                int newLowLevelAlert = sc.nextInt();
-                sc.nextLine();
+                int newLowLevelAlert = nextInt();
                 if(newLowLevelAlert<0){
                     System.out.println("Invalid Low Level Alert");
                     return;
@@ -178,8 +174,13 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
             System.out.println("Show all requests?");
             int choice = printAllAndChooseOne(List.of("yes","no"));
             if(choice == 0){
+                var reqs = service.getReplenishmentRequests();
+                if(reqs.isEmpty()){
+                    System.out.println("No requests found");
+                    return;
+                }
                 System.out.println("All requests:");
-                for(ReplenishmentRequest request : service.getReplenishmentRequests()){
+                for(ReplenishmentRequest request : reqs){
                     System.out.println(request);
                 }
             }
@@ -218,8 +219,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     4 View Pending Replenishment Requests
                     5 Return to Main Menu""");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice = nextInt();
             switch (choice) {
                 case 1 -> addNewMedication();
                 case 2 -> updateMedication();
@@ -293,8 +293,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                     5 Contact Number
                     6 Save changes""");
             System.out.print("Enter your choice: ");
-            choice = sc.nextInt();
-            sc.nextLine();  // Consume newline left-over
+            choice = nextInt();
             switch(choice){
                 case 1:
                     System.out.print("Enter new Name: ");
@@ -364,10 +363,9 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
         System.out.print("Enter Name (or leave blank for no filter): ");
         String name = sc.nextLine();
         System.out.print("Enter Minimum Age (or -1 for no minimum age filter): ");
-        int minAge = sc.nextInt();
+        int minAge = nextInt();
         System.out.print("Enter Maximum Age (or -1 for no maximum age filter): ");
-        int maxAge = sc.nextInt();
-        sc.nextLine();  // Consume the leftover newline
+        int maxAge = nextInt();
 
         Collection<User> filteredStaff = service.getFilteredStaff(role, gender, minAge, maxAge, name);
         if(filteredStaff.isEmpty()){
@@ -399,8 +397,7 @@ public class AdministratorMenu extends BaseMenu<AdministratorService> {
                 7. Display Filtered Staff
                 8. Return to Main Menu""");
             System.out.print("Enter your choice: ");
-            int staffChoice = sc.nextInt();
-            sc.nextLine();  // Consume newline left-over
+            int staffChoice = nextInt();
 
             switch (staffChoice) {
                 case 1 -> addUser(RoleType.Doctor);

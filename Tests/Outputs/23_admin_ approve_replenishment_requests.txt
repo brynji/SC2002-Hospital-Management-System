@@ -1,0 +1,84 @@
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Administrator Menu
+------------------
+1. View and Manage Hospital Staff
+2. View Appointments Details
+3. View and Manage Medication Inventory
+4. Approve Replenishment Requests
+5. Log Out
+Enter your choice:
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice: Medication list:
+Medication Name: paralen, Stock Level: 4, Low Stock Alert Level: 5
+Medication Name: ibalgin, Stock Level: 20, Low Stock Alert Level: 7
+
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice: Request 1 of 1
+Replenishment Request: Medication Name: paralen, PharmacistID: pharmacist, Requested Amount: 15, Status: pending
+Approve?
+1 yes
+2 no
+3 back to menu
+Enter your choice: Replenishment request approved
+
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice: Medication list:
+Medication Name: paralen, Stock Level: 19, Low Stock Alert Level: 5
+Medication Name: ibalgin, Stock Level: 20, Low Stock Alert Level: 7
+
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice: No pending requests
+Show all requests?
+1 yes
+2 no
+Enter your choice: All requests:
+Replenishment Request: Medication Name: paralen, PharmacistID: pharmacist, Requested Amount: 15, Status: Approved
+
+Medication inventory
+--------------------
+1 Add new Medication
+2 Update Medication
+3 View all Medications
+4 View Pending Replenishment Requests
+5 Return to Main Menu
+Enter your choice:
+Administrator Menu
+------------------
+1. View and Manage Hospital Staff
+2. View Appointments Details
+3. View and Manage Medication Inventory
+4. Approve Replenishment Requests
+5. Log Out
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice:

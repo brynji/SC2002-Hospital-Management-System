@@ -37,20 +37,36 @@ public class HospitalManagementApp {
     }
 
     /**
+     * Reads next integer from input, catching possible exceptions for input mismatch
+     * @param sc input to read from
+     * @return next int from user input
+     */
+    public int nextInt(Scanner sc) {
+        int in;
+        try{
+            in = Integer.parseInt(sc.nextLine());
+        } catch(Exception e){
+            System.out.println("Invalid input, please try again");
+            return nextInt(sc);
+        }
+        return in;
+    }
+
+    /**
      * Displays the main menu for the Hospital Management System.
      * Allows users to log in or quit the application. Navigates authenticated users to their role-specific menus.
      */
     public void mainMenu() {
-        // Example of adding users to the system (commented out for demonstration purposes):
         /*
         AdministratorRepository admin = ((AdministratorService) menus.get(RoleType.Administrator).getUserService()).getRepository();
-        admin.addNew(new Administrator("admin", "new admin", "jedi", "12/11/1568", "mail", "56"));
-        admin.addNew(new Doctor("doctor", "doc", "snail", "10/02/2015", "sa", "468", false));
-        admin.addNew(new Patient("patient", "sdf", "a@d.s", "156", new MedicalRecord("patient", "sdf", "12/04/2004", "sova", "red")));
-        admin.addNew(new Pharmacist("pharma", "pha", "klokan", "29/03/2013", "ph@ds.cz", "456"));
+        admin.addNew(new Administrator("admin","Taylor Swift","female","13/10/1989","mail@example.sg","56"));
+        admin.addNew(new Doctor("doctor","Priyanka Chopra","female","10/02/1978","ex@seznam.cz","46887245",false));
+        admin.addNew(new Doctor("doctor0","Bebe Rexa","female","10/02/2000","mymail@mail.sg","46887245",true));
+        admin.addNew(new Patient("patient","Bob Dylan","newmail@dgmail.cz","88775869",new MedicalRecord("patient","Bob Dylan","12/04/1923","male","A+")));
+        admin.addNew(new Patient("patient0","Pepe Cena","exchange@mailing.cz","78531649",new MedicalRecord("patient0","Pepe Cena","22/08/1983","male","B+")));
+        admin.addNew(new Pharmacist("pharmacist","Alex Baldwin","male","29/03/1999","phar@ems.cz","45776956"));
         admin.save();
         */
-
         Scanner sc = new Scanner(System.in);
 
         // Main menu loop
@@ -59,23 +75,21 @@ public class HospitalManagementApp {
             System.out.println("1 LOGIN");
             System.out.println("2 QUIT");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-
-            if (choice != 1) {
-                return; // Exit the application
+            int choice = nextInt(sc);
+            if(choice!=1) {
+                return;
             }
 
             // Login flow
             System.out.print("Enter userID: ");
-            String userId = sc.next();
+            String userId = sc.nextLine();
             System.out.print("Enter password: ");
-            String password = sc.next();
+            String password = sc.nextLine();
 
             RoleType role = loginService.login(userId, password);
-
-            if (role == RoleType.None) {
+            if(role == RoleType.None){
                 System.out.println("Invalid credentials\n");
-                continue; // Retry login
+                continue;
             }
 
             // Navigate to the role-specific menu

@@ -1,0 +1,18 @@
+1
+doctor0
+doctor0p
+7
+1
+dental
+1
+2
+2
+2
+Patient should have half a day rest.
+8
+1
+patient
+patientp
+9
+10
+2

@@ -1,9 +1,9 @@
 package Data;
 
-import Misc.Appointment;
-import Misc.Inventory;
-import Misc.RoleType;
+import Misc.*;
 import Users.Patient;
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Repository class for doctor-specific operations.
@@ -40,23 +40,17 @@ public class DoctorRepository extends BaseRepository {
     }
 
     /**
-     * Generates a new unique ID for an Appointment Outcome Record (AOR).
-     * Ensures the generated ID does not conflict with any existing IDs
-     * in the past appointment records of all patients.
-     *
-     * @return a unique AOR ID in the format `Abcd-Wxyz-1234-5678`.
+     * Generates a new unique ID for a Prescription.
+     * Ensures the generated ID does not conflict with any existing IDs of Prescriptions
+     * @return a unique Prescription ID in the format `Abcd-Wxyz-1234-5678`.
      */
-    public String generateNewAORId() {
+    public String generateNewPrescriptionId(){
         String id = generateID();
-
-        // Check if the generated ID already exists in any past appointment records
-        while (getAllUsersWithRole(RoleType.Patient).stream()
-                .flatMap(u -> ((Patient) u).getMedicalRecord().getPastAppointmentRecordsIds().stream())
-                .toList()
-                .contains(id)) {
-            id = generateID(); // Regenerate the ID until it is unique
+        Collection<AppointmentOutcomeRecord> aors = dataSource.getAppointments().values().stream().
+                map(Appointment::getAOR).filter(Objects::nonNull).toList();
+        if(aors.stream().flatMap(aor->aor.getPrescriptions().stream().map(Prescription::getPrescriptionID)).toList().contains(id)){
+            return generateNewPrescriptionId();
         }
-
         return id;
     }
 }

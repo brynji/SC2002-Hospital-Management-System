@@ -74,17 +74,18 @@ public class PatientService extends UserService<Patient, PatientRepository> {
         Doctor doctor = repository.findUserById(doctorId, RoleType.Doctor);
         Patient patient = repository.findUserById(currentUser.getUserID(), RoleType.Patient);
 
-        if (doctor == null) throw new IllegalArgumentException("Doctor not found");
-        if (patient == null) throw new IllegalArgumentException("Patient not found");
+        if(doctor==null) throw new IllegalArgumentException("Doctor not found");
+        if(patient==null) throw new IllegalArgumentException("Patient not found");
 
-        if (repository.getAllAppointmentsFromIds(patient.getAppointments())
-                .stream().anyMatch(app -> app.isOverlapping(date, timeslot)) ||
+        if(repository.getAllAppointmentsFromIds(patient.getAppointments())
+                .stream().anyMatch(app->app.isOverlapping(date,timeslot)) ||
             repository.getAllAppointmentsFromIds(doctor.getAppointments())
-                .stream().anyMatch(app -> app.isOverlapping(date, timeslot))) {
+                .stream().anyMatch(app->app.isOverlapping(date,timeslot))){
+
             throw new IllegalArgumentException("Appointments timeslot is already booked");
         }
 
-        Appointment appointment = new Appointment(repository.generateNewAppointmentId(), currentUser.getUserID(), doctorId, date, timeslot);
+        Appointment appointment = new Appointment(repository.generateNewAppointmentId(),currentUser.getUserID(),doctorId,date,timeslot);
         repository.addNewAppointment(appointment);
         patient.addAppointment(appointment.getAppointmentID());
         doctor.addAppointment(appointment.getAppointmentID());
@@ -100,10 +101,10 @@ public class PatientService extends UserService<Patient, PatientRepository> {
     public void removeAppointment(String appointmentId) throws IllegalArgumentException {
         Appointment appointment = repository.getAppointment(appointmentId);
 
-        if (appointment == null) throw new IllegalArgumentException("Appointment not found");
+        if(appointment==null) throw new IllegalArgumentException("Appointment not found");
 
         ((Doctor) repository.findUserById(appointment.getDoctorId(), RoleType.Doctor)).removeAppointment(appointmentId);
-        ((Patient) repository.findUserById(appointment.getPatientId(), RoleType.Patient)).cancelAppointment(appointmentId);
+        ((Patient) repository.findUserById(appointment.getPatientId(),RoleType.Patient)).removeAppointment(appointmentId);
         repository.deleteAppointment(appointmentId);
         repository.save();
     }
@@ -154,10 +155,10 @@ public class PatientService extends UserService<Patient, PatientRepository> {
      */
     public Collection<Appointment> getUpcomingAppointments() {
         return repository.getAllAppointmentsFromIds(repository.<Patient>findUserById(
-                currentUser.getUserID(), RoleType.Patient).getAppointments()).stream().filter(
-                        app -> (app.getStatus().equals(AppointmentStatus.CONFIRMED) || app.getStatus().equals(AppointmentStatus.PENDING) ||
+                currentUser.getUserID(),RoleType.Patient).getAppointments()).stream().filter(
+                        app->(app.getStatus().equals(AppointmentStatus.CONFIRMED)|| app.getStatus().equals(AppointmentStatus.PENDING) ||
                                 app.getStatus().equals(AppointmentStatus.REJECTED))
-                                && app.getDate().isAfter(LocalDate.now())).toList();
+                                && app.getDate().isAfter(LocalDate.now().minusDays(1))).toList();
     }
 
     /**
@@ -177,6 +178,6 @@ public class PatientService extends UserService<Patient, PatientRepository> {
      */
     public Collection<AppointmentOutcomeRecord> getAppointmentOutcomeRecords() {
         List<String> aorIds = currentUser.getMedicalRecord().getPastAppointmentRecordsIds();
-        return repository.getAllAppointmentsFromIds(aorIds).stream().map(Appointment::getAOR).sorted().toList();
+        return repository.getAllAppointmentsFromIds(aorIds).stream().sorted().map(Appointment::getAOR).toList();
     }
 }

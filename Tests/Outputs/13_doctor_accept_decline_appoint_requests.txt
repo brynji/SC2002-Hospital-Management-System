@@ -1,0 +1,169 @@
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Choose doctor you want to visit
+1 Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: true
+2 Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Enter your choice: Available dates and times:
+1 {{TODAY}}, 0800
+2 {{TODAY}}, 0900
+3 {{TODAY}}, 1000
+4 {{TODAY}}, 1100
+5 {{TODAY}}, 1400
+6 {{TODAY}}, 1500
+7 {{TODAY}}, 1600
+8 {{TOMORROW}}, 0800
+9 {{TOMORROW}}, 0900
+10 {{TOMORROW}}, 1000
+11 {{TOMORROW}}, 1100
+12 {{TOMORROW}}, 1200
+13 {{TOMORROW}}, 1300
+14 {{TOMORROW}}, 1400
+15 {{TOMORROW}}, 1500
+16 {{TOMORROW}}, 1600
+17 {{AT}}, 0800
+18 {{AT}}, 0900
+19 {{AT}}, 1000
+20 {{AT}}, 1100
+21 {{AT}}, 1200
+22 {{AT}}, 1300
+23 {{AT}}, 1400
+24 {{AT}}, 1500
+25 {{AT}}, 1600
+26 {{AAT}}, 0800
+27 {{AAT}}, 0900
+28 {{AAT}}, 1000
+29 {{AAT}}, 1100
+30 {{AAT}}, 1200
+31 {{AAT}}, 1300
+32 {{AAT}}, 1400
+33 {{AAT}}, 1500
+34 {{AAT}}, 1600
+35 {{AAAT}}, 0800
+36 {{AAAT}}, 0900
+37 {{AAAT}}, 1000
+38 {{AAAT}}, 1100
+39 {{AAAT}}, 1200
+40 {{AAAT}}, 1300
+41 {{AAAT}}, 1400
+42 {{AAAT}}, 1500
+43 {{AAAT}}, 1600
+44 {{AAAAT}}, 0800
+45 {{AAAAT}}, 0900
+46 {{AAAAT}}, 1000
+47 {{AAAAT}}, 1100
+48 {{AAAAT}}, 1200
+49 {{AAAAT}}, 1300
+50 {{AAAAT}}, 1400
+51 {{AAAAT}}, 1500
+52 {{AAAAT}}, 1600
+53 {{AAAAAT}}, 0800
+54 {{AAAAAT}}, 0900
+55 {{AAAAAT}}, 1000
+56 {{AAAAAT}}, 1100
+57 {{AAAAAT}}, 1200
+58 {{AAAAAT}}, 1300
+59 {{AAAAAT}}, 1400
+60 {{AAAAAT}}, 1500
+61 {{AAAAAT}}, 1600
+Enter your choice: Successfully booked doctor Bebe Rexa on {{TODAY}}, time 1400
+
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Appointment requests:
+Request 1 of 1
+Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: {{TODAY}}, Time: 1400
+Do you want to accept this appointment?
+1 yes
+2 no
+Enter your choice: Appointment has been declined.
+
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Your upcoming appointments:
+Doctor: Bebe Rexa, date: {{TODAY}} 1300, status: CONFIRMED
+Doctor: Bebe Rexa, date: {{TODAY}} 1400, status: REJECTED
+
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice:

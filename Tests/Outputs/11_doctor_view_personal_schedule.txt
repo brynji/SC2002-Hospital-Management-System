@@ -1,0 +1,177 @@
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: No appointments in next 7 days
+
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Choose doctor you want to visit
+1 Doctor - userID: 'doctor', name: 'Priyanka Chopra', gender: female', dateOfBirth: '10/02/1978', email: 'ex@seznam.cz', contactNumber: '46887245', availableForNewAppointments: false
+2 Doctor - userID: 'doctor0', name: 'Bebe Rexa', gender: female', dateOfBirth: '10/02/2000', email: 'mymail@mail.sg', contactNumber: '46887245', availableForNewAppointments: true
+Enter your choice: Available dates and times:
+1 {{TODAY}}, 0800
+2 {{TODAY}}, 0900
+3 {{TODAY}}, 1000
+4 {{TODAY}}, 1100
+5 {{TODAY}}, 1300
+6 {{TODAY}}, 1400
+7 {{TODAY}}, 1500
+8 {{TODAY}}, 1600
+9 {{TOMORROW}}, 0800
+10 {{TOMORROW}}, 0900
+11 {{TOMORROW}}, 1000
+12 {{TOMORROW}}, 1100
+13 {{TOMORROW}}, 1200
+14 {{TOMORROW}}, 1300
+15 {{TOMORROW}}, 1400
+16 {{TOMORROW}}, 1500
+17 {{TOMORROW}}, 1600
+18 {{AT}}, 0800
+19 {{AT}}, 0900
+20 {{AT}}, 1000
+21 {{AT}}, 1100
+22 {{AT}}, 1200
+23 {{AT}}, 1300
+24 {{AT}}, 1400
+25 {{AT}}, 1500
+26 {{AT}}, 1600
+27 {{AAT}}, 0800
+28 {{AAT}}, 0900
+29 {{AAT}}, 1000
+30 {{AAT}}, 1100
+31 {{AAT}}, 1200
+32 {{AAT}}, 1300
+33 {{AAT}}, 1400
+34 {{AAT}}, 1500
+35 {{AAT}}, 1600
+36 {{AAAT}}, 0800
+37 {{AAAT}}, 0900
+38 {{AAAT}}, 1000
+39 {{AAAT}}, 1100
+40 {{AAAT}}, 1200
+41 {{AAAT}}, 1300
+42 {{AAAT}}, 1400
+43 {{AAAT}}, 1500
+44 {{AAAT}}, 1600
+45 {{AAAAT}}, 0800
+46 {{AAAAT}}, 0900
+47 {{AAAAT}}, 1000
+48 {{AAAAT}}, 1100
+49 {{AAAAT}}, 1200
+50 {{AAAAT}}, 1300
+51 {{AAAAT}}, 1400
+52 {{AAAAT}}, 1500
+53 {{AAAAT}}, 1600
+54 {{AAAAAT}}, 0800
+55 {{AAAAAT}}, 0900
+56 {{AAAAAT}}, 1000
+57 {{AAAAAT}}, 1100
+58 {{AAAAAT}}, 1200
+59 {{AAAAAT}}, 1300
+60 {{AAAAAT}}, 1400
+61 {{AAAAAT}}, 1500
+62 {{AAAAAT}}, 1600
+Enter your choice: Successfully booked doctor Bebe Rexa on {{TODAY}}, time 1300
+
+Patient menu
+------------
+1 Change password
+2. View Medical Record
+3. Update Personal Information
+4. View Available Appointment Slots
+5. Schedule an Appointment
+6. Reschedule an Appointment
+7. Cancel an Appointment
+8. View Scheduled Appointments
+9. View Past Appointment Outcome Records
+10. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice: Enter userID: Enter password:
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Appointment requests:
+Request 1 of 1
+Appointment: ID: <dynamic>, PatientID: patient, DoctorID: doctor0, Status: PENDING, Date: {{TODAY}}, Time: 1300
+Do you want to accept this appointment?
+1 yes
+2 no
+Enter your choice: Appointment has been accepted.
+
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: All appointments in next 7 days:
+{{TODAY}}, 1300
+
+Doctor Menu
+-----------
+1. View Patient Medical Records
+2. Update Patient Medical Records
+3. View Personal Schedule
+4. Set Availability for Appointments
+5. Accept or Decline Appointment Requests
+6. View Confirmed Appointments
+7. Record Appointment Outcome
+8. Logout
+Enter your choice: Logging out...
+
+HOSPITAL SYSTEM
+1 LOGIN
+2 QUIT
+Enter your choice:

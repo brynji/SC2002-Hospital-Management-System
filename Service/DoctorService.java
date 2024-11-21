@@ -38,8 +38,7 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
      */
     public Collection<Patient> getAllPatientsInCare() {
         var appointments = repository.getAllAppointmentsFromIds(currentUser.getAppointments());
-        return appointments.stream()
-                .map(appointment -> repository.<Patient>findUserById(appointment.getPatientId(), RoleType.Patient))
+        return appointments.stream().map(appointment->repository.<Patient>findUserById(appointment.getPatientId(),RoleType.Patient))
                 .distinct().toList();
     }
 
@@ -84,9 +83,8 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
             throw new IllegalArgumentException("No appointment with given id for current user");
         }
         Appointment appointment = repository.getAppointmentById(appointmentId);
-        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+        if (appointment.getStatus() != AppointmentStatus.PENDING)
             throw new IllegalStateException("Appointment is not pending - state cannot be changed");
-        }
         appointment.setStatus(AppointmentStatus.CONFIRMED);
         repository.save();
     }
@@ -99,13 +97,11 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
      * @throws IllegalStateException if the appointment is not in a pending state.
      */
     public void declineAppointment(String appointmentId) {
-        if (!currentUser.getAppointments().contains(appointmentId)) {
+        if (!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
-        }
-        Appointment appointment = repository.getAppointmentById(appointmentId);
-        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+        Appointment appointment =  repository.getAppointmentById(appointmentId);
+        if(appointment.getStatus() != AppointmentStatus.PENDING)
             throw new IllegalStateException("Appointment is not pending - state cannot be changed");
-        }
         appointment.setStatus(AppointmentStatus.REJECTED);
         repository.save();
     }
@@ -118,11 +114,10 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
      * @throws IllegalArgumentException if the appointment does not belong to the current doctor.
      */
     public void completeAppointment(String appointmentId, AppointmentOutcomeRecord aor) {
-        if (!currentUser.getAppointments().contains(appointmentId)) {
+        if (!currentUser.getAppointments().contains(appointmentId))
             throw new IllegalArgumentException("No appointment with given id for current user");
-        }
 
-        if (aor.getPrescriptions().isEmpty()) {
+        if(aor.getPrescriptions().isEmpty()){
             aor.setStatus("dispensed");
         }
 
@@ -167,11 +162,11 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
     public Collection<DateTimeslot> getUpcomingSchedule() {
         ArrayList<DateTimeslot> slots = new ArrayList<>();
         var appointments = getConfirmedAppointments();
-        for (var ap : appointments) {
-            if (ap.getDate().isBefore(LocalDate.now())) {
+        for(var ap : appointments){
+            if(ap.getDate().isBefore(LocalDate.now())){
                 continue;
             }
-            slots.add(new DateTimeslot(ap.getDate(), ap.getTime()));
+            slots.add(new DateTimeslot(ap.getDate(),ap.getTime()));
         }
         return slots.stream().sorted().toList();
     }
@@ -194,12 +189,12 @@ public class DoctorService extends UserService<Doctor, DoctorRepository> {
     }
 
     /**
-     * Generates a new ID for an appointment outcome record (AOR).
+     * Generates a new ID for a prescription.
      *
-     * @return a new AOR ID.
+     * @return a new prescription ID.
      */
-    public String getNewAORId() {
-        return repository.generateNewAORId();
+    public String getNewPrescriptionId(){
+        return repository.generateNewPrescriptionId();
     }
 
     /**

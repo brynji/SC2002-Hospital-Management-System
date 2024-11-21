@@ -40,7 +40,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
      */
     @Override
     public void baseMenu(String currentUserId, Scanner sc) {
-        super.baseMenu(currentUserId, sc);
+        super.baseMenu(currentUserId,sc);
         boolean isRunning = true;
         while (isRunning) {
             System.out.println();
@@ -54,8 +54,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
                 5. Logout""");
 
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); // Consume newline
+            int choice = nextInt();
 
             switch (choice) {
                 case 1 -> viewAppointmentOutcomeRecord();
@@ -79,10 +78,10 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
     private String chooseOrInputPatientId() {
         String patientId;
         System.out.println("Do you want to choose your patient from list or input patient Id?");
-        int choice = printAllAndChooseOne(List.of("choose from list", "input"));
+        int choice = printAllAndChooseOne(List.of("choose from list","input"));
         if (choice == 0) {
             ArrayList<Patient> patients = new ArrayList<>(pharmacistService.getAllPatients());
-            if (patients.isEmpty()) {
+            if(patients.isEmpty()) {
                 System.out.println("No patients found.");
                 return null;
             }
@@ -91,7 +90,7 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
         } else {
             System.out.print("Enter patient ID: ");
             patientId = sc.nextLine();
-            if (!pharmacistService.isValidPatientId(patientId)) {
+            if(!pharmacistService.isValidPatientId(patientId)) {
                 System.out.println("Invalid patientId");
                 patientId = null;
             }
@@ -104,17 +103,17 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
      */
     public void viewAppointmentOutcomeRecord() {
         String patientId = chooseOrInputPatientId();
-        if (patientId == null) {
+        if(patientId == null) {
             return;
         }
 
         Collection<AppointmentOutcomeRecord> aors = pharmacistService.getAppointmentOutcomeRecords(patientId);
-        if (aors.isEmpty()) {
-            System.out.println("No appointment outcome records found.");
+        if(aors.isEmpty()) {
+            System.out.println("No appointment outcome records found");
             return;
         }
-        for (AppointmentOutcomeRecord aor : aors) {
-            System.out.println(aor + "\n");
+        for (AppointmentOutcomeRecord aor: aors) {
+            System.out.println(aor.toString()+"\n");
         }
     }
 
@@ -123,12 +122,12 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
      */
     public void updatePrescriptionStatus() {
         String patientId = chooseOrInputPatientId();
-        if (patientId == null) {
+        if(patientId == null) {
             return;
         }
         ArrayList<Prescription> prescriptions = new ArrayList<>(pharmacistService.getAllPatientsPendingPrescriptions(patientId));
-        if (prescriptions.isEmpty()) {
-            System.out.println("No prescriptions for this patient.");
+        if(prescriptions.isEmpty()) {
+            System.out.println("No prescriptions for this patient");
             return;
         }
         System.out.println("Please choose the prescription you want to update:");
@@ -148,13 +147,13 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
      */
     public void viewMedicationInventory() {
         Collection<Medication> meds = pharmacistService.getAllMedication();
-        if (meds.isEmpty()) {
-            System.out.println("No medications found.");
+        if(meds.isEmpty()) {
+            System.out.println("No medications found");
             return;
         }
         System.out.println("Medication list:");
-        for (Medication med : meds) {
-            System.out.println(med);
+        for (Medication med: meds) {
+            System.out.println(med.toString());
         }
     }
 
@@ -163,20 +162,19 @@ public class PharmacistMenu extends BaseMenu<PharmacistService> {
      */
     public void submitReplenishmentRequest() {
         ArrayList<Medication> medicationsWithLowStock = new ArrayList<>(pharmacistService.getAllMedicationWithLowAlert());
-        if (medicationsWithLowStock.isEmpty()) {
-            System.out.println("No medications with low stock found, nothing to replenish.");
+        if(medicationsWithLowStock.isEmpty()) {
+            System.out.println("No medications with low stock found, nothing to replenish");
             return;
         }
-        System.out.println("What medication do you want to request?");
+        System.out.println("What medication do you want to request?:");
         String medName = medicationsWithLowStock.get(printAllAndChooseOne(medicationsWithLowStock)).getMedicationName();
 
         System.out.print("Enter medication amount needed: ");
-        int medAmount = sc.nextInt();
-        while (medAmount < 0) {
-            System.out.println("Invalid amount, try again.");
-            medAmount = sc.nextInt();
+        int medAmount = nextInt();
+        while(medAmount<0){
+            System.out.println("Invalid amount, try again");
+            medAmount = nextInt();
         }
-        sc.nextLine();
 
         pharmacistService.submitReplenishmentRequest(medName, medAmount);
         System.out.println("Replenishment request submitted.");

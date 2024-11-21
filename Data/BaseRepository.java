@@ -80,7 +80,7 @@ public abstract class BaseRepository {
      * @param user the user whose role type is to be determined.
      * @return the RoleType corresponding to the given user, or RoleType.None if not matched.
      */
-    protected RoleType getRoleTypeFromUser(User user) {
+    public RoleType getRoleTypeFromUser(User user) {
         return switch (user) {
             case Patient _ -> RoleType.Patient;
             case Doctor _ -> RoleType.Doctor;
