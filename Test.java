@@ -35,6 +35,10 @@ public class Test {
 
         hospital = new HospitalManagementApp(menus,loginService);
 
+        /*
+        Path inputDir = Paths.get("Tests/Inputs/04_patient_schedule_appoint.txt");
+        Path outputDir = Paths.get("Tests/Outputs/04_patient_schedule_appoint.txt");
+        test(inputDir, outputDir);*/
         testAll();
     }
 
@@ -103,11 +107,11 @@ public class Test {
         String expectedOutput = (expectedWithDynamicDates).replace("\r\n", "\n");
 //        String expectedOutput = String.join("\n", expectedWithDynamicDates).replace("\r\n", "\n");
 
-        /*
-*/
+
         System.out.println("-----s----------");
         System.out.println(expectedOutput);
         System.out.println("-----e----------");
+
         return output.equals(expectedOutput); // Return comparison result
     }
 

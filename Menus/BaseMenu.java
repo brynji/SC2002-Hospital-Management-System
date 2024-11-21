@@ -101,7 +101,6 @@ public abstract class BaseMenu<T extends IService> implements IMenu<T> {
             System.out.println("Invalid choice, try again");
             choice = nextInt() - 1;
         }
-        sc.nextLine(); // Consume newline
         return choice;
     }
 }

@@ -179,15 +179,16 @@ public class PatientMenu extends BaseMenu<PatientService> {
     /**
      * Displays the patient's upcoming appointments.
      */
-    public void viewUpcomingAppointments(){
+    public void viewUpcomingAppointments() {
         var slots = patientService.getUpcomingAppointments();
-        if(slots.isEmpty()){
+        if (slots.isEmpty()) {
             System.out.println("No upcoming appointments found");
             return;
         }
-        for(var app : slots){
-            System.out.println("Doctor: "+patientService.getDoctorName(app.getDoctorId())+
-                    ", date: "+app.getDate()+" "+app.getTime()+", status: "+app.getStatus().name());
+        System.out.println("Your upcoming appointments:");
+        for (var app : slots) {
+            System.out.println("Doctor: " + patientService.getDoctorName(app.getDoctorId()) +
+                    ", date: " + app.getDate() + " " + app.getTime() + ", status: " + app.getStatus().name());
         }
     }
 
